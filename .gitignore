@@ -1,0 +1,34 @@
+To generate a `.gitignore` file for a Django project, you can include the following commonly ignored files and directories specific to Django development:
+
+```
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+
+# Static files
+/staticfiles/
+static/
+django-rest-framework/
+# Media files
+/media/
+
+# Virtual environment
+env/
+.env
+
+# Development settings
+settings_local.py
+
+# IDE specific files
+.idea/
+.vscode/
+
+# Dependency directories
+bin/
+build/
+lib/
+```
