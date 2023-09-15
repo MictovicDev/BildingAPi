@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -49,9 +49,7 @@ INSTALLED_APPS = [
     'authentication',
     'djoser',
     'core',
-    
-
-
+    'django_threaded_email'
 ]
 
 MIDDLEWARE = [
@@ -150,8 +148,11 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+THREADED_EMAIL_SEND_INTERVAL = 10 # seconds
+THREADED_EMAIL_QUEUE_NAME = 'default'
 #JWT SETTINGS
-from datetime import timedelta
+
 ...
 
 SIMPLE_JWT = {
@@ -217,30 +218,30 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 
-DJOSER = {
-    'SERIALIZERS': {
-        'user_create': 'authentication.serializers.UserCreateSerializer',
-        'user': 'authentication.serializers.UserCreateSerializer',
-        'user_delete' : 'djoser.serializers.UserDeleteSerializer',
-    },
-    'USER_CREATE_PASSWORD_RETYPE': True,
-    'HIDE_USERS': False,
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'PASSWORD_CONFIRMED_EMAIL_CONFIRMATION': True,
-    'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
-    'SET_PASSWORD_RETYPE': False,
-    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'USERNAME_RESET_CONFIRM_URL': 'username-reset/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
-    'SEND_CONFIRMATION_EMAIL': True,
-    #  'EMAIL': {
-    #     'activation': 'myapp.email.ActivationEmail',
-    #     'confirmation': 'myapp.email.ConfirmationEmail',
-    # },
-    'ACTIVATION_SUBJECT': 'Account Activation in Bilding',
-    # 'ACTIVATION_MESSAGE': 'Follow this link to activate your account: {url}',
+# DJOSER = {
+#     'SERIALIZERS': {
+#         'user_create': 'authentication.serializers.UserCreateSerializer',
+#         'user': 'authentication.serializers.UserCreateSerializer',
+#         'user_delete' : 'djoser.serializers.UserDeleteSerializer',
+#     },
+#     'USER_CREATE_PASSWORD_RETYPE': True,
+#     'HIDE_USERS': False,
+#     'ACTIVATION_URL': 'activate/{uid}/{token}',
+#     'PASSWORD_CONFIRMED_EMAIL_CONFIRMATION': True,
+#     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
+#     'SET_PASSWORD_RETYPE': False,
+#     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
+#     'USERNAME_RESET_CONFIRM_URL': 'username-reset/{uid}/{token}',
+#     'SEND_ACTIVATION_EMAIL': True,
+#     'SEND_CONFIRMATION_EMAIL': True,
+#     #  'EMAIL': {
+#     #     'activation': 'myapp.email.ActivationEmail',
+#     #     'confirmation': 'myapp.email.ConfirmationEmail',
+#     # },
+#     'ACTIVATION_SUBJECT': 'Account Activation in Bilding',
+#     # 'ACTIVATION_MESSAGE': 'Follow this link to activate your account: {url}',
     
-}
+# }
 
 
 SWAGGER_SETTINGS = {

@@ -8,8 +8,12 @@ from authentication.serializers import *
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), #you can use to login
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), #refresh token
+    path('auth/contractor/', views.ContractorCreateView.as_view(), name='contractor_signup'), #contractorsignup
+    path('auth/supplier/', views.SupplierCreateView.as_view(), name='supplier_signup'), #suppliersignup
+    path('auth/worker/', views.WorkerCreateView.as_view(), name='worker_signup'), #workersignup
+    path('auth/activation/<str:token>', views.ActivateAccount.as_view(), name='activateaccount') #activateuseraccount
 ]
 
 

@@ -1,33 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,PermissionsMixin)
+from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin)
 import uuid
+from .managers import UserManager
 
-class UserManager(BaseUserManager):
-    def create_user(self,email,firstname,lastname,role,phone_number,password=None):
-       if not (email):
-           raise ValueError('User must have an email address')
-       
-       email = self.normalize_email(email)
-       user = self.model(email=self.normalize_email(email),firstname=firstname,
-                         lastname=lastname,
-                         role=role,
-                         phone_number=phone_number)
-       
-       user.set_password(password)
-       user.is_active = True
-    #    print(password)
-       user.save(using=self.db)
-       return user
-        
-
-     
-#https://localhost:8000/oauth/complete/google-oauth2/
-    def create_superuser(self, email,firstname, lastname,role,phone_number, password=None):
-        user = self.create_user(email, firstname, lastname,role,phone_number, password)
-        user.is_admin=True
-        
-        user.save(using=self.db)
-        return user
 
 class User(AbstractBaseUser, PermissionsMixin):
     CATEGORIES = (
@@ -61,15 +36,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     firstname = models.CharField(max_length=500,)
-    phone_number = models.IntegerField()
+    phone_number = models.IntegerField(blank=True, null=True)
     lastname = models.CharField(max_length=500)
     email = models.EmailField(verbose_name='email address',max_length=255,unique=True,)
     address = models.TextField()
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     username = models.CharField(max_length=50, blank=True, null=True,unique=False)
-    role = models.CharField(max_length= 250,choices=CATEGORIES, blank=False, null=False)
+    role = models.CharField(max_length= 250,blank=True,null=True)
     location = models.CharField(max_length=250, choices=LOCATION,blank=True, null=True)
+    token = models.CharField(max_length=500, blank=True, null=True)
     bvn = models.BigIntegerField(blank=False, null=True)
     hires = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/',null=True)
@@ -79,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['firstname','lastname','phone_number','role',]
+    REQUIRED_FIELDS = ['firstname','lastname','role']
 
     def __str__(self):
         return self.email

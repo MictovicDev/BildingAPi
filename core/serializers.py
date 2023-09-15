@@ -21,9 +21,13 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    # images = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='image-detail',
+    #     context={'request':request}
+    # )
     images = ProjectImageSerializer(many=True)
-    
-
     class Meta:
         model = Project
         fields = '__all__'
@@ -51,6 +55,7 @@ class SupplierSerializer(serializers.ModelSerializer):
         return application
     
 class RequestSerializer(serializers.ModelSerializer):
+    url = serializers.URLField(source='get_absolute_url', read_only=True)
     images = RequestImageSerializer(many=True)
     items =   ItemSerializer(many=True)
 

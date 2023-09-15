@@ -38,7 +38,7 @@ class Project(models.Model):
 
 class Request(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    # url = models.URLField(null=True)
+    url = models.URLField(max_length=500, null=True)
     title = models.CharField(max_length=250)
     category= models.TextField()
     location = models.TextField()
