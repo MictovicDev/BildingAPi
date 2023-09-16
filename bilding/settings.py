@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'authentication',
     'djoser',
     'core',
-    'django_threaded_email'
 ]
 
 MIDDLEWARE = [
