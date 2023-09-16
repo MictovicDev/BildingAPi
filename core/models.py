@@ -83,7 +83,7 @@ class RequestImage(models.Model):
 
 class Store(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True,related_name='store')
     name = models.CharField(max_length=500)
     address = models.TextField()
     category = models.TextField()
