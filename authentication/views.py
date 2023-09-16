@@ -86,4 +86,7 @@ class ActivateAccount(APIView):
             data = {'message': "User does not exist"}
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)
         
+
+
+
         

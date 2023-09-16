@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 from datetime import timedelta
 from django.conf import settings
 
@@ -87,11 +88,12 @@ WSGI_APPLICATION = 'bilding.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
+DATABASES["default"]=dj_database_url.parse('postgres://mydb_fs5w_user:igPlWoGZhYIGceDcfNtb4zKbK4Or5St1@dpg-cjeidaunk9qs73bsv96g-a.oregon-postgres.render.com/mydb_fs5w')
 
 
 # Password validation
@@ -210,6 +212,7 @@ if not DEBUG:
     
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 
 MEDIA_URL = '/media/'
