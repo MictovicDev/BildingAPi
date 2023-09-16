@@ -13,7 +13,7 @@ class ContractorCreateSerializer(serializers.ModelSerializer):
      role = serializers.CharField(read_only=True)
      class Meta:
         model = User
-        fields = ('email','password','firstname','lastname','role')
+        fields = ('email','password','firstname','lastname','role','phone_number')
 
         
      def create(self, validated_data):
@@ -33,7 +33,7 @@ class SupplierCreateSerializer(serializers.ModelSerializer):
      role = serializers.CharField(read_only=True)
      class Meta:
         model = User
-        fields = ('email','password','firstname','lastname','role')
+        fields = ('email','password','firstname','lastname','role','phone_number')
 
         
      def create(self, validated_data):
@@ -53,7 +53,7 @@ class WorkerCreateSerializer(serializers.ModelSerializer):
      role = serializers.CharField(read_only=True)
      class Meta:
         model = User
-        fields = ('email','password','firstname','lastname','role')
+        fields = ('email','password','firstname','lastname','role','phone_number')
 
         
      def create(self, validated_data):
