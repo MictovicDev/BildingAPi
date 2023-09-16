@@ -13,10 +13,8 @@ django-dotenv==1.4.2
 django-multiupload==0.6.1
 django-rest-framework==0.1.0
 django-templated-mail==1.1.1
-django-threaded-email==0.0.1
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.0
-djoser==2.2.0
 drf-yasg==1.21.7
 ghp-import==2.1.0
 gunicorn==21.2.0
