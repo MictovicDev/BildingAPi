@@ -220,31 +220,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 
-# DJOSER = {
-#     'SERIALIZERS': {
-#         'user_create': 'authentication.serializers.UserCreateSerializer',
-#         'user': 'authentication.serializers.UserCreateSerializer',
-#         'user_delete' : 'djoser.serializers.UserDeleteSerializer',
-#     },
-#     'USER_CREATE_PASSWORD_RETYPE': True,
-#     'HIDE_USERS': False,
-#     'ACTIVATION_URL': 'activate/{uid}/{token}',
-#     'PASSWORD_CONFIRMED_EMAIL_CONFIRMATION': True,
-#     'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
-#     'SET_PASSWORD_RETYPE': False,
-#     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-#     'USERNAME_RESET_CONFIRM_URL': 'username-reset/{uid}/{token}',
-#     'SEND_ACTIVATION_EMAIL': True,
-#     'SEND_CONFIRMATION_EMAIL': True,
-#     #  'EMAIL': {
-#     #     'activation': 'myapp.email.ActivationEmail',
-#     #     'confirmation': 'myapp.email.ConfirmationEmail',
-#     # },
-#     'ACTIVATION_SUBJECT': 'Account Activation in Bilding',
-#     # 'ACTIVATION_MESSAGE': 'Follow this link to activate your account: {url}',
-    
-# }
-
 
 SWAGGER_SETTINGS = {
     'VALIDATOR_URL': 'http://localhost:8189',
