@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.IntegerField(blank=True, null=True)
     lastname = models.CharField(max_length=500)
     email = models.EmailField(verbose_name='email address',max_length=255,unique=True,)
-    address = models.TextField()
+    address = models.TextField(default='shofunwa')
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     username = models.CharField(max_length=50, blank=True, null=True,unique=False)
