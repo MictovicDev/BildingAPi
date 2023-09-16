@@ -21,6 +21,7 @@ class ContractorCreateSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             firstname= validated_data['firstname'],
             lastname = validated_data['lastname'],
+            phone_number = validated_data['phone_number'],
             password=make_password(validated_data['password'])
         )
         user.role = 'Contractor'
