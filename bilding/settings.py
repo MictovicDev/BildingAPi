@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'authentication',
     'djoser',
     'core',
-    'phonenumber_field'
+    'django_phonenumbers'
+    
 ]
 
 MIDDLEWARE = [

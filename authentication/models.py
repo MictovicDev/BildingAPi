@@ -3,6 +3,7 @@ from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin)
 import uuid
 from .managers import UserManager
 from phonenumber_field.modelfields import PhoneNumberField
+# from django_phonenumbers import PhoneNumber
 
 
 class User(AbstractBaseUser, PermissionsMixin):
