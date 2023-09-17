@@ -60,6 +60,7 @@ class WorkerCreateView(APIView):
             token = RefreshToken.for_user(user)
             user.token = token
             user.save()
+            token
             email.send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
