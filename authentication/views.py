@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from rest_framework import generics,response
 from rest_framework.response import Response
 from authentication.models import *
@@ -81,7 +81,8 @@ class ActivateAccount(APIView):
                 'user': user.email,
                 'token': user.token
             }
-            return Response(data,status=status.HTTP_202_ACCEPTED)
+            return redirect('token_obtain_pair')
+            # return Response(data,status=status.HTTP_202_ACCEPTED)
         except:
             data = {'message': "User does not exist"}
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)

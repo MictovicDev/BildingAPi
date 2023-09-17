@@ -13,7 +13,7 @@ class ContractorCreateSerializer(serializers.ModelSerializer):
      role = serializers.CharField(read_only=True)
      class Meta:
         model = User
-        fields = ('email','password','firstname','lastname','role','phone_number')
+        fields = ('email','password','firstname','lastname','role','phone_number','location')
 
         
      def create(self, validated_data):
@@ -22,6 +22,7 @@ class ContractorCreateSerializer(serializers.ModelSerializer):
             firstname= validated_data['firstname'],
             lastname = validated_data['lastname'],
             phone_number = validated_data['phone_number'],
+            location = validated_data['location'],
             password=make_password(validated_data['password'])
         )
         user.role = 'Contractor'
@@ -42,6 +43,7 @@ class SupplierCreateSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             firstname= validated_data['firstname'],
             lastname = validated_data['lastname'],
+            location = validated_data['location'],
             phone_number = validated_data['phone_number'],
             password=make_password(validated_data['password'])
         )
@@ -55,7 +57,7 @@ class WorkerCreateSerializer(serializers.ModelSerializer):
      role = serializers.CharField(read_only=True)
      class Meta:
         model = User
-        fields = ('email','password','firstname','lastname','role','phone_number')
+        fields = ('email','password','firstname','lastname','role','phone_number','location')
 
         
      def create(self, validated_data):
@@ -64,6 +66,7 @@ class WorkerCreateSerializer(serializers.ModelSerializer):
             firstname= validated_data['firstname'],
             lastname = validated_data['lastname'],
             phone_number = validated_data['phone_number'],
+            location = validated_data['location'],
             password=make_password(validated_data['password'])
         )
         user.role = 'Worker'
