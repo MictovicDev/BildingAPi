@@ -38,6 +38,17 @@ class ContractorCreateSerializer(serializers.ModelSerializer):
         user.save()
         return user
      
+class UsersUpdateSerializer(serializers.ModelSerializer):
+     class Meta:
+        model = User
+        fields = ('address', 'bvn')
+
+     
+# class UserPutSerializer(serializers.ModelSerializer):
+#      class Meta:
+#         model = User
+#         fields = ('address','bvn')
+      
 
 class SupplierCreateSerializer(serializers.ModelSerializer):
      password = serializers.CharField(write_only=True, required=True)

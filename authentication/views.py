@@ -17,6 +17,17 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
+# class MyModelUpdateView(APIView):
+#     serializer_class = MyModelSerializer
+
+#     def put(self, request, pk):
+#         my_model = get_object_or_404(MyModel, pk=pk)
+#         serializer = self.serializer_class(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+
+#         return Response(serializer.data)
+
 
 class ContractorCreateView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -36,6 +47,20 @@ class ContractorCreateView(APIView):
         user = User.objects.filter(role="Contractor")
         serializer = ContractorCreateSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+    
+class UsersUpdateView(APIView):
+    def put(self,request,pk):
+        user =  get_object_or_404(User, id=pk)
+        # user = User.objects.get(id=pk)
+        serializer = UsersUpdateSerializer(user,  data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        
 
 
 class SupplierCreateView(APIView):
