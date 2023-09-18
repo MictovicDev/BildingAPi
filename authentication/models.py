@@ -22,6 +22,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
     hires = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/',null=True)
+    bvnimage = models.ImageField(upload_to='images/', null=True)
     
     
 

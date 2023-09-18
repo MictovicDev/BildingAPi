@@ -11,6 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
 from . import email
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser 
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -51,14 +52,16 @@ class ContractorCreateView(APIView):
     
     
 class UsersUpdateView(APIView):
+    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
     def put(self,request,pk):
         user =  get_object_or_404(User, id=pk)
-        # user = User.objects.get(id=pk)
         serializer = UsersUpdateSerializer(user,  data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if request.user.email == user.email:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
         
         
 
