@@ -100,12 +100,12 @@ class UsersUpdateSerializer(serializers.ModelSerializer):
    #   bvnimage = serializers.ImageField()
      class Meta:
         model = User
-        fields = ('address', 'bvn','bvnimage')
+        fields = ('address','bvn','gov_id_image')
       
      def update(self,instance, validated_data):
          instance.address = validated_data['address']
          instance.bvn = validated_data['bvn']
-         instance.bvnimage = validated_data['bvnimage']
+         instance.gov_id_image = validated_data['gov_id_image']
          instance.save()
          return instance
 
