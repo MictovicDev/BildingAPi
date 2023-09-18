@@ -52,3 +52,4 @@ urllib3==2.0.4
 watchdog==3.0.0
 whitenoise==6.5.0
 phonenumbers==8.13.20
+django-cors-headers==4.2.0
