@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'djoser',
     'core',
     'corsheaders',
-    'phonenumbers',
     'rest_framework_simplejwt.token_blacklist',
     
 ]
