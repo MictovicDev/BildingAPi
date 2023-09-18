@@ -19,10 +19,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class ContractorCreateSerializer(serializers.ModelSerializer):
      password = serializers.CharField(write_only=True, required=True)
+     id = serializers.UUIDField(read_only=True)
      role = serializers.CharField(read_only=True)
      class Meta:
         model = User
-        fields = ('email','password','firstname','lastname','role','phone_number','location')
+        fields = ('id','email','password','firstname','lastname','role','phone_number','location')
 
         
      def create(self, validated_data):
