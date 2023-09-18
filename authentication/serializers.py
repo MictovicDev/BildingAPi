@@ -2,11 +2,20 @@ from authentication.models import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer 
 
 # class UserCreateSerializer(BaseUserRegisterationSerializer):
 #     class Meta(BaseUserRegisterationSerializer.Meta):
         # fields = ('id','email','password', 'firstname','lastname','role')
 
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls,user):
+      token = super().get_token(user)
+      token['email'] = user.email
+      if user.image:
+         token['image'] = user.image.url
+      return token
 
 class ContractorCreateSerializer(serializers.ModelSerializer):
      password = serializers.CharField(write_only=True, required=True)
