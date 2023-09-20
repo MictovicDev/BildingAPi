@@ -8,8 +8,8 @@ from authentication.serializers import *
 # from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
- path('projects', views.ProjectList.as_view(), name='project-list'),
- path('projects/<int:pk>', views.ProjectDetailView.as_view(), name='projectview'),
+ path('projects', views.ProjectView.as_view(), name='project'),#list and create projects
+ path('projects/<int:pk>', views.ProjectDetailView.as_view(), name='projectview'),#get a projectdetail
  path('requests', views.RequestList.as_view(), name='projectslistview'),
  path('requests/<int:pk>', views.RequestDetailView.as_view(), name='projectview'),
  path('bids/', views.BidProjectList.as_view(), name='bidproject-list'),

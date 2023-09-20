@@ -23,6 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     hires = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/',null=True)
     gov_id_image = models.FileField(upload_to='files/', null=True)
+    updates = models.BooleanField(default=False)
     
     
 

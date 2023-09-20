@@ -5,11 +5,13 @@ from core.models import *
 from core.serializers import *
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
-
+from rest_framework.parsers import MultiPartParser, FormParser
+3
 # Create your views here.
 
 
-class ProjectList(APIView):
+class ProjectView(APIView):
+    parser_classes = (MultiPartParser,FormParser)
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
@@ -17,11 +19,9 @@ class ProjectList(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        print(request.POST)
-        print(request.data)
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(owner=request.owner)
+            print(serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -21,24 +21,19 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    # images = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name='image-detail',
-    #     context={'request':request}
-    # )
-    images = ProjectImageSerializer(many=True)
+    images = ProjectImageSerializer(many=True, required=False)
     class Meta:
         model = Project
-        fields = '__all__'
-
-    def create(self, validated_data):
-        print(validated_data)
-        images_data = validated_data.pop('images')
-        project = Project.objects.create(**validated_data)
-        for image_data in images_data:
-            ProjectImage.objects.create(project=project, **image_data)
-        return project
+        fields = ['images','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
+        
+    # def create(self, validated_data):
+    #     print(validated_data)
+    #     images_data = validated_data['images']
+    #     project = Project.objects.create(**validated_data)
+    #     if images_data:
+    #         for image_data in images_data:
+    #             ProjectImage.objects.create(project=project, **image_data)
+    #     return project
     
 class SupplierSerializer(serializers.ModelSerializer):
     images = RequestImageSerializer(many=True)

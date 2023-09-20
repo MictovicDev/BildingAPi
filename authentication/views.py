@@ -18,26 +18,30 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
-# class MyModelUpdateView(APIView):
-#     serializer_class = MyModelSerializer
+class UsersListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        try:
+            users = User.objects.all()
+            serializer = UserSerializer(users, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"message":"no users in the daatabase yet"}, status=status.HTTP_404_NOT_FOUND)
 
-#     def put(self, request, pk):
-#         my_model = get_object_or_404(MyModel, pk=pk)
-#         serializer = self.serializer_class(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-
-#         return Response(serializer.data)
-
-
+        
 class ContractorCreateView(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request):
-        serializer = ContractorCreateSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+            password = serializer.validated_data["password"]
+            updates = serializer.validated_data["updates"]
             user = serializer.save(role='Contractor')
             token = RefreshToken.for_user(user)
             user.token = token
+            user.set_password(password)
+            if serializer["updates"] == True:
+                user.updates = True
             user.save()
             email.send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -46,13 +50,13 @@ class ContractorCreateView(APIView):
       
     def get(self, request):
         user = User.objects.filter(role="Contractor")
-        serializer = ContractorCreateSerializer(user, many=True)
+        serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     
     
 class UsersUpdateView(APIView):
-    parser_classes = (MultiPartParser, FormParser, FileUploadParser)
+    parser_classes = (MultiPartParser, FormParser)
     def put(self,request,pk):
         user =  get_object_or_404(User, id=pk)
         serializer = UsersUpdateSerializer(user,  data=request.data)
@@ -69,11 +73,15 @@ class UsersUpdateView(APIView):
 class SupplierCreateView(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request):
-        serializer = SupplierCreateSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save(role='Contractor')
+            password = serializer.validated_data["password"]
+            user = serializer.save(role='Supplier')
             token = RefreshToken.for_user(user)
             user.token = token
+            user.set_password(password)
+            if serializer["updates"] == True:
+                user.updates = True
             user.save()
             email.send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -81,18 +89,22 @@ class SupplierCreateView(APIView):
     
       
     def get(self, request):
-        user = User.objects.filter(role="Contractor")
-        serializer = ContractorCreateSerializer(user, many=True)
+        user = User.objects.filter(role="Supplier")
+        serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class WorkerCreateView(APIView):
     permission_classes = [permissions.AllowAny]
     def post(self, request):
-        serializer = WorkerCreateSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save(role='Contractor')
+            password = serializer.validated_data["password"]
+            user = serializer.save(role='Worker')
             token = RefreshToken.for_user(user)
             user.token = token
+            user.set_password(password)
+            if serializer["updates"] == True:
+                user.updates = True
             user.save()
             token
             email.send_linkmail(user, token)
@@ -101,8 +113,8 @@ class WorkerCreateView(APIView):
     
       
     def get(self, request):
-        user = User.objects.filter(role="Contractor")
-        serializer = ContractorCreateSerializer(user, many=True)
+        user = User.objects.filter(role="Supplier")
+        serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ActivateAccount(APIView):
@@ -117,7 +129,6 @@ class ActivateAccount(APIView):
                 'token': user.token
             }
             return redirect('token_obtain_pair')
-            # return Response(data,status=status.HTTP_202_ACCEPTED)
         except:
             data = {'message': "User does not exist"}
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)

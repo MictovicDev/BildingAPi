@@ -14,7 +14,8 @@ urlpatterns = [
     path('auth/contractor/', views.ContractorCreateView.as_view(), name='contractor_signup'),#contractorsignup
     path('auth/update/<str:pk>', views.UsersUpdateView.as_view(), name='contractordetails'),
     path('auth/supplier/', views.SupplierCreateView.as_view(), name='supplier_signup'), #suppliersignup
-    path('auth/worker/', views.WorkerCreateView.as_view(), name='worker_signup'), #workersignup
+    path('auth/worker/', views.WorkerCreateView.as_view(), name='worker_signup'),#workersignup
+    path('users/', views.UsersListView.as_view(), name='listusers'),#listallusersinthedatabase
     path('auth/activation/<str:token>', views.ActivateAccount.as_view(), name='activateaccount') #activateuseraccount
 ]
 
