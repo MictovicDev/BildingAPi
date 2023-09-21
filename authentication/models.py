@@ -3,6 +3,7 @@ from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin)
 import uuid
 from .managers import UserManager
 
+
 # from django_phonenumbers import PhoneNumber
 
 
@@ -17,13 +18,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_admin = models.BooleanField(default=False)
     username = models.CharField(max_length=50, blank=True, null=True,unique=False)
     role = models.CharField(max_length= 250,blank=True,null=True)
-    location = models.CharField(max_length=250,blank=True, null=True)
+    location = models.CharField(max_length=250, null=True)
     token = models.CharField(max_length=500, blank=True, null=True)
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
     hires = models.IntegerField(default=0)
     image = models.ImageField(upload_to='images/',null=True)
     gov_id_image = models.FileField(upload_to='files/', null=True)
     updates = models.BooleanField(default=False)
+    authMedium = models.CharField(max_length=50, default='email')
+    
     
     
 

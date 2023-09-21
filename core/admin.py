@@ -9,12 +9,12 @@ from .models import Project
 from django.contrib import admin
 
 
-class ProjectImageInline(admin.TabularInline):  # Use admin.StackedInline for a stacked view
-    model = ProjectImage
-    extra = 1  # Number of empty forms to display
+# class ProjectImageInline(admin.TabularInline):  # Use admin.StackedInline for a stacked view
+#     model = ProjectImage
+#     extra = 1  # Number of empty forms to display
 
-class ProjectAdmin(admin.ModelAdmin):
-    inlines = [ProjectImageInline]
+# class ProjectAdmin(admin.ModelAdmin):
+#     inlines = [ProjectImageInline]
 
 class RequestImageInline(admin.TabularInline):  # Use admin.StackedInline for a stacked view
     model = RequestImage
@@ -24,7 +24,7 @@ class RequestImageInline(admin.TabularInline):  # Use admin.StackedInline for a 
 class SuppliersApplicationAdmin(admin.ModelAdmin):
     inlines = [RequestImageInline]
 
-admin.site.register(Project, ProjectAdmin)
+admin.site.register(Project)
 
 
 
@@ -34,5 +34,5 @@ admin.site.register(Request)
 admin.site.register(SuppliersApplication, SuppliersApplicationAdmin)
 admin.site.register(Item)
 admin.site.register(BidForProject)
-admin.site.register(ProjectImage)
+# admin.site.register(ProjectImage)
 admin.site.register(RequestImage)

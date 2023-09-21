@@ -12,6 +12,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from . import email
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser 
+from allauth.socialaccount.providers.oauth2.client import OAuth2Error
+from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -34,11 +36,14 @@ class ContractorCreateView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+            # location = serializer.validated_data['location']['name'].capitalize()
             password = serializer.validated_data["password"]
+            location = serializer.validated_data['location']
             updates = serializer.validated_data["updates"]
             user = serializer.save(role='Contractor')
             token = RefreshToken.for_user(user)
             user.token = token
+            # user.location = location
             user.set_password(password)
             if serializer["updates"] == True:
                 user.updates = True
@@ -67,8 +72,6 @@ class UsersUpdateView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
         
-        
-
 
 class SupplierCreateView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -134,6 +137,6 @@ class ActivateAccount(APIView):
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)
         
 
-
-
-        
+class SocialAuthentication(APIView):
+    def post(self, request):
+        access_token = request.data.get('access_token')

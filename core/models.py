@@ -28,6 +28,7 @@ class Project(models.Model):
     budget = models.BigIntegerField()
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
+    image = models.ImageField(upload_to='images/', null=True)
 
 
     def __str__(self):
@@ -41,7 +42,7 @@ class Request(models.Model):
     title = models.CharField(max_length=250)
     category= models.TextField()
     location = models.TextField()
-    budget = models.BigIntegerField()
+    # budget = models.BigIntegerField()
     description = models.TextField()
     
 
@@ -58,12 +59,12 @@ class Item(models.Model):
 
     
     
-class ProjectImage(models.Model):
-    image = models.ImageField(upload_to='images/', default='bilding/media/images/IMG_4701.jpg')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE,related_name='images',null=True)
+# class ProjectImage(models.Model):
+#     image = models.ImageField(upload_to='images/', default='bilding/media/images/IMG_4701.jpg')
+#     project = models.ForeignKey(Project, on_delete=models.CASCADE,related_name='images',null=True)
 
-    def __str__(self):
-        return self.image.url
+#     def __str__(self):
+#         return self.image.url
     
 class RequestImage(models.Model):
     image = models.FileField(upload_to='files/', null=True)

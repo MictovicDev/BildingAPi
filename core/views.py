@@ -11,7 +11,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class ProjectView(APIView):
-    parser_classes = (MultiPartParser,FormParser)
+    parser_classes = (MultiPartParser, FormParser)
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
@@ -22,6 +22,8 @@ class ProjectView(APIView):
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             print(serializer.validated_data)
+            image = serializer.validated_data['image']
+            serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -53,6 +53,10 @@ INSTALLED_APPS = [
     'core',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     
 ]
 
@@ -65,7 +69,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'bilding.urls'
@@ -252,9 +257,9 @@ if not DEBUG:
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
     DEFAULT_FROM_USER = os.environ.get('EMAIL_USER')
     SERVER_EMAIL = os.environ.get('EMAIL_USER')
-    
+  
 else:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
@@ -262,6 +267,32 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
+#Social authentication settings
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/accounts/login/'
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+LOGIN_REDIRECT_URL = 'www.google.com'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'APP': {
+            'client_id': '743413921647-i3l6e4kpq5i2hsb1h7rcleaqkhnclimi.apps.googleusercontent.com',
+            'secret': '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',
+            'key': '',
+        },
+    }
+}
 
 
 

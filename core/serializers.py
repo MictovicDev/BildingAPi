@@ -3,10 +3,7 @@ from .models import *
 
 
 
-class ProjectImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectImage
-        fields = '__all__'
+
 
 class RequestImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,19 +18,11 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    images = ProjectImageSerializer(many=True, required=False)
+    image = serializers.ImageField()
     class Meta:
         model = Project
-        fields = ['images','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
+        fields = ['image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
         
-    # def create(self, validated_data):
-    #     print(validated_data)
-    #     images_data = validated_data['images']
-    #     project = Project.objects.create(**validated_data)
-    #     if images_data:
-    #         for image_data in images_data:
-    #             ProjectImage.objects.create(project=project, **image_data)
-    #     return project
     
 class SupplierSerializer(serializers.ModelSerializer):
     images = RequestImageSerializer(many=True)
