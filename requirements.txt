@@ -53,3 +53,5 @@ watchdog==3.0.0
 whitenoise==6.5.0
 phonenumbers==8.13.20
 django-cors-headers==3.10.1
+django-allauth==0.56.1
+# requests==2.31.0
