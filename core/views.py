@@ -6,8 +6,11 @@ from core.serializers import *
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
-3
+from django.urls import reverse
+# from django.contrib.sites.models import Site
+from core.images import *
 # Create your views here.
+
 
 
 class ProjectView(APIView):
@@ -15,7 +18,7 @@ class ProjectView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
-        serializer = ProjectSerializer(project, many=True)
+        serializer = ProjectSerializer(project, many=True,context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -23,9 +26,17 @@ class ProjectView(APIView):
         if serializer.is_valid():
             print(serializer.validated_data)
             image = serializer.validated_data['image']
-            serializer.save(owner=request.user)
+            myproject = serializer.save(owner=request.user)
+            domain = 'https://bildingapi.onrender.com'
+            project_url = reverse('project-detail', args=[myproject.pk])
+            url = domain + project_url
+            myproject.url = url
+            print(project_url)
+            myproject.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
 
 class ProjectDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -34,28 +45,57 @@ class ProjectDetailView(APIView):
         serializer = ProjectSerializer(project)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
+    def put(self,request,pk):
+        project =  get_object_or_404(Project,id=pk)
+        serializer = ProjectSerializer(project,  data=request.data)
+        if request.user.email == project.owner.email:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
+    
 
-class RequestList(APIView):
+class RequestView(APIView):
+    parser_classes = (MultiPartParser,FormParser)
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         d_request = Request.objects.all()
-        serializer = RequestSerializer(d_request, many=True)
+        serializer = RequestSerializer(d_request, many=True,context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        print(request.data)
-        serializer = RequestSerializer(data=request.data)
+        serializer = RequestSerializer(data=request.data,context={'request': request})
         if serializer.is_valid():
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class RequestView(generics.ListCreateAPIView):
+#     queryset = Request.objects.all()
+#     serializer_class = RequestSerializer
     
 class RequestDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request,pk):
         d_request= get_object_or_404(Request, id=pk)
-        serializer = RequestSerializer(d_request)
+        serializer = RequestSerializer(d_request, context={'request':request}, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def put(self,request,pk):
+        d_request =  get_object_or_404(Request,id=pk)
+        serializer = RequestSerializer(d_request,  data=request.data)
+        if request.user.email == d_request.owner.email:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
+
+# class RequestDetailView(generics.ListCreateAPIView):
+#     queryset = Request.objects.all()
+#     serializer_class = RequestSerializer
     
 
 

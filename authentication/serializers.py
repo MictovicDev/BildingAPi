@@ -16,6 +16,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(cls,user):
       token = super().get_token(user)
       token['email'] = user.email
+      token['role'] = user.role
       if user.image:
          token['image'] = user.image.url
       return token

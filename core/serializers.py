@@ -1,31 +1,56 @@
-from rest_framework import serializers
+from rest_framework import serializers,reverse
 from .models import *
+import base64
 
 
 
+
+
+# class Base64ImageField(serializers.ImageField):
+#     def to_representation(self, obj):
+#         if obj:
+#             with open(obj.path, "rb") as image_file:
+#                 return base64.b64encode(image_file.read()).decode("utf-8")
+#         return None
 
 
 class RequestImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestImage
-        fields = '__all__'
+        fields = ['image']
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            image_url = self.context['request'].build_absolute_uri(instance.image.url)
+            representation['image'] = image_url
+        return representation
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = '__all__'
+        fields = ['name','amount',]
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField()
+    url = serializers.CharField(read_only=True)
     class Meta:
         model = Project
-        fields = ['image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
+        fields = ['url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            image_url = self.context['request'].build_absolute_uri(instance.image.url)
+            representation['image'] = image_url
+            print(representation)
+        return representation
+   
+   
         
     
 class SupplierSerializer(serializers.ModelSerializer):
-    images = RequestImageSerializer(many=True)
+    # images = RequestImageSerializer(many=True)
     class Meta:
         model = SuppliersApplication
         fields = '__all__'
@@ -39,23 +64,31 @@ class SupplierSerializer(serializers.ModelSerializer):
         return application
     
 class RequestSerializer(serializers.ModelSerializer):
-    url = serializers.URLField(source='get_absolute_url', read_only=True)
-    images = RequestImageSerializer(many=True)
-    items =   ItemSerializer(many=True)
-
+    items =  ItemSerializer(many=True,required=False)
+    images =  RequestImageSerializer(many=True, read_only=True) 
+    uploaded_items = serializers.JSONField(write_only=True)
+    uploaded_images = serializers.ListField(
+        child = serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
+        write_only=True,
+    )
     class Meta:
         model = Request
-        fields = '__all__'
-
+        fields = ['title','category','location','description','images','uploaded_images','items','uploaded_items']
+  
     def create(self, validated_data):
-        print(validated_data)
-        images_data = validated_data.pop('images')
-        items = validated_data.pop('items')
-        request = Request.objects.create(**validated_data)
-        for image_data in images_data:
-            RequestImage.objects.create(request=request, **image_data)
-        for item in items:
-            Item.objects.create(request=request, **items)
+        uploaded_images = validated_data.pop('uploaded_images')
+        request = self.context.get('request')
+        user = request.user
+        title = validated_data.pop('title')
+        category = validated_data.pop('category')
+        location = validated_data.pop('location')
+        description = validated_data.pop('description')
+        items_data = validated_data.pop('uploaded_items')
+        request = Request.objects.create(owner=request.user, title=title, category=category,location=location, description=description)
+        for item in items_data:
+            Item.objects.create(request=request, name=item.get('name'), amount=item.get('amount'))
+        for image in uploaded_images:
+            RequestImage.objects.create(request=request, image=image)
         return request
 
 
