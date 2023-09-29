@@ -18,11 +18,11 @@ class ProjectView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
-        serializer = ProjectSerializer(project, many=True,context={'request': request})
+        serializer = ProjectSerializer(project,context={'request': request}, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = ProjectSerializer(data=request.data)
+        serializer = ProjectSerializer(context={'request': request}, data=request.data)
         if serializer.is_valid():
             print(serializer.validated_data)
             image = serializer.validated_data['image']
@@ -47,7 +47,7 @@ class ProjectDetailView(APIView):
     
     def put(self,request,pk):
         project =  get_object_or_404(Project,id=pk)
-        serializer = ProjectSerializer(project,  data=request.data)
+        serializer = ProjectSerializer(project, data=request.data)
         if request.user.email == project.owner.email:
             if serializer.is_valid():
                 serializer.save()
