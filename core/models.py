@@ -3,10 +3,6 @@ from authentication.models import *
 from rest_framework import reverse
 
 # Create your models here.
-
-
-
-
 class Project(models.Model):
     CATEGORIES = (
     ('Skilledlabour', 'SL'),
@@ -20,7 +16,7 @@ class Project(models.Model):
     )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=500, blank=True, null=True)
-    categories = models.CharField(max_length=500,choices=CATEGORIES)
+    categories = models.CharField(max_length=500,choices=CATEGORIES, blank=True, null=True)
     skills = models.CharField(max_length=500,blank=True, null=True)
     scope = models.CharField(max_length=500, choices=SCOPE, blank=True, null=True)
     experience = models.IntegerField(default=0, blank=True, null=True)
@@ -68,24 +64,13 @@ class Item(models.Model):
 #     image = models.ImageField(upload_to='images/', default='bilding/media/images/IMG_4701.jpg')
 #     project = models.ForeignKey(Project, on_delete=models.CASCADE,related_name='images',null=True)
 
-#     def __str__(self):
-#         return self.image.url
-    
-
-   
-   
-
-
-#     def __str__(self):
-#         return self.image.url
-
 class Store(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True,related_name='store')
     name = models.CharField(max_length=500)
-    address = models.TextField()
-    category = models.TextField()
-    image = models.ImageField(upload_to=True)
+    address = models.CharField(max_length=500)
+    category = models.CharField(max_length=500)
+    logo = models.ImageField(upload_to=True)
     document = models.FileField(upload_to='Files/')
 
 
@@ -95,7 +80,7 @@ class Store(models.Model):
     
 class BidForProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    applicant = models.OneToOneField(User, on_delete=models.CASCADE,related_name='applic')
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE,related_name='applic')
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -13,6 +13,7 @@ urlpatterns = [
  path('requests', views.RequestView.as_view(), name='projectslistview'),
  path('requests/<int:pk>', views.RequestDetailView.as_view(), name='projectview'),
  path('bids/', views.BidProjectList.as_view(), name='bidproject-list'),
+ path('bids/<int:pk>', views.CreateBidView.as_view(), name='bidproject-create'),
  path('stores/', views.StoreList.as_view(), name='store-list'),
  path('stores/<int:pk>', views.StoreDetailView.as_view(), name='storeview'),
  path('apply/', views.SupplierApplicationView.as_view(), name='supplier_application'),

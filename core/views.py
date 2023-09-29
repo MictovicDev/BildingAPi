@@ -103,17 +103,21 @@ class BidProjectList(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = BidForProject.objects.all()
-        serializer = BidForProjectSerializer(project, many=True)
+        serializer = BidForProjectSerializer(project, many=True, context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def post(self, request):
-        print(request.POST)
-        print(request.data)
+    
+class CreateBidView(APIView):
+    def post(self, request,pk):
         serializer = BidForProjectSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(owner=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            project = serializer.validated_data.get('project')
+            bid_check = BidForProject.objects.filter(applicant=request.user, project=project)
+            if not bid_check:
+                serializer.save(applicant=request.user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({'message': 'You cant bid for the same project again'}, status=status.HTTP_226_IM_USED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     
 class StoreList(APIView):
     permission_classes = [permissions.IsAuthenticated]

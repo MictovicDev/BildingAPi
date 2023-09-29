@@ -1,6 +1,6 @@
 from rest_framework import serializers,reverse
 from .models import *
-import base64
+from authentication.serializers import UserSerializer
 
 
 
@@ -94,9 +94,18 @@ class RequestSerializer(serializers.ModelSerializer):
 
 
 class BidForProjectSerializer(serializers.ModelSerializer):
+    applicant = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = BidForProject
         fields = '__all__'
+  
+    
+    
+    # def create(self, validated_data):
+    #     bid = BidForProject.objects.create(**validated_data)
+    #     print(validated_data)
+    #     return 
+
 
 
 class StoreSerializer(serializers.ModelSerializer):
