@@ -14,7 +14,7 @@ from core.images import *
 
 
 class ProjectView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
+    # parser_classes = (MultiPartParser, FormParser)
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
@@ -25,7 +25,7 @@ class ProjectView(APIView):
         serializer = ProjectSerializer(context={'request': request}, data=request.data)
         if serializer.is_valid():
             print(serializer.validated_data)
-            image = serializer.validated_data['image']
+            # image = serializer.validated_data['image']
             myproject = serializer.save(owner=request.user)
             domain = 'https://bildingapi.onrender.com'
             project_url = reverse('project-detail', args=[myproject.pk])
