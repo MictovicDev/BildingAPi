@@ -4,16 +4,6 @@ from authentication.serializers import UserSerializer
 
 
 
-
-
-# class Base64ImageField(serializers.ImageField):
-#     def to_representation(self, obj):
-#         if obj:
-#             with open(obj.path, "rb") as image_file:
-#                 return base64.b64encode(image_file.read()).decode("utf-8")
-#         return None
-
-
 class RequestImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = RequestImage
@@ -32,11 +22,12 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = ['name','amount',]
 
 
+
 class ProjectSerializer(serializers.ModelSerializer):
     url = serializers.CharField(read_only=True)
     class Meta:
         model = Project
-        fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
+        fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description','owner']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -47,7 +38,13 @@ class ProjectSerializer(serializers.ModelSerializer):
         return representation
    
    
-        
+class RecentProjectSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer()
+    # projects = serializers.HyperlinkedRelatedField(view_name='project-detail',read_only=True)
+    class Meta:
+        model = RecentProject
+        fields = ['id','project']
+    
     
 class SupplierSerializer(serializers.ModelSerializer):
     # images = RequestImageSerializer(many=True)

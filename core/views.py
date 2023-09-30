@@ -33,8 +33,28 @@ class ProjectView(APIView):
             myproject.url = url
             print(project_url)
             myproject.save()
+            RecentProject.objects.create(project=myproject)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RecentProjectView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request):
+        recentproject = RecentProject.objects.all()
+        serializer = RecentProjectSerializer(recentproject,context={'request': request}, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class RecentProjectDetailView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def get(self, request,pk):
+        try:
+            recentproject = RecentProject.objects.filter(project__owner=pk)
+            serializer = RecentProjectSerializer(recentproject, context={'request': request},many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'message': 'User with that Id does not exists'}, status=status.HTTP_404_NOT_FOUND)
     
     
 
@@ -42,18 +62,30 @@ class ProjectDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request,pk):
         project = get_object_or_404(Project, id=pk)
-        serializer = ProjectSerializer(project)
+        serializer = ProjectSerializer(project, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def put(self,request,pk):
         project =  get_object_or_404(Project,id=pk)
-        serializer = ProjectSerializer(project, data=request.data)
+        serializer = ProjectSerializer(project, context={'request': request}, data=request.data)
         if request.user.email == project.owner.email:
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
+    
+    def delete(self, request,pk):
+        try:
+            project = get_object_or_404(Project, id=pk)
+        except Project.DoesNotExist:
+            return Response({'message': 'Project Does not exists'})
+        if request.user.email == project.owner.email:
+            project.delete()
+            return Response({'message': 'Project Deleted Succesfully'})
+        return Response({'message': 'You cant delete a Project you dont own'})
+                
+
     
 
 class RequestView(APIView):
@@ -72,9 +104,6 @@ class RequestView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class RequestView(generics.ListCreateAPIView):
-#     queryset = Request.objects.all()
-#     serializer_class = RequestSerializer
     
 class RequestDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]

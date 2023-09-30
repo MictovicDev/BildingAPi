@@ -10,6 +10,8 @@ from authentication.serializers import *
 urlpatterns = [
  path('projects', views.ProjectView.as_view(), name='project'),#list and create projects
  path('projects/<int:pk>', views.ProjectDetailView.as_view(), name='project-detail'),#get a projectdetail
+ path('recentprojects', views.RecentProjectView.as_view(), name='recentprojects'),#list and create projects
+ path('recentprojects/<str:pk>', views.RecentProjectDetailView.as_view(), name='recentproject-detail'),#get a projectdetail
  path('requests', views.RequestView.as_view(), name='projectslistview'),
  path('requests/<int:pk>', views.RequestDetailView.as_view(), name='projectview'),
  path('bids/', views.BidProjectList.as_view(), name='bidproject-list'),

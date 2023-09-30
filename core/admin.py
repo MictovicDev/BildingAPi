@@ -34,6 +34,7 @@ class RequestAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Project)
+admin.site.register(RecentProject)
 admin.site.register(Store)
 # admin.site.register(SuppliersApplication, SuppliersApplicationAdmin)
 admin.site.register(Item)
