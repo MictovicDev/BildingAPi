@@ -121,10 +121,18 @@ class RequestDetailView(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
+    
+    def delete(self, request,pk):
+        try:
+            d_request = get_object_or_404(Request, id=pk)
+        except Request.DoesNotExist:
+            return Response({'message': 'Request Does not exists'})
+        if request.user.email == d_request.owner.email:
+            d_request.delete()
+            return Response({'message': 'Request Deleted Succesfully'})
+        return Response({'message': 'You cant delete a Request you dont own'}, status=status.HTTP_401_UNAUTHORIZED)
 
-# class RequestDetailView(generics.ListCreateAPIView):
-#     queryset = Request.objects.all()
-#     serializer_class = RequestSerializer
+
     
 
 
