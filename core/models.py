@@ -28,10 +28,15 @@ class Project(models.Model):
         ('1-2yrs', '1-2yrs'),
         ('1-5yrs', '1-5yrs')
     )
+    SKILLS = (
+        ('Engineer', 'Engineer'),
+        ('Electrician', 'Electrician'),
+        ('Contractor', 'Contractor'),
+    )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=500, blank=True, null=True)
     categories = models.CharField(max_length=500,choices=CATEGORIES, blank=True, null=True)
-    skills = models.CharField(max_length=500,blank=True, null=True)
+    skills = models.CharField(max_length=500,choices=SKILLS, blank=True, null=True)
     scope = models.CharField(max_length=500, choices=SCOPE, blank=True, null=True)
     experience = models.CharField(max_length=500, default=0, choices=EXPERIENCE, blank=True, null=True)
     duration = models.CharField(max_length=500, default=0, choices=DURATION,  blank=True, null=True)
