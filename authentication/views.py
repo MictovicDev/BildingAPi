@@ -131,7 +131,7 @@ class ActivateAccount(APIView):
                 'user': user.email,
                 'token': user.token
             }
-            return redirect('token_obtain_pair')
+            return redirect('google.com')
         except:
             data = {'message': "User does not exist"}
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)

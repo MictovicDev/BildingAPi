@@ -32,7 +32,7 @@ class Project(models.Model):
         return reverse('projectdetail', args=[str(self.pk)])
 
     def __str__(self):
-        return f"{self.owner.firstname} project"
+       return self.title
 
 
 class Request(models.Model):
