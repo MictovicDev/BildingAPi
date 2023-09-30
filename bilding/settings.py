@@ -101,21 +101,21 @@ WSGI_APPLICATION = 'bilding.wsgi.application'
 # DATABASES = {
 
 # }
-# DATABASES = {}
+DATABASES = {}
 
-# DATABASES["default"]=dj_database_url.parse('postgres://mictovic_user:Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27@dpg-ck32ak7qj8ts739m9cjg-a.oregon-postgres.render.com/mictovic')
+DATABASES["default"]=dj_database_url.parse('postgres://mictovic_user:Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27@dpg-ck32ak7qj8ts739m9cjg-a.oregon-postgres.render.com/mictovic')
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'mictovic',
-#         'USER': 'mictovic_user',
-#         'PASSWORD': 'Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27',
-#         'HOST': 'dpg-ck32ak7qj8ts739m9cjg-a',
-#         'PORT': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mictovic',
+        'USER': 'mictovic_user',
+        'PASSWORD': 'Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27',
+        'HOST': 'dpg-ck32ak7qj8ts739m9cjg-a',
+        'PORT': '5432'
+    }
+}
 
 # postgres://mydb_fs5w_user:igPlWoGZhYIGceDcfNtb4zKbK4Or5St1@dpg-cjeidaunk9qs73bsv96g-a.oregon-postgres.render.com/mydb_fs5w
 
