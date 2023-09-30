@@ -81,7 +81,7 @@ class Request(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f"{self.owner.firstname} request's"
+        return self.title
     
 
 
@@ -89,11 +89,17 @@ class RequestImage(models.Model):
     image = models.ImageField(upload_to='images/', null=True)
     request= models.ForeignKey(Request, on_delete=models.CASCADE, related_name='images',blank=True, null=True) 
 
+    # def __str__(self):
+    #     return self.image.path
+
 
 class Item(models.Model):
     name = models.CharField(max_length=250)
     amount = models.IntegerField(default=1)
     request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',null=True)
+
+    def __str__(self):
+        return self.name
     
 
     
