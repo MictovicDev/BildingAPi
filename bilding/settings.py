@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djcelery_email',
+    # 'djcelery_email',
     # 'django.contrib.sites',
     'drf_yasg',
     'rest_framework',
@@ -268,8 +268,8 @@ SERVER_EMAIL = 'bilding@getbilding.com'
 #    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #celery configuration
-CELERY_BROKER_URL = 'redis://red-ckcpk3siibqc73dkg530:6379'  # Use your Redis server URL
-CELERY_RESULT_BACKEND = 'redis://red-ckcpk3siibqc73dkg530:6379'
+# CELERY_BROKER_URL = 'redis://red-ckcpk3siibqc73dkg530:6379'  # Use your Redis server URL
+# CELERY_RESULT_BACKEND = 'redis://red-ckcpk3siibqc73dkg530:6379'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
