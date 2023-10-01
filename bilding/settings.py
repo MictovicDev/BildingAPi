@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djcelery_email',
     # 'django.contrib.sites',
     'drf_yasg',
     'rest_framework',
@@ -100,7 +101,7 @@ WSGI_APPLICATION = 'bilding.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # DATABASES = {
 
-# }
+
 DATABASES = {}
 
 DATABASES["default"]=dj_database_url.parse('postgres://mictovic_user:Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27@dpg-ck32ak7qj8ts739m9cjg-a.oregon-postgres.render.com/mictovic')
@@ -249,10 +250,12 @@ SIMPLE_JWT = {
 }
 
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bilding.settings')
 
 
 # if not DEBUG:
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 EMAIL_HOST = 'mail.getbilding.com'
 EMAIL_PORT = 26
 EMAIL_USE_TLS = False
@@ -264,7 +267,9 @@ SERVER_EMAIL = 'bilding@getbilding.com'
 # else:
 #    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-
+#celery configuration
+CELERY_BROKER_URL = 'redis://red-ckcpk3siibqc73dkg530:6379'  # Use your Redis server URL
+CELERY_RESULT_BACKEND = 'redis://red-ckcpk3siibqc73dkg530:6379'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -9,11 +9,11 @@ from rest_framework import status, generics,permissions
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.tokens import RefreshToken
-from . import email
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser 
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
+from authentication.email import send_linkmail
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -43,12 +43,11 @@ class ContractorCreateView(APIView):
             user = serializer.save(role='Contractor')
             token = RefreshToken.for_user(user)
             user.token = token
-            # user.location = location
+            send_linkmail(user, token)
             user.set_password(password)
             if serializer["updates"] == True:
                 user.updates = True
             user.save()
-            email.send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

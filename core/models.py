@@ -53,7 +53,7 @@ class Project(models.Model):
         return reverse('projectdetail', args=[str(self.pk)])
 
     def __str__(self):
-       return self.title
+       return ''
 
 class RecentProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True, related_name='projects')

@@ -1,7 +1,12 @@
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 import os
+from celery import shared_task
+# from django_celery_email.models import Email
 
+
+
+# @shared_task
 def send_linkmail(user, token):
     token = str(token)
     tokencheck = token
@@ -22,6 +27,6 @@ def send_linkmail(user, token):
         recipient_list= recipient_list,
         fail_silently=False,
         html_message=html_message,)
-    # send_mail(html_message=html_messagfrom_email, recipient_list,  fail_silently=False)
+    return name
 
 
