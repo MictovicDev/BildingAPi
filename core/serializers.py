@@ -25,6 +25,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     url = serializers.CharField(read_only=True)
+    image = serializers.ImageField()
     class Meta:
         model = Project
         fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description',]

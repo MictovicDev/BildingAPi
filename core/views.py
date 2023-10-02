@@ -14,7 +14,7 @@ from core.images import *
 
 
 class ProjectView(APIView):
-    # parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (MultiPartParser,FormParser)
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
@@ -22,6 +22,8 @@ class ProjectView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
+        # boundary = '----'
+        # request.META['CONTENT_TYPE'] = f'multipart/form-data; boundary={boundary}'
         serializer = ProjectSerializer(context={'request': request}, data=request.data)
         if serializer.is_valid():
             print(serializer.validated_data)
