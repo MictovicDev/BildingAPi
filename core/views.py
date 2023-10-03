@@ -14,27 +14,7 @@ from core.images import *
 
 
 
-# class ProjectView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#     def get(self, request):
-#         project = Project.objects.all()
-#         serializer = ProjectSerializer(project, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-#     def post(self, request):
-#         serializer = ProjectSerializer(data=request.data)
-#         if serializer.is_valid():
-#             # print(serializer.validated_data)
-#             myproject = serializer.save(owner=request.user)
-#             domain = 'https://bildingapi.onrender.com'
-#             project_url = reverse('project-detail', args=[myproject.pk])
-#             url = domain + project_url
-#             myproject.url = url
-#             print(project_url)
-#             myproject.save()
-#             RecentProject.objects.create(project=myproject)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProjectGetCreate(generics.ListCreateAPIView):
     queryset = Project.objects.all()
@@ -91,24 +71,14 @@ class ProjectDetailView(APIView):
             project.delete()
             return Response({'message': 'Project Deleted Succesfully'})
         return Response({'message': 'You cant delete a Project you dont own'})
-                
+                   
 
-    
+class RequestView(generics.ListCreateAPIView):
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
+    permission_classes = [IsAuthenticated]
 
-class RequestView(APIView):
-    parser_classes = (MultiPartParser,FormParser)
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request):
-        d_request = Request.objects.all()
-        serializer = RequestSerializer(d_request, many=True,context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        serializer = RequestSerializer(data=request.data,context={'request': request})
-        if serializer.is_valid():
-            serializer.save(owner=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
     
