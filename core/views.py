@@ -24,7 +24,6 @@ class ProjectView(APIView):
         serializer = ProjectSerializer(context={'request': request}, data=request.data)
         if serializer.is_valid():
             print(serializer.validated_data)
-            # image = serializer.validated_data['image']
             myproject = serializer.save(owner=request.user)
             domain = 'https://bildingapi.onrender.com'
             project_url = reverse('project-detail', args=[myproject.pk])
