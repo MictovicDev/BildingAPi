@@ -7,34 +7,43 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.urls import reverse
+from rest_framework.permissions import IsAuthenticated
 # from django.contrib.sites.models import Site
 from core.images import *
 # Create your views here.
 
 
 
-class ProjectView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request):
-        project = Project.objects.all()
-        serializer = ProjectSerializer(project, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+# class ProjectView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     def get(self, request):
+#         project = Project.objects.all()
+#         serializer = ProjectSerializer(project, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        serializer = ProjectSerializer(data=request.data)
-        if serializer.is_valid():
-            # print(serializer.validated_data)
-            myproject = serializer.save(owner=request.user)
-            domain = 'https://bildingapi.onrender.com'
-            project_url = reverse('project-detail', args=[myproject.pk])
-            url = domain + project_url
-            myproject.url = url
-            print(project_url)
-            myproject.save()
-            RecentProject.objects.create(project=myproject)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request):
+#         serializer = ProjectSerializer(data=request.data)
+#         if serializer.is_valid():
+#             # print(serializer.validated_data)
+#             myproject = serializer.save(owner=request.user)
+#             domain = 'https://bildingapi.onrender.com'
+#             project_url = reverse('project-detail', args=[myproject.pk])
+#             url = domain + project_url
+#             myproject.url = url
+#             print(project_url)
+#             myproject.save()
+#             RecentProject.objects.create(project=myproject)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ProjectGetCreate(generics.CreateAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        owner = self.request.user
+        serializer.save(owner=owner)
 
 class RecentProjectView(APIView):
     permission_classes = [permissions.IsAuthenticated]
