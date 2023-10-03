@@ -9,12 +9,6 @@ class RequestImageSerializer(serializers.ModelSerializer):
         model = RequestImage
         fields = ['image']
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        if instance.image:
-            image_url = self.context['request'].build_absolute_uri(instance.image.url)
-            representation['image'] = image_url
-        return representation
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,15 +21,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     url = serializers.CharField(read_only=True)
     class Meta:
         model = Project
-        fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description']
+        fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description','date_time']
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        if instance.image:
-            image_url = self.context['request'].build_absolute_uri(instance.image.url)
-            representation['image'] = image_url
-            print(representation)
-        return representation
+   
    
    
 class RecentProjectSerializer(serializers.ModelSerializer):

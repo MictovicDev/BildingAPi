@@ -17,11 +17,11 @@ class ProjectView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         project = Project.objects.all()
-        serializer = ProjectSerializer(project,context={'request': request}, many=True)
+        serializer = ProjectSerializer(project, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        serializer = ProjectSerializer(context={'request': request}, data=request.data)
+        serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             # print(serializer.validated_data)
             myproject = serializer.save(owner=request.user)
@@ -29,7 +29,7 @@ class ProjectView(APIView):
             project_url = reverse('project-detail', args=[myproject.pk])
             url = domain + project_url
             myproject.url = url
-            # print(project_url)
+            print(project_url)
             myproject.save()
             RecentProject.objects.create(project=myproject)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
