@@ -46,14 +46,15 @@ class Project(models.Model):
     description = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to='files/', blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
-    
-    # recent_projects = models.ManyToManyField('RecentProject', related_name='projects')
+
     
     def get_absolute_url(self):
         return reverse('projectdetail', args=[str(self.pk)])
 
     def __str__(self):
        return self.title
+
+
 
 class RecentProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True, related_name='projects')
