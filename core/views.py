@@ -36,7 +36,7 @@ from core.images import *
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ProjectGetCreate(generics.CreateAPIView):
+class ProjectGetCreate(generics.ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
