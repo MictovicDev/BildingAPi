@@ -50,15 +50,16 @@ class SupplierSerializer(serializers.ModelSerializer):
     
 class RequestSerializer(serializers.ModelSerializer):
     items =  ItemSerializer(many=True,required=False)
-    images =  RequestImageSerializer(many=True, read_only=True) 
-    uploaded_items = serializers.JSONField(write_only=True)
+    # image1 = serializers.ImageField()
+    # image2 = serializers.ImageField()
+    # image3 = serializers.ImageField()
     uploaded_images = serializers.ListField(
         child = serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
         write_only=True,
     )
     class Meta:
         model = Request
-        fields = ['id','title','category','location','description','images','uploaded_images','items','uploaded_items']
+        fields = ['id','title','category','location','description','image1','image2','image3','items','uploaded_items']
   
     def create(self, validated_data):
         uploaded_images = validated_data.pop('uploaded_images')
