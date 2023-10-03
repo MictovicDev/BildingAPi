@@ -23,13 +23,13 @@ class ProjectView(APIView):
     def post(self, request):
         serializer = ProjectSerializer(context={'request': request}, data=request.data)
         if serializer.is_valid():
-            print(serializer.validated_data)
+            # print(serializer.validated_data)
             myproject = serializer.save(owner=request.user)
             domain = 'https://bildingapi.onrender.com'
             project_url = reverse('project-detail', args=[myproject.pk])
             url = domain + project_url
             myproject.url = url
-            print(project_url)
+            # print(project_url)
             myproject.save()
             RecentProject.objects.create(project=myproject)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
