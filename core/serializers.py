@@ -53,10 +53,6 @@ class RequestSerializer(serializers.ModelSerializer):
     # image1 = serializers.ImageField()
     # image2 = serializers.ImageField()
     # image3 = serializers.ImageField()
-    uploaded_images = serializers.ListField(
-        child = serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True,
-    )
     class Meta:
         model = Request
         fields = ['id','title','category','location','description','image1','image2','image3','items','uploaded_items']
