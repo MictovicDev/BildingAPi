@@ -254,8 +254,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bilding.settings')
 # if not DEBUG:
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.getbilding.com'
-EMAIL_PORT = 26
-EMAIL_USE_TLS = False
+EMAIL_PORT = 465
+EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bilding@getbilding.com'
 EMAIL_HOST_PASSWORD = 'secureBILDING02@'
 DEFAULT_FROM_USER = 'bilding@getbilding.com'
