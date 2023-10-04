@@ -59,17 +59,43 @@ class ContractorCreateView(APIView):
     
     
     
-class UsersUpdateView(APIView):
-    parser_classes = (MultiPartParser, FormParser)
-    def put(self,request,pk):
+# class UsersUpdateView(APIView):
+#     # parser_classes = (MultiPartParser, FormParser)
+#     print(dir(generics))
+#     def put(self,request,pk):
+#         user =  get_object_or_404(User, id=pk)
+#         serializer = UsersUpdateSerializer(user,  data=request.data)
+#         if request.user.email == user.email:
+#             if serializer.is_valid():
+#                 serializer.save()
+#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#         return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
+
+
+class UsersUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsersUpdateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        pk = self.kwargs.get('pk')
         user =  get_object_or_404(User, id=pk)
-        serializer = UsersUpdateSerializer(user,  data=request.data)
-        if request.user.email == user.email:
+        return user
+    
+    def perform_create(self, serializer):
+        instance = self.get_object()
+        if self.request.email == instance.email:
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'message': 'User does not exists'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+        
+             
+        
+
         
 
 class SupplierCreateView(APIView):
