@@ -79,13 +79,14 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        pk = self.kwargs.get('pk')
-        user =  get_object_or_404(User, id=pk)
+        # pk = self.kwargs.get('pk')
+        email = self.request.user.email
+        user =  get_object_or_404(User, email=email)
         return user
     
     def perform_create(self, serializer):
         instance = self.get_object()
-        if self.request.email == instance.email:
+        if self.request.user.email == instance.email:
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)

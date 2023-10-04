@@ -92,6 +92,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'bilding.wsgi.application'
 
 # SITE_ID = 1
