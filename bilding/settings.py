@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'djcelery_email',
-    # 'django.contrib.sites',
     'drf_yasg',
     'rest_framework',
     'rest_framework.authtoken',
@@ -254,8 +252,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bilding.settings')
 
 
 # if not DEBUG:
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.getbilding.com'
 EMAIL_PORT = 26
 EMAIL_USE_TLS = False
