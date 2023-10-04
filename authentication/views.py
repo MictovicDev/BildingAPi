@@ -13,7 +13,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser 
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
-from authentication.email import send_linkmail
+from . import email
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -43,7 +43,7 @@ class ContractorCreateView(APIView):
             user = serializer.save(role='Contractor')
             token = RefreshToken.for_user(user)
             user.token = token
-            send_linkmail(user, token)
+            email.send_linkmail(user, token)
             user.set_password(password)
             if serializer["updates"] == True:
                 user.updates = True
@@ -115,7 +115,7 @@ class WorkerCreateView(APIView):
     
       
     def get(self, request):
-        user = User.objects.filter(role="Supplier")
+        user = User.objects.filter(role="Worker")
         serializer = UserSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
