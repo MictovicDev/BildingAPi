@@ -71,14 +71,18 @@ class ProjectDetailView(APIView):
             project.delete()
             return Response({'message': 'Project Deleted Succesfully'})
         return Response({'message': 'You cant delete a Project you dont own'})
-                   
+
+
+
+
 
 class RequestView(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     permission_classes = [IsAuthenticated]
 
-
+    # def perform_create(self, serializer):
+    #     print(serializer.data)
 
 
     
