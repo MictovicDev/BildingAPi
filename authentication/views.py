@@ -109,7 +109,7 @@ class WorkerCreateView(APIView):
                 user.updates = True
             user.save()
             token
-            email.send_linkmail(user, token)
+            send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
