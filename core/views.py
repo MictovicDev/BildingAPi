@@ -118,7 +118,6 @@ class RequestDetailView(APIView):
 
 
 class BidProjectList(APIView):
-    print(dir(generics))
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         owner = request.user.id

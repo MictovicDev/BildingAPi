@@ -51,13 +51,8 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersUpdateSerializer
     permission_classes = [permissions.AllowAny]
-    def get_object(self):
-        pk = self.kwargs.get('pk')
-        user =  get_object_or_404(User, id=pk)
-        return user
-
-    
-    
+  
+          
 class SupplierListCreateView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]

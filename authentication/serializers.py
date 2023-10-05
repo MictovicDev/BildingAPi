@@ -23,11 +23,23 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UsersUpdateSerializer(serializers.ModelSerializer):
+     role= serializers.CharField(read_only=True)
+     email = serializers.EmailField(read_only=True)
+     firstname = serializers.CharField(read_only=True)
+     lastname = serializers.CharField(read_only=True)
+     location = serializers.CharField(read_only=True)
+     phone_number = serializers.IntegerField(read_only=True)
+     id = serializers.UUIDField(read_only=True)
+     print(dir(serializers))
+
+     
      class Meta:
-        model = UpdateUser
-        fields = ('bvn','gov_id_image','address')
+        model = User
+        fields = ('id','email','firstname','lastname','role','phone_number','location', 'bvn','gov_id_image','address')
       
      def update(self,instance, validated_data):
+         print(self)
+         print(instance)
          instance.address = validated_data['address']
          instance.bvn = validated_data['bvn']
          instance.gov_id_image = validated_data['gov_id_image']
@@ -35,16 +47,15 @@ class UsersUpdateSerializer(serializers.ModelSerializer):
          instance.save()
          return instance
 
-
 class UserSerializer(serializers.ModelSerializer):
-     update = UsersUpdateSerializer(read_only=True)
      password = serializers.CharField(write_only=True, required=True)
-     id = serializers.UUIDField(read_only=True)
-     role = serializers.CharField(read_only=True)
+     id = serializers.UUIDField(read_only=True,)
+     role = serializers.CharField(read_only=True,)
+     
 
      class Meta:
         model = User
-        fields = ('id','email','password','firstname','lastname','role','phone_number','location','update','updates')
+        fields = ('id','email','password','firstname','lastname','role','phone_number','location','bvn','gov_id_image','address')
 
      def create(self, validated_data):
         password = validated_data.pop('password')
@@ -63,6 +74,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
         
+
+
+
+
+
         
 
      
