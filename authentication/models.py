@@ -9,7 +9,7 @@ from .managers import UserManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    firstname = models.CharField(max_length=500,)
+    firstname = models.CharField(max_length=500,blank=True, null=True)
     phone_number = models.PositiveBigIntegerField(null=True)
     lastname = models.CharField(max_length=500)
     email = models.EmailField(verbose_name='email address',max_length=255,unique=True,)
@@ -26,7 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     hires = models.PositiveIntegerField(default=0)
-    # image = models.ImageField(blank=True, null=True)
+    
    
     # updates = models.ForeignKey(UpdateUser, on_delete=models.CASCADE, related_name='updates', blank=True, null=True)
     

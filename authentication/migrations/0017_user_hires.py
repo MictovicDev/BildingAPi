@@ -9,10 +9,10 @@ class Migration(migrations.Migration):
         ('authentication', '0016_auto_20231005_1926'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='user',
-            name='hires',
-            field=models.PositiveIntegerField(default=0),
-        ),
-    ]
+    # operations = [
+    #     migrations.AddField(
+    #         model_name='user',
+    #         name='hires',
+    #         field=models.PositiveIntegerField(default=0),
+    #     ),
+    # ]
