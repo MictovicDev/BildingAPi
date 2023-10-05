@@ -38,14 +38,10 @@ class ContractorCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            password = serializer.validated_data["password"]
             user = serializer.save(role='Contractor')
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(user, token)
-            user.set_password(password)
-            if serializer["updates"] == True:
-                user.updates = True
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -59,16 +55,6 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
         pk = self.kwargs.get('pk')
         user =  get_object_or_404(User, id=pk)
         return user
-    
-    def perform_create(self, serializer):
-        instance = self.get_object()
-        if self.request.user.email == instance.email:
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'message': 'User does not exists'}, status=status.HTTP_401_UNAUTHORIZED)
-    
 
     
     
@@ -79,14 +65,10 @@ class SupplierListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            password = serializer.validated_data["password"]
             user = serializer.save(role='Supplier')
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(user, token)
-            user.set_password(password)
-            if serializer["updates"] == True:
-                user.updates = True
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -97,14 +79,10 @@ class WorkerListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            password = serializer.validated_data["password"]
             user = serializer.save(role='Worker')
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(user, token)
-            user.set_password(password)
-            if serializer["updates"] == True:
-                user.updates = True
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

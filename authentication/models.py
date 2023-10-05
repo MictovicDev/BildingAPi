@@ -25,12 +25,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length= 250, blank=True,null=True)
     location = models.CharField(max_length=250, null=True)
     token = models.CharField(max_length=500, blank=True, null=True)
-    bvn = models.PositiveBigIntegerField(blank=False, null=True)
-    hires = models.IntegerField(default=0)
-    image = models.ImageField(upload_to='images/',null=True)
-    gov_id_image = models.FileField(upload_to='files/', null=True)
     updates = models.BooleanField(default=False)
     authMedium = models.CharField(max_length=50, default='email')
+    
+    
     
     
     
@@ -52,3 +50,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.is_admin
+    
+class UpdateUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='update', blank=True, null=True)
+    address = models.TextField(default='shofunwa')
+    bvn = models.PositiveBigIntegerField(blank=False, null=True)
+    gov_id_image = models.FileField(upload_to='files/', null=True)
+
+
+    def __str__(self):
+        return self.user.username
