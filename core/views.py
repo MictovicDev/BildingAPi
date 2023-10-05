@@ -25,12 +25,12 @@ class ProjectGetCreate(generics.ListCreateAPIView):
         owner = self.request.user
         serializer.save(owner=owner)
 
-class RecentProjectView(APIView):
+class RecentProjectView(generics.ListAPIView):
+    queryset = RecentProject.objects.all()
     permission_classes = [permissions.IsAuthenticated]
-    def get(self, request):
-        recentproject = RecentProject.objects.all()
-        serializer = RecentProjectSerializer(recentproject,context={'request': request}, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    serializer_class = RecentProjectSerializer
+
+
     
 
 class RecentProjectDetailView(APIView):
@@ -81,9 +81,6 @@ class RequestView(generics.ListCreateAPIView):
     serializer_class = RequestSerializer
     permission_classes = [IsAuthenticated]
 
-    # def perform_create(self, serializer):
-    #     print(serializer.data)
-
 
     
 class RequestDetailView(APIView):
@@ -114,13 +111,18 @@ class RequestDetailView(APIView):
         return Response({'message': 'You cant delete a Request you dont own'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-    
+# class Application(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     def get(self,request):
+#         application = BidProject.obje
 
 
 class BidProjectList(APIView):
+    print(dir(generics))
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
-        project = BidForProject.objects.all()
+        owner = request.user.id
+        project = BidForProject.objects.filter(project__owner=owner)
         serializer = BidForProjectSerializer(project, many=True, context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
     

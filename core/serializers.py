@@ -2,7 +2,16 @@ from rest_framework import serializers,reverse
 from .models import *
 from authentication.serializers import UserSerializer
 
+class ApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['firstname','hires','location']
 
+class BidForProjectSerializer(serializers.ModelSerializer):
+    applicant = ApplicationSerializer()
+    class Meta:
+        model = BidForProject
+        fields = '__all__'
 
 class RequestImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,6 +23,7 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ['name','amount',]
+
 
 
 
@@ -80,11 +90,8 @@ class RequestSerializer(serializers.ModelSerializer):
 
 
 
-class BidForProjectSerializer(serializers.ModelSerializer):
-    applicant = serializers.PrimaryKeyRelatedField(read_only=True)
-    class Meta:
-        model = BidForProject
-        fields = '__all__'
+
+
   
     
     

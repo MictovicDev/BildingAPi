@@ -101,9 +101,9 @@ WSGI_APPLICATION = 'bilding.wsgi.application'
 # DATABASES = {
 
 
-DATABASES = {}
+# DATABASES = {}
 
-DATABASES["default"]=dj_database_url.parse('postgres://mictovic_user:Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27@dpg-ck32ak7qj8ts739m9cjg-a.oregon-postgres.render.com/mictovic')
+# DATABASES["default"]=dj_database_url.parse('postgres://mictovic_user:Hv1Dsd8Z8LXdAwi3HuCTSUPfLHTGls27@dpg-ck32ak7qj8ts739m9cjg-a.oregon-postgres.render.com/mictovic')
 
 
 # DATABASES = {
@@ -137,12 +137,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Internationalization

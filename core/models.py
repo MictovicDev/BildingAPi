@@ -105,11 +105,7 @@ class Item(models.Model):
         return self.name
     
 
-    
-    
-# class ProjectImage(models.Model):
-#     image = models.ImageField(upload_to='images/', default='bilding/media/images/IMG_4701.jpg')
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE,related_name='images',null=True)
+
 
 class Store(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -127,7 +123,7 @@ class Store(models.Model):
     
 class BidForProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    applicant = models.ForeignKey(User, on_delete=models.CASCADE,related_name='applic')
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE,related_name='applicant')
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -144,7 +140,7 @@ class SuppliersApplication(models.Model):
 
 
 
-    
+
 
     
 

@@ -76,8 +76,27 @@ class ContractorCreateView(APIView):
 class UsersUpdateView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersUpdateSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
+    permission_classes = [permissions.AllowAny]
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        # email = self.request.user.email
+        user =  get_object_or_404(User, id=pk)
+        return user
+    
+    def perform_create(self, serializer):
+        instance = self.get_object()
+        if self.request.user.email == instance.email:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'User does not exists'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsersUpdateSerializer
+    permission_classes = [permissions.AllowAny]
+    
     def get_object(self):
         # pk = self.kwargs.get('pk')
         email = self.request.user.email

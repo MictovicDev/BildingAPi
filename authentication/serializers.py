@@ -35,7 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
          if not check:
              raise serializers.ValidationError("Invalid Country please input a valid country")
          return attrs
-         
+        
         
 class UsersUpdateSerializer(serializers.ModelSerializer):
      class Meta:
@@ -46,6 +46,7 @@ class UsersUpdateSerializer(serializers.ModelSerializer):
          instance.address = validated_data['address']
          instance.bvn = validated_data['bvn']
          instance.gov_id_image = validated_data['gov_id_image']
+        #  instance.hires = validated_data['hires']
          instance.save()
          return instance
      
