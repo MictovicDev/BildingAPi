@@ -21,7 +21,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class UsersListView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     def get(self, request):
         try:
             users = User.objects.all()
@@ -31,15 +31,14 @@ class UsersListView(APIView):
             return Response({"message":"no users in the daatabase yet"}, status=status.HTTP_404_NOT_FOUND)
 
         
-class ContractorCreateView(APIView):
+class ContractorCreateView(generics.ListCreateAPIView):
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
+    queryset = User.objects.filter(role='Contractor')
+
+    def perform_create(self, serializer):
         if serializer.is_valid():
-            # location = serializer.validated_data['location']['name'].capitalize()
             password = serializer.validated_data["password"]
-            location = serializer.validated_data['location']
-            updates = serializer.validated_data["updates"]
             user = serializer.save(role='Contractor')
             token = RefreshToken.for_user(user)
             user.token = token
@@ -47,39 +46,17 @@ class ContractorCreateView(APIView):
             user.set_password(password)
             if serializer["updates"] == True:
                 user.updates = True
-            user.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-      
-    def get(self, request):
-        user = User.objects.filter(role="Contractor")
-        serializer = UserSerializer(user, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
     
     
-    
-# class UsersUpdateView(APIView):
-#     # parser_classes = (MultiPartParser, FormParser)
-#     print(dir(generics))
-#     def put(self,request,pk):
-#         user =  get_object_or_404(User, id=pk)
-#         serializer = UsersUpdateSerializer(user,  data=request.data)
-#         if request.user.email == user.email:
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
-
-
 class UsersUpdateView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UsersUpdateSerializer
     permission_classes = [permissions.AllowAny]
     def get_object(self):
         pk = self.kwargs.get('pk')
-        # email = self.request.user.email
         user =  get_object_or_404(User, id=pk)
         return user
     
@@ -92,78 +69,45 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response({'message': 'User does not exists'}, status=status.HTTP_401_UNAUTHORIZED)
     
-class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UsersUpdateSerializer
+
+    
+    
+class SupplierListCreateView(generics.ListCreateAPIView):
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
-    
-    def get_object(self):
-        # pk = self.kwargs.get('pk')
-        email = self.request.user.email
-        user =  get_object_or_404(User, email=email)
-        return user
-    
+    queryset = User.objects.filter(role='Supplier')
+
     def perform_create(self, serializer):
-        instance = self.get_object()
-        if self.request.user.email == instance.email:
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'message': 'User does not exists'}, status=status.HTTP_401_UNAUTHORIZED)
-    
-        
-             
-        
-
-        
-
-class SupplierCreateView(APIView):
-    permission_classes = [permissions.AllowAny]
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             password = serializer.validated_data["password"]
             user = serializer.save(role='Supplier')
             token = RefreshToken.for_user(user)
             user.token = token
+            email.send_linkmail(user, token)
             user.set_password(password)
             if serializer["updates"] == True:
                 user.updates = True
-            user.save()
-            email.send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-      
-    def get(self, request):
-        user = User.objects.filter(role="Supplier")
-        serializer = UserSerializer(user, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
-class WorkerCreateView(APIView):
+class WorkerListCreateView(generics.ListCreateAPIView):
+    serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
+    queryset = User.objects.filter(role='Worker')
+
+    def perform_create(self, serializer):
         if serializer.is_valid():
             password = serializer.validated_data["password"]
             user = serializer.save(role='Worker')
             token = RefreshToken.for_user(user)
             user.token = token
+            email.send_linkmail(user, token)
             user.set_password(password)
             if serializer["updates"] == True:
                 user.updates = True
-            user.save()
-            token
-            email.send_linkmail(user, token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-      
-    def get(self, request):
-        user = User.objects.filter(role="Worker")
-        serializer = UserSerializer(user, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        
 
 class ActivateAccount(APIView):
     permission_classes = [permissions.AllowAny]

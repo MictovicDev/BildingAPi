@@ -254,18 +254,18 @@ SIMPLE_JWT = {
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bilding.settings')
 
 
-# if not DEBUG:
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD =  os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_USER = os.environ.get('EMAIL_HOST_USER')
-SERVER_EMAIL =  os.environ.get('EMAIL_HOST_USER')
+if not DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD =  os.environ.get('EMAIL_HOST_PASSWORD')
+    DEFAULT_FROM_USER = os.environ.get('EMAIL_HOST_USER')
+    SERVER_EMAIL =  os.environ.get('EMAIL_HOST_USER')
   
-# else:
-#    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #celery configuration
 # CELERY_BROKER_URL = 'redis://red-ckcpk3siibqc73dkg530:6379'  # Use your Redis server URL
