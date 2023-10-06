@@ -73,9 +73,6 @@ class ProjectDetailView(APIView):
         return Response({'message': 'You cant delete a Project you dont own'})
 
 
-
-
-
 class RequestView(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer

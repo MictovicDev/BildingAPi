@@ -47,6 +47,7 @@ class Project(models.Model):
     image = models.FileField(upload_to='files/', blank=True, null=True)
     date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
+    
 
     
     # def get_absolute_url(self):
