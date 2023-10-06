@@ -42,27 +42,27 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = ProfileSerializer
-#     permission_classes = [permissions.AllowAny]
+class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.AllowAny]
 
-#     def get_object(self):
-        
-#         user = self.request.user
-#         profile = Profile.objects.get_or_create(user=user)[0]
-#         print(profile)
-#         return profile
+    def get_object(self):
+        print(dir(self))
+        user = self.request.user
+        profile = Profile.objects.get_or_create(user=user)[0]
+        print(profile)
+        return profile
 
-#     def update(self, request, *args, **kwargs):
-#         profile = self.get_object()
-#         print(request.data)
-#         serializer = self.get_serializer(profile, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def update(self, request, *args, **kwargs):
+        profile = self.get_object()
+        print(request.data)
+        serializer = self.get_serializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # class UsersUpdateView(APIView):
 #     def get(self, request):
