@@ -23,7 +23,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
           token['profile_pics'] = ''
       return token
 
-
+print('done')
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
          model = Profile
