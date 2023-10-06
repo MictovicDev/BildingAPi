@@ -7,6 +7,9 @@ from .managers import UserManager
 # from django_phonenumbers import PhoneNumber
 
 
+
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     firstname = models.CharField(max_length=500,blank=True, null=True)

@@ -21,40 +21,78 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class UsersUpdateView(generics.RetrieveUpdateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    permission_classes = [permissions.AllowAny]
-    def get_object(self):
-        user = self.request.user
-        user = Profile.objects.get(user=user)
-        return user
-
-    def update(self, request, *args, **kwargs):
-        profile = self.get_object()
-        serializer = self.get_serializer(profile, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-class UsersUpdateView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [permissions.AllowAny]
+
     def get_object(self):
         user = self.request.user
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get_or_create(user=user)[0]
+        print(profile)
         return profile
 
     def update(self, request, *args, **kwargs):
         profile = self.get_object()
+        print(request.data)
         serializer = self.get_serializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = ProfileSerializer
+#     permission_classes = [permissions.AllowAny]
+
+#     def get_object(self):
+        
+#         user = self.request.user
+#         profile = Profile.objects.get_or_create(user=user)[0]
+#         print(profile)
+#         return profile
+
+#     def update(self, request, *args, **kwargs):
+#         profile = self.get_object()
+#         print(request.data)
+#         serializer = self.get_serializer(profile, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class UsersUpdateView(APIView):
+#     def get(self, request):
+#         try:
+#             user = request.user
+#             profile = Profile.objects.get_or_create(user=user)
+#             print(profile[0])
+#             serializer = ProfileSerializer(profile[0])
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         except Exception as e:
+#             return Response({"message":"Not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+# class UsersUpdateView(generics.RetrieveUpdateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = ProfileSerializer
+#     permission_classes = [permissions.AllowAny]
+    
+#     def get_object(self):
+#         user = self.request.user
+#         profile = Profile.objects.get_or_create(user=user)
+#         return profile
+
+#     def update(self, request, *args, **kwargs):
+#         profile = self.get_object()
+#         serializer = self.get_serializer(profile, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UsersListView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -81,10 +119,6 @@ class ContractorCreateView(generics.ListCreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
-    
-
-  
           
 class SupplierListCreateView(generics.ListCreateAPIView):
     serializer_class = UserSerializer

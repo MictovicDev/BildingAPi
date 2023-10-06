@@ -22,6 +22,7 @@ class ProjectGetCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
+        print(dir(serializer))
         owner = self.request.user
         serializer.save(owner=owner)
 
