@@ -18,7 +18,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
       token['email'] = user.email
       token['role'] = user.role
       if user.profile_pics:
-          token['profile_pics'] = user.profile_pics
+          token['profile_pics'] = user.profile_pics.url
       else:
           token['profile_pics'] = ''
       return token
