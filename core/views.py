@@ -13,10 +13,8 @@ from core.images import *
 # Create your views here.
 
 
-
-
-
 class ProjectGetCreate(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
