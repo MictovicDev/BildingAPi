@@ -48,13 +48,13 @@ class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def get_object(self):
-        print(dir(self))
-        user = self.request.user
+        pk = self.kwargs['pk']
+        user = User.objects.get(id=pk)
+        print(user)
         profile = Profile.objects.get_or_create(user=user)[0]
-        print(profile)
         return profile
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request,*args, **kwargs):
         profile = self.get_object()
         print(request.data)
         serializer = self.get_serializer(profile, data=request.data)
