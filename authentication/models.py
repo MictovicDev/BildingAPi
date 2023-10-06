@@ -22,9 +22,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     token = models.CharField(max_length=500, blank=True, null=True)
     updates = models.BooleanField(default=False)
     authMedium = models.CharField(max_length=50, default='email')
-   
-   
-    # updates = models.ForeignKey(UpdateUser, on_delete=models.CASCADE, related_name='updates', blank=True, null=True)
+
     
 
     objects = UserManager()
@@ -47,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     hires = models.PositiveIntegerField(default=0)

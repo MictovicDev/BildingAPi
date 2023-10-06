@@ -20,20 +20,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
       return token
 
 
-class UsersUpdateSerializer(serializers.ModelSerializer):
-     role= serializers.CharField(read_only=True)
-     email = serializers.EmailField(read_only=True)
-     firstname = serializers.CharField(read_only=True)
-     lastname = serializers.CharField(read_only=True)
-     location = serializers.CharField(read_only=True)
-     phone_number = serializers.IntegerField(read_only=True)
-     id = serializers.UUIDField(read_only=True)
-     print(dir(serializers))
-
-     
+class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
-        model = User
-        fields = ('id','email','firstname','lastname','role','phone_number','location', 'bvn','gov_id_image','address')
+         model = Profile
+         fields = ['bvn', 'address', 'gov_id_image']
       
      def update(self,instance, validated_data):
          print(self)
@@ -46,6 +36,7 @@ class UsersUpdateSerializer(serializers.ModelSerializer):
          return instance
 
 class UserSerializer(serializers.ModelSerializer):
+     profile = ProfileSerializer(read_only=True)
      password = serializers.CharField(write_only=True, required=True)
      id = serializers.UUIDField(read_only=True,)
      role = serializers.CharField(read_only=True,)
@@ -53,7 +44,7 @@ class UserSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','email','password','firstname','lastname','role','phone_number','location','bvn','gov_id_image','address')
+        fields = ('id','email','password','firstname','lastname','role','phone_number','location','profile')
 
      def create(self, validated_data):
         password = validated_data.pop('password')

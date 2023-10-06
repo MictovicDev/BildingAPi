@@ -20,6 +20,25 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
+class UsersUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.AllowAny]
+    def get_object(self):
+        user = self.request.user
+        # pk = self.kwargs['pk']
+        user = Profile.objects.get(user=user)
+        return user
+
+    def update(self, request, *args, **kwargs):
+        profile = self.get_object()
+        serializer = self.get_serializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class UsersListView(APIView):
     permission_classes = [permissions.AllowAny]
     def get(self, request):
@@ -47,10 +66,7 @@ class ContractorCreateView(generics.ListCreateAPIView):
     
     
     
-class UsersUpdateView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UsersUpdateSerializer
-    permission_classes = [permissions.AllowAny]
+
   
           
 class SupplierListCreateView(generics.ListCreateAPIView):
