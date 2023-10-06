@@ -108,11 +108,11 @@ class UsersListView(APIView):
 class ContractorCreateView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
-    queryset = User.objects.filter(role='Contractor')
+    queryset = User.objects.filter(role='ContractorRole')
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            user = serializer.save(role='Contractor')
+            user = serializer.save(role='ContractorRole')
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(user, token)
@@ -123,11 +123,11 @@ class ContractorCreateView(generics.ListCreateAPIView):
 class SupplierListCreateView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
-    queryset = User.objects.filter(role='Supplier')
+    queryset = User.objects.filter(role='SupplierRole')
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            user = serializer.save(role='Supplier')
+            user = serializer.save(role='SupplierRole')
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(user, token)
@@ -137,11 +137,11 @@ class SupplierListCreateView(generics.ListCreateAPIView):
 class WorkerListCreateView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
-    queryset = User.objects.filter(role='Worker')
+    queryset = User.objects.filter(role='WorkerRole')
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            user = serializer.save(role='Worker')
+            user = serializer.save(role='WorkerRole')
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(user, token)
