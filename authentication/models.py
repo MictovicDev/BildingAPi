@@ -27,6 +27,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     hires = models.PositiveIntegerField(default=0)
     
+    
    
     # updates = models.ForeignKey(UpdateUser, on_delete=models.CASCADE, related_name='updates', blank=True, null=True)
     
@@ -49,5 +50,4 @@ class User(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.is_admin
     
-
-    
+var = 'hello'
