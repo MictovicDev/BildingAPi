@@ -21,6 +21,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 
 class UsersUpdateView(generics.RetrieveUpdateAPIView):
+    parser_classes = [MultiPartParser, FormParser]
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [permissions.AllowAny]
@@ -43,6 +44,7 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
 
 
 class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
+    parser_classes = [MultiPartParser, FormParser]
     queryset = User.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [permissions.AllowAny]

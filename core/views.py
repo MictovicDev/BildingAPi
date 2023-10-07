@@ -14,6 +14,7 @@ from core.images import *
 
 
 class ProjectGetCreate(generics.ListCreateAPIView):
+    parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -81,6 +82,7 @@ class RequestView(generics.ListCreateAPIView):
 
     
 class RequestDetailView(APIView):
+    # parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request,pk):
         d_request= get_object_or_404(Request, id=pk)

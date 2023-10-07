@@ -271,8 +271,9 @@ else:
 # CELERY_BROKER_URL = 'redis://red-ckcpk3siibqc73dkg530:6379'  # Use your Redis server URL
 # CELERY_RESULT_BACKEND = 'redis://red-ckcpk3siibqc73dkg530:6379'
 
-MEDIA_URL = '/media/'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
