@@ -6,6 +6,21 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers,response,status
 from . import countries
 
+
+# serializers.py in your API app
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    # class Meta:
+    #     models = User
+    #     fields = ['email', 'password']
+
+
+
+
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         models = User

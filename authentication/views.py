@@ -14,6 +14,35 @@ from rest_framework.parsers import MultiPartParser, FormParser, FileUploadParser
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from allauth.socialaccount.providers.oauth2.client import OAuth2Error
 from . import email
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
+from django.contrib.auth import authenticate
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .serializers import UserLoginSerializer
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UserLoginView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            password = serializer.validated_data['password']
+            user = authenticate(email=email, password=password)
+            if user:
+                token, _ = Token.objects.get_or_create(user=user)
+                print(token.key)
+                return Response({'token': token.key})
+            print(user)
+            return Response({'message': "User logged in"}, status=status.HTTP_200_OK)
+        
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

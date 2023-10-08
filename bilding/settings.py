@@ -195,6 +195,8 @@ REST_FRAMEWORK = {
 #     ],
 }
 
+APPEND_SLASH=False
+
 #Cors headers settings
 CORS_ALLOW_ALL_ORIGINS = True
 

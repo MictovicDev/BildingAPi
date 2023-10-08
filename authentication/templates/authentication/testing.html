@@ -1,0 +1,97 @@
+<form id="myForm" enctype="multipart/form-data">
+    <input type="text" id="title" placeholder="Enter Title">
+    <input type="text" id="categories" placeholder="Enter categories">
+    <input type="text" id="skills" placeholder="Enter Skills">
+    <input type="text" id="scope" placeholder="Enter Scope">
+    <input type="text" id="experience" placeholder="Enter experience">
+    <input type="text" id="duration" placeholder="Enter duration">
+    <input type="text" id="location" placeholder="Enter location">
+    <input type="number" id="budget" placeholder="Enter budget ">
+    <input type="text" id="description" placeholder="Enter description">
+    <input type="file" id="image" placeholder="Images">
+    <input type="submit" value="Submit">
+</form>
+
+<script>
+    document.getElementById("myForm").addEventListener("submit", function (e){
+        e.preventDefault();
+
+        const title = document.getElementById('title').value;
+        const categories = document.getElementById('categories').value;
+        const skills = document.getElementById('skills').value;
+        const scope = document.getElementById('scope').value;
+        const experience = document.getElementById('experience').value;
+        const duration = document.getElementById('duration').value;
+        const location = document.getElementById('location').value;
+        const budget = document.getElementById('budget').value;
+        const description = document.getElementById('description').value;
+        const image = document.getElementById('image').files[0];
+
+        const formData = new FormData();
+        formData.append('title',title);
+        formData.append('categories',categories);
+        formData.append('skills',skills);
+        formData.append('scope',scope);
+        formData.append('experience',experience);
+        formData.append('duration',duration);
+        formData.append('location',location);
+        formData.append('budget',budget);
+        formData.append('description',description);
+        formData.append('image',image);
+
+
+        // const headers = new Headers();
+        const boundary = "---"
+
+        // headers.append("Content-Type", `multipart/form-data; boundary=${boundary}`);
+        // headers.append("Authorization", `Token ${'d7486ee94392fab46bcc41df5650e4feedf3dac6'}`);
+        
+        fetch("http://bildingapi.onrender.com/api/projects", {
+            method: "POST",
+            body: formData,
+            headers:{
+              "Content-Type" : `multipart/form-data; boundary=${boundary}`,
+              "Authorization": `Token ${'d7486ee94392fab46bcc41df5650e4feedf3dac6'}`
+            }
+        }).then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
+
+    });
+</script>
+
+
+<form id="form">
+  <input type="email" id="email" name="email" placeholder="Enter Email">
+  <input type="password" id="password" name="password" placeholder="Enter password">
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+  document.getElementById("form").addEventListener("submit", function (e){
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+
+      const formData = new FormData();
+        formData.append('email',email);
+        formData.append('password',password);
+
+      fetch("http://127.0.0.1:8000/auth/login", {
+            method: "POST",
+            body: formData
+        }).then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
+})
+</script>

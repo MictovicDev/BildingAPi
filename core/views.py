@@ -14,7 +14,7 @@ from core.images import *
 
 
 class ProjectGetCreate(generics.ListCreateAPIView):
-    parser_classes = [MultiPartParser, FormParser]
+    # parser_classes = [MultiPartParser, FormParser]
     permission_classes = [permissions.IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -22,6 +22,8 @@ class ProjectGetCreate(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         owner = self.request.user
+        print(owner)
+        # owner = User.objects.first()
         project = serializer.save(owner=owner)
         print(project)
         RecentProject.objects.create(project=project)
