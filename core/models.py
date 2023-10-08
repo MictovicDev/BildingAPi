@@ -45,7 +45,7 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to='files/', blank=True, null=True)
-    date_time = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
     
 

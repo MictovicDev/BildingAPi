@@ -29,9 +29,10 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     url = serializers.CharField(read_only=True)
+    time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = Project
-        fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description','date_time']
+        fields = ['id','url','image','title','categories','skills','scope','skills','experience', 'duration','location','budget','description','time']
 
    
    

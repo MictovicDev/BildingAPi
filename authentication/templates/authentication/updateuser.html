@@ -1,0 +1,40 @@
+<form id="myForm" enctype="multipart/form-data">
+    <input type="number" id="bvn" placeholder="Enter Bvn">
+    <input type="file" id="image" placeholder="Images">
+    <input type="text" id="address" placeholder="Enter address">
+    <input type="submit" value="Submit">
+</form>
+
+
+<script>
+    document.getElementById("myForm").addEventListener("submit", function (e){
+        e.preventDefault();
+  
+        const bvn = document.getElementById('bvn').value;
+        const address = document.getElementById('address').value;
+        const gov_id_image = document.getElementById('image').files[0];
+  
+        const formData = new FormData();
+          formData.append('bvn',bvn);
+          formData.append('address',address);
+          formData.append('gov_id_image',gov_id_image);
+
+        const boundary = "---"
+  
+        fetch("http://127.0.0.1:8000/auth/update/", {
+              method: "PUT",
+              body: formData,
+              headers:{
+              "Content-Type" : `multipart/form-data; boundary=${boundary}`,
+            //   "Authorization": `Token ${'4b8a7871b0ffb06334fab9d8e63044f4574b18b7'}`
+              "Authorization": `Token ${'d7486ee94392fab46bcc41df5650e4feedf3dac6'}`
+            }
+          }).then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+            })
+            .catch((error) => {
+              console.error("Error", error);
+            });
+  })
+  </script>
