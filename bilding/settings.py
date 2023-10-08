@@ -204,7 +204,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 CORS_ALLOWED_ORIGINS = [
-   'https://bilding-3iqxt9pco-brightphi210.vercel.app'
+   'https://bilding-3iqxt9pco-brightphi210.vercel.app',
+   'http://127.0.0.1:8000'
 ]
 
 
