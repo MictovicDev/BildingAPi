@@ -19,13 +19,13 @@
           formData.append('address',address);
           formData.append('gov_id_image',gov_id_image);
 
-        const boundary = "---"
+        // const boundary = "---"
   
         fetch("http://127.0.0.1:8000/auth/update/", {
               method: "PUT",
               body: formData,
               headers:{
-              "Content-Type" : `multipart/form-data; boundary=${boundary}`,
+            //   "Content-Type" : `multipart/form-data; boundary=${boundary}`,
             //   "Authorization": `Token ${'4b8a7871b0ffb06334fab9d8e63044f4574b18b7'}`
               "Authorization": `Token ${'d7486ee94392fab46bcc41df5650e4feedf3dac6'}`
             }

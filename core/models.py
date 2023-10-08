@@ -44,7 +44,7 @@ class Project(models.Model):
     budget = models.FloatField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True, null=True)
-    image = models.FileField(upload_to='files/', blank=True, null=True)
+    # image = models.FileField(upload_to='files/', blank=True, null=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
     
@@ -56,6 +56,10 @@ class Project(models.Model):
     def __str__(self):
        return self.title
 
+
+class ProjectImage(models.Model):
+    image = models.ImageField(upload_to='images/', null=True)
+    project= models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_images',blank=True, null=True) 
 
 
 class RecentProject(models.Model):
