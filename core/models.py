@@ -44,22 +44,20 @@ class Project(models.Model):
     budget = models.FloatField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True, null=True)
-    # image = models.FileField(upload_to='files/', blank=True, null=True)
+    image1 = models.FileField(upload_to='projectimages/', blank=True, null=True)
+    image2 = models.FileField(upload_to='projectimages/', blank=True, null=True)
+    image3 = models.FileField(upload_to='projectimages/', blank=True, null=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
-    
-
-    
-    # def get_absolute_url(self):
-    #     return reverse('projectdetail', args=[str(self.pk)])
+    applied = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
        return self.title
 
 
-class ProjectImage(models.Model):
-    image = models.ImageField(upload_to='images/', null=True)
-    project= models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_images',blank=True, null=True) 
+# class ProjectImage(models.Model):
+#     image = models.ImageField(upload_to='images/', null=True)
+#     project= models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_images',blank=True, null=True) 
 
 
 class RecentProject(models.Model):
@@ -71,6 +69,8 @@ class RecentProject(models.Model):
 
     def __str__(self):
         return f"{self.project.title}"
+
+    
     
 class Request(models.Model):
     CATEGORIES = (
@@ -91,20 +91,18 @@ class Request(models.Model):
     def __str__(self):
         return self.title
     
-
-
 class RequestImage(models.Model):
     image = models.ImageField(upload_to='images/', null=True)
-    request= models.ForeignKey(Request, on_delete=models.CASCADE, related_name='images',blank=True, null=True) 
+    request= models.ForeignKey(Request, on_delete=models.CASCADE, related_name='images',blank=True, null=True)
 
-    # def __str__(self):
-    #     return self.image.path
+    
 
 
 class Item(models.Model):
     name = models.CharField(max_length=250)
     amount = models.IntegerField(default=1)
     request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',null=True)
+
 
     def __str__(self):
         return self.name
@@ -127,9 +125,20 @@ class Store(models.Model):
     
     
 class BidForProject(models.Model):
+    DURATION = (
+        ('1-6months', '1-6months'),
+        ('1-2yrs', '1-2yrs'),
+        ('1-5yrs', '1-5yrs')
+    )
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     applicant = models.ForeignKey(User, on_delete=models.CASCADE,related_name='applicant')
+    amount = models.FloatField(blank=True, null=True)
+    duration = models.CharField(max_length=500, choices=DURATION, blank=True, null=True)
+    applicationletter = models.TextField(blank=True, null=True)
+    images = models.ImageField(upload_to='Resume/',blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
+
+    
 
     def __str__(self):
         return f"{self.applicant.firstname} bidded for this project"

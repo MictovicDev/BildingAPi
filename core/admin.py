@@ -21,9 +21,9 @@ class RequestImageInline(admin.TabularInline):  # Use admin.StackedInline for a 
     extra = 1  # Number of empty forms to display
 
 
-class ProjectImageInline(admin.TabularInline):  # Use admin.StackedInline for a stacked view
-    model = ProjectImage
-    extra = 1 
+# class ProjectImageInline(admin.TabularInline):  # Use admin.StackedInline for a stacked view
+#     model = ProjectImage
+#     extra = 1 
 
 class ItemsInline(admin.TabularInline):  # Use admin.StackedInline for a stacked view
     model = Item
@@ -36,12 +36,12 @@ class ItemsInline(admin.TabularInline):  # Use admin.StackedInline for a stacked
 class RequestAdmin(admin.ModelAdmin):
     inlines = [ItemsInline, RequestImageInline]
 
-class ProjectAdmin(admin.ModelAdmin):
-    inlines = [ProjectImageInline]
+# class ProjectAdmin(admin.ModelAdmin):
+#     inlines = [ProjectImageInline]
 
 
 
-admin.site.register(Project,ProjectAdmin)
+admin.site.register(Project)
 admin.site.register(RecentProject)
 admin.site.register(Store)
 # admin.site.register(SuppliersApplication, SuppliersApplicationAdmin)

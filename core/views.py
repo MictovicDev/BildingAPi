@@ -20,14 +20,11 @@ class ProjectGetCreate(generics.ListCreateAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
 
-    # def perform_create(self, serializer):
-    #     owner = self.request.user
-    #     print(serializer)
-    #     print(owner)
-    #     owner = User.objects.first()
-    #     project = serializer.save(owner=owner)
-    #     print(project)
-    #     RecentProject.objects.create(project=project)
+    def perform_create(self, serializer):
+        owner = self.request.user
+        owner = User.objects.first()
+        project = serializer.save(owner=owner)
+        RecentProject.objects.create(project=project)
 
 class RecentProjectView(generics.ListAPIView):
     queryset = RecentProject.objects.all()

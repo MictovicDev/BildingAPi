@@ -8,7 +8,9 @@
     <input type="text" id="location" placeholder="Enter location">
     <input type="number" id="budget" placeholder="Enter budget ">
     <input type="text" id="description" placeholder="Enter description">
-    <input type="file" id="image" placeholder="Images" multiple>
+    <input type="file" id="image" placeholder="Images"enctype="multipart/form-data">
+    <input type="file" id="image" placeholder="Images"enctype="multipart/form-data">
+    <input type="file" id="image" placeholder="Images"enctype="multipart/form-data">
     <input type="submit" value="Submit">
 </form>
 
@@ -25,7 +27,9 @@
         const location = document.getElementById('location').value;
         const budget = document.getElementById('budget').value;
         const description = document.getElementById('description').value;
-        const imageFiles = document.getElementById('image').files;
+        const image1 = document.getElementById('image').files[0];
+        const image2 = document.getElementById('image').files[1];
+        const image3 = document.getElementById('image').files[2];
 
         const formData = new FormData();
         formData.append('title',title);
@@ -37,10 +41,10 @@
         formData.append('location',location);
         formData.append('budget',budget);
         formData.append('description',description);
-        formData.append('image',image);
-        for (let i = 0; i < imageFiles.length; i++) {
-          formData.append("images", imageFiles[i]);
-        }
+        formData.append('image1',image1);
+        formData.append('image2',image2);
+        formData.append('image3',image3);
+       
 
 
         // const headers = new Headers();

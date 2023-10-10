@@ -18,10 +18,10 @@ class RequestImageSerializer(serializers.ModelSerializer):
         model = RequestImage
         fields = ['image']
 
-class ProjectImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectImage
-        fields = ['image']
+# class ProjectImageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = ProjectImage
+#         fields = ['image']
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -33,34 +33,33 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    project_images = ProjectImageSerializer(many=True, required=False)
     url = serializers.CharField(read_only=True)
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    images = serializers.ListField(
-        child = serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True,
-    )
     class Meta:
         model = Project
-        fields = ['id','url','images','title','categories','skills','scope','skills','experience', 'duration','location','budget','description','time','project_images']
-    def create(self, validated_data):
-        request = self.context.get('request')
-        print(validated_data)
-        user = request.user
-        title = validated_data.pop('title')
-        categories = validated_data.pop('categories')
-        skills = validated_data.pop('skills')
-        scope = validated_data.pop('scope')
-        experience = validated_data.pop('experience')
-        duration = validated_data.pop('duration')
-        location = validated_data.pop('location')
-        description = validated_data.pop('description')
-        images = validated_data.pop('images')
-        project = Project.objects.create(owner=user, title=title, categories=categories,location=location, description=description, experience=experience, scope=scope, skills=skills, duration=duration)
-        for image in images:
-            ProjectImage.objects.create(project=project, image=image)
-        RecentProject.objects.create(project=project)
-        return project
+        fields = ['id','url','image1','image2','image3','title','categories','scope','skills','experience', 'duration','location','budget','description','time']
+    # def create(self, validated_data):
+    #     request = self.context.get('request')
+    #     # print(**validated_data)
+    #     print(validated_data)
+    #     user = request.user
+    #     title = validated_data.pop('title')
+    #     categories = validated_data.pop('categories')
+    #     skills = validated_data.pop('skills')
+    #     scope = validated_data.pop('scope')
+    #     experience = validated_data.pop('experience')
+    #     duration = validated_data.pop('duration')
+    #     location = validated_data.pop('location')
+    #     description = validated_data.pop('description')
+    #     try:
+    #         images = validated_data.pop('images')
+    #     except:
+    #         images = validated_data['images'] = ''
+    #     project = Project.objects.create(owner=user, title=title, categories=categories,location=location, description=description, experience=experience, scope=scope, skills=skills, duration=duration)
+    #     for image in images:
+    #         ProjectImage.objects.create(project=project, image=image)
+    #     RecentProject.objects.create(project=project)
+    #     return project
 
 
    
@@ -68,7 +67,6 @@ class ProjectSerializer(serializers.ModelSerializer):
    
 class RecentProjectSerializer(serializers.ModelSerializer):
     project = ProjectSerializer()
-    # projects = serializers.HyperlinkedRelatedField(view_name='project-detail',read_only=True)
     class Meta:
         model = RecentProject
         fields = ['id','project']

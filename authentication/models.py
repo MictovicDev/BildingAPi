@@ -53,3 +53,11 @@ class Profile(models.Model):
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     hires = models.PositiveIntegerField(default=0)
     address = models.TextField(default='shofunwa')
+
+class Favourites(models.Model):
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='favourites_owner')
+    favourite = models.ManyToManyField(User, related_name='favourites')
+
+
+
+
