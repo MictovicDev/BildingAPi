@@ -14,7 +14,7 @@ from core.images import *
 
 
 class ProjectGetCreate(generics.ListCreateAPIView):
-    # parser_classes = [MultiPartParser, FormParser]
+    parser_classes = [MultiPartParser,]
     permission_classes = [permissions.IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -22,7 +22,6 @@ class ProjectGetCreate(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         owner = self.request.user
-        owner = User.objects.first()
         project = serializer.save(owner=owner)
         RecentProject.objects.create(project=project)
 
@@ -123,18 +122,47 @@ class BidProjectList(APIView):
         project = BidForProject.objects.filter(project__owner=owner)
         serializer = BidForProjectSerializer(project, many=True, context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-class CreateBidView(APIView):
-    def post(self, request,pk):
-        serializer = BidForProjectSerializer(data=request.data)
+
+class CreateBidView(generics.CreateAPIView):
+    print(dir(generics))
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        project = get_object_or_404(Project, id=pk)
         if serializer.is_valid():
-            project = serializer.validated_data.get('project')
-            bid_check = BidForProject.objects.filter(applicant=request.user, project=project)
+            bid_check = BidForProject.objects.filter(applicant=self.request.user, project=project).exists()
             if not bid_check:
-                serializer.save(applicant=request.user)
+                serializer.save(applicant=self.request.user, project=project)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response({'message': 'You cant bid for the same project again'}, status=status.HTTP_226_IM_USED)
+            return Response({"message": "you cant create this bid"}, status=status.HTTP_226_IM_USED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class CreateBidView(generics.GenericAPIView):
+#     queryset = BidForProject.objects.all()
+#     serializer_class = BidForProjectSerializer
+#     def get(self, request, pk):
+#         try:
+#             pk = self.kwargs['pk']
+#             bid = BidForProject.objects.get(id=pk)
+#             print(bid)
+#             return 
+#         except BidForProject.DoesNotExist:
+#             return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    # def post(self, request):
+    #     serializer = self.serializer_class(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
     
     
 class StoreList(APIView):

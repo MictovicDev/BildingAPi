@@ -25,6 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     updates = models.BooleanField(default=False)
     authMedium = models.CharField(max_length=50, default='email')
     profile_pics = models.ImageField(upload_to='files/', blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
 
     
 

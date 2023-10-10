@@ -1,6 +1,18 @@
 from rest_framework import serializers,reverse
 from .models import *
 from authentication.serializers import UserSerializer
+from authentication.serializers import UserSerializer
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    url = serializers.CharField(read_only=True)
+    time = serializers.TimeField(read_only=True, format="%I:%M %p")
+    image1 = serializers.ImageField()
+    image2 = serializers.ImageField()
+    image3 = serializers.ImageField()
+    class Meta:
+        model = Project
+        fields = ['id','url','image1','image2','image3','title','categories','scope','skills','experience', 'duration','location','budget','description','time']
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,10 +20,11 @@ class ApplicationSerializer(serializers.ModelSerializer):
         fields = ['firstname','hires','location']
 
 class BidForProjectSerializer(serializers.ModelSerializer):
-    applicant = ApplicationSerializer()
+    project = ProjectSerializer(read_only=True)
+    applicant = UserSerializer(read_only=True)
     class Meta:
         model = BidForProject
-        fields = '__all__'
+        fields = ['amount','project','duration','applicationletter','images','applicant']
 
 class RequestImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,12 +45,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 
-class ProjectSerializer(serializers.ModelSerializer):
-    url = serializers.CharField(read_only=True)
-    time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    class Meta:
-        model = Project
-        fields = ['id','url','image1','image2','image3','title','categories','scope','skills','experience', 'duration','location','budget','description','time']
+
     # def create(self, validated_data):
     #     request = self.context.get('request')
     #     # print(**validated_data)
