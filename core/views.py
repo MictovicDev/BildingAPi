@@ -77,6 +77,14 @@ class RequestView(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     permission_classes = [IsAuthenticated]
+    def perform_create(self, serializer):
+        items = serializer.validated_data.pop('uploaded_items')
+        owner = self.request.user
+        request =  serializer.save(owner=owner)
+        if items:
+            for item in items:
+                item = Item.objects.create(name=item['name'], amount=item['amount'], request=request)
+            
 
 
     

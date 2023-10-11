@@ -73,7 +73,7 @@ class SupplierSerializer(serializers.ModelSerializer):
         return application
     
 class RequestSerializer(serializers.ModelSerializer):
-    items =  ItemSerializer(many=True,required=False)
+    items =  ItemSerializer(many=True,required=False, read_only=True)
     image1 = serializers.ImageField(required=False)
     image2 = serializers.ImageField(required=False)
     uploaded_items = serializers.JSONField(write_only=True)
@@ -81,18 +81,19 @@ class RequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = ['id','title','category','location','description','image1','image2','items','uploaded_items']
   
-    def create(self, validated_data):
-        request = self.context.get('request')
-        user = request.user
-        title = validated_data.pop('title')
-        category = validated_data.pop('category')
-        location = validated_data.pop('location')
-        description = validated_data.pop('description')
-        items_data = validated_data.pop('uploaded_items')
-        request = Request.objects.create(owner=user, title=title, category=category,location=location, description=description)
-        for item in items_data:
-            Item.objects.create(request=request, name=item.get('name'), amount=item.get('amount'))
-        return request
+    # def create(self, validated_data):
+    #     request = self.context.get('request')
+    #     user = request.user
+    #     title = validated_data.pop('title')
+    #     category = validated_data.pop('category')
+    #     location = validated_data.pop('location')
+    #     description = validated_data.pop('description')
+    #     image1 = validated_data.pop('image1')
+    #     image2 = validated_data.pop('image2')
+    #     items_data = validated_data.pop('uploaded_items')
+    #     request = Request.objects.create(owner=user,image1=image1,image2=image2, title=title, category=category,location=location, description=description)
+    #     print(type(items_data))
+    #     return request
 
 
 
