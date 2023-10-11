@@ -103,7 +103,7 @@ WSGI_APPLICATION = 'bilding.wsgi.application'
 
 DATABASES = {}
 
-DATABASES["default"]=dj_database_url.parse('postgres://mictovic_23qy_user:ajaxUZQEV3nF4HrEZSI13h5yJhLvbXFK@dpg-ckfgkbol3its73bm8i50-a.oregon-postgres.render.com/mictovic_23qy')
+DATABASES["default"]=dj_database_url.parse('postgres://mictovic_xior_user:DBQ0Lh0pTZWuiBN8CiSnxmWghtBbuEAJ@dpg-ckj64nsl4vmc73bu7ko0-a.oregon-postgres.render.com/mictovic_xior')
 
 
 # DATABASES = {

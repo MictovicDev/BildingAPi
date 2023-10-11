@@ -9,10 +9,9 @@ class ProjectSerializer(serializers.ModelSerializer):
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     image1 = serializers.ImageField()
     image2 = serializers.ImageField()
-    image3 = serializers.ImageField()
     class Meta:
         model = Project
-        fields = ['id','url','image1','image2','image3','title','categories','scope','skills','experience', 'duration','location','budget','description','time']
+        fields = ['id','url','image1','image2','title','categories','scope','skills','experience', 'duration','location','budget','description','time']
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:

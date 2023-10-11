@@ -46,7 +46,6 @@ class Project(models.Model):
     description = models.TextField(blank=True, null=True)
     image1 = models.ImageField(upload_to='projectimages/', blank=True, null=True)
     image2 = models.ImageField(upload_to='projectimages/', blank=True, null=True)
-    image3 = models.ImageField(upload_to='projectimages/', blank=True, null=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
     applied = models.BooleanField(default=False, blank=True, null=True)
