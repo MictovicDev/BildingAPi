@@ -79,7 +79,7 @@ class RequestSerializer(serializers.ModelSerializer):
     uploaded_items = serializers.JSONField(write_only=True)
     class Meta:
         model = Request
-        fields = ['id','title','category','location','description','image1','image2','items','uploaded_items','uploaded_images']
+        fields = ['id','title','category','location','description','image1','image2','items','uploaded_items']
   
     def create(self, validated_data):
         request = self.context.get('request')
