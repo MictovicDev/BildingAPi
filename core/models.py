@@ -87,14 +87,12 @@ class Request(models.Model):
     description = models.TextField(blank=True, null=True)
     image1 = models.ImageField(upload_to='Requestimages/', blank=True, null=True)
     image2 = models.ImageField(upload_to='Requestimages/', blank=True, null=True)
+    time = models.TimeField(auto_now_add=True, blank=True, null=True)
 
 
     def __str__(self):
         return self.title
     
-# class RequestImage(models.Model):
-#     image = models.ImageField(upload_to='images/', null=True)
-#     request= models.ForeignKey(Request, on_delete=models.CASCADE, related_name='images',blank=True, null=True)
 
 
 class Item(models.Model):
@@ -107,10 +105,7 @@ class Item(models.Model):
         return self.name
     
 
-
-
 class Store(models.Model):
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True,related_name='store')
     name = models.CharField(max_length=500)
     address = models.CharField(max_length=500)
@@ -135,7 +130,7 @@ class BidForProject(models.Model):
     duration = models.CharField(max_length=500, choices=DURATION, blank=True, null=True)
     applicationletter = models.TextField(blank=True, null=True)
     images = models.ImageField(upload_to='Resume/',blank=True, null=True)
-    date = models.DateTimeField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True,blank=True,null=True)
 
     
 
