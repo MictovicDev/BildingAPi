@@ -60,7 +60,7 @@ class RequestSerializer(serializers.ModelSerializer):
     items =  ItemSerializer(many=True,required=False, read_only=True)
     image1 = serializers.ImageField(required=False)
     image2 = serializers.ImageField(required=False)
-    uploaded_items = serializers.JSONField(write_only=True)
+    uploaded_items = serializers.JSONField(write_only=True, required=False)
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = Request

@@ -54,11 +54,6 @@ class Project(models.Model):
        return self.title
 
 
-# class ProjectImage(models.Model):
-#     image = models.ImageField(upload_to='images/', null=True)
-#     project= models.ForeignKey(Project, on_delete=models.CASCADE, related_name='project_images',blank=True, null=True) 
-
-
 class RecentProject(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True, related_name='projects')
     date = models.DateTimeField(auto_now_add=True)
