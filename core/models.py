@@ -85,16 +85,16 @@ class Request(models.Model):
     category= models.CharField(max_length=500, choices=CATEGORIES, blank=True, null=True)
     location = models.CharField(max_length=500, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    image1 = models.ImageField(upload_to='Requestimages/', blank=True, null=True)
+    image2 = models.ImageField(upload_to='Requestimages/', blank=True, null=True)
 
 
     def __str__(self):
         return self.title
     
-class RequestImage(models.Model):
-    image = models.ImageField(upload_to='images/', null=True)
-    request= models.ForeignKey(Request, on_delete=models.CASCADE, related_name='images',blank=True, null=True)
-
-    
+# class RequestImage(models.Model):
+#     image = models.ImageField(upload_to='images/', null=True)
+#     request= models.ForeignKey(Request, on_delete=models.CASCADE, related_name='images',blank=True, null=True)
 
 
 class Item(models.Model):

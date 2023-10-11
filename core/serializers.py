@@ -25,10 +25,10 @@ class BidForProjectSerializer(serializers.ModelSerializer):
         model = BidForProject
         fields = ['amount','project','duration','applicationletter','images','applicant']
 
-class RequestImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RequestImage
-        fields = ['image']
+# class RequestImageSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = RequestImage
+#         fields = ['image']
 
 # class ProjectImageSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -45,28 +45,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
 
 
-    # def create(self, validated_data):
-    #     request = self.context.get('request')
-    #     # print(**validated_data)
-    #     print(validated_data)
-    #     user = request.user
-    #     title = validated_data.pop('title')
-    #     categories = validated_data.pop('categories')
-    #     skills = validated_data.pop('skills')
-    #     scope = validated_data.pop('scope')
-    #     experience = validated_data.pop('experience')
-    #     duration = validated_data.pop('duration')
-    #     location = validated_data.pop('location')
-    #     description = validated_data.pop('description')
-    #     try:
-    #         images = validated_data.pop('images')
-    #     except:
-    #         images = validated_data['images'] = ''
-    #     project = Project.objects.create(owner=user, title=title, categories=categories,location=location, description=description, experience=experience, scope=scope, skills=skills, duration=duration)
-    #     for image in images:
-    #         ProjectImage.objects.create(project=project, image=image)
-    #     RecentProject.objects.create(project=project)
-    #     return project
+
 
 
    
@@ -94,16 +73,13 @@ class SupplierSerializer(serializers.ModelSerializer):
         return application
     
 class RequestSerializer(serializers.ModelSerializer):
-    images = RequestImageSerializer(many=True, required=False)
     items =  ItemSerializer(many=True,required=False)
+    image1 = serializers.ImageField(required=False)
+    image2 = serializers.ImageField(required=False)
     uploaded_items = serializers.JSONField(write_only=True)
-    uploaded_images = serializers.ListField(
-        child = serializers.ImageField(max_length=1000000, allow_empty_file=False, use_url=False),
-        write_only=True,
-    )
     class Meta:
         model = Request
-        fields = ['id','title','category','location','description','images','items','uploaded_items','uploaded_images']
+        fields = ['id','title','category','location','description','image1','image2','items','uploaded_items','uploaded_images']
   
     def create(self, validated_data):
         request = self.context.get('request')
@@ -113,12 +89,9 @@ class RequestSerializer(serializers.ModelSerializer):
         location = validated_data.pop('location')
         description = validated_data.pop('description')
         items_data = validated_data.pop('uploaded_items')
-        uploaded_images = validated_data.pop('uploaded_images')
         request = Request.objects.create(owner=user, title=title, category=category,location=location, description=description)
         for item in items_data:
             Item.objects.create(request=request, name=item.get('name'), amount=item.get('amount'))
-        for image in uploaded_images:
-            RequestImage.objects.create(request=request, image=image)
         return request
 
 
