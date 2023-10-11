@@ -27,6 +27,9 @@ settings_local.py
 .idea/
 .vscode/
 
+
+
+
 # Dependency directories
 bin/
 build/
