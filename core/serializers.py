@@ -7,8 +7,8 @@ from authentication.serializers import UserSerializer
 class ProjectSerializer(serializers.ModelSerializer):
     url = serializers.CharField(read_only=True)
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    image1 = serializers.ImageField()
-    image2 = serializers.ImageField()
+    image1 = serializers.ImageField(required=False)
+    image2 = serializers.ImageField(required=False)
     class Meta:
         model = Project
         fields = ['id','url','image1','image2','title','categories','scope','skills','experience', 'duration','location','budget','description','time']

@@ -137,7 +137,7 @@ class CreateBidView(generics.CreateAPIView):
             if not bid_check:
                 serializer.save(applicant=self.request.user, project=project)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response({"message": "you cant create this bid"}, status=status.HTTP_226_IM_USED)
+            raise serializers.ValidationError({'message': 'You have already applied for this job.'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # class CreateBidView(generics.GenericAPIView):
