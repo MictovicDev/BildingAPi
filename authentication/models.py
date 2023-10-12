@@ -26,6 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     authMedium = models.CharField(max_length=50, default='email')
     profile_pics = models.ImageField(upload_to='files/', blank=True, null=True)
     about = models.TextField(blank=True, null=True)
+    profession = models.CharField(max_length=500,blank=True, null=True)
 
     
 

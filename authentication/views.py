@@ -95,35 +95,6 @@ class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class UsersUpdateView(APIView):
-#     def get(self, request):
-#         try:
-#             user = request.user
-#             profile = Profile.objects.get_or_create(user=user)
-#             print(profile[0])
-#             serializer = ProfileSerializer(profile[0])
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         except Exception as e:
-#             return Response({"message":"Not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-# class UsersUpdateView(generics.RetrieveUpdateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = ProfileSerializer
-#     permission_classes = [permissions.AllowAny]
-    
-#     def get_object(self):
-#         user = self.request.user
-#         profile = Profile.objects.get_or_create(user=user)
-#         return profile
-
-#     def update(self, request, *args, **kwargs):
-#         profile = self.get_object()
-#         serializer = self.get_serializer(profile, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         else:
-#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UsersListView(APIView):
     permission_classes = [permissions.AllowAny]
@@ -133,7 +104,7 @@ class UsersListView(APIView):
             serializer = UserSerializer(users, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"message":"no users in the daatabase yet"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message":"no users in the database yet"}, status=status.HTTP_404_NOT_FOUND)
 
         
 class ContractorCreateView(generics.ListCreateAPIView):

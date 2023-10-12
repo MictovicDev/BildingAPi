@@ -93,7 +93,7 @@ class Request(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=250)
     amount = models.IntegerField(default=1)
-    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',null=True)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',blank=True,null=True)
 
 
     def __str__(self):
