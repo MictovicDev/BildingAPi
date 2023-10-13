@@ -133,7 +133,7 @@ class SupplierListCreateView(generics.ListCreateAPIView):
         if serializer.is_valid():
             user = serializer.save(role='SupplierRole')
             first_name = user.firstname
-            email = user.email
+            useremail = user.email
             token = RefreshToken.for_user(user)
             user.token = token
             email.send_linkmail(first_name, token,email)
@@ -149,7 +149,7 @@ class WorkerListCreateView(generics.ListCreateAPIView):
         if serializer.is_valid():
             user = serializer.save(role='WorkerRole')
             first_name = user.firstname
-            email = user.email
+            useremail = user.email
             token = RefreshToken.for_user(user)
             user.token = token
             user.save()
