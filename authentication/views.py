@@ -115,13 +115,15 @@ class ContractorCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='ContractorRole')
-            token = RefreshToken.for_user(user)
+            token = str(RefreshToken.for_user(user))
+            first_name = user.firstname
+            useremail = user.email
             user.token = token
-            email.send_linkmail(user, token)
+            email.send_linkmail(first_name,useremail,token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-          
+
 class SupplierListCreateView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
@@ -130,9 +132,11 @@ class SupplierListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='SupplierRole')
+            first_name = user.firstname
+            email = user.email
             token = RefreshToken.for_user(user)
             user.token = token
-            email.send_linkmail(user, token)
+            email.send_linkmail.delay(first_name, token,email)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -144,9 +148,12 @@ class WorkerListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='WorkerRole')
+            first_name = user.firstname
+            email = user.email
             token = RefreshToken.for_user(user)
             user.token = token
-            email.send_linkmail(user, token)
+            user.save()
+            email.send_linkmail.delay(first_name, token,email)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

@@ -1,6 +1,9 @@
 from django.db import models
-from authentication.models import *
+# from authentication.models import *
 from rest_framework import reverse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your models here.
 class Project(models.Model):
@@ -48,7 +51,7 @@ class Project(models.Model):
     image2 = models.ImageField(upload_to='projectimages/', blank=True, null=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
-    applied = models.BooleanField(default=False, blank=True, null=True)
+    assigned = models.BooleanField(default=False)
 
     def __str__(self):
        return self.title
@@ -93,7 +96,7 @@ class Request(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=250)
     amount = models.IntegerField(default=1)
-    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',blank=True,null=True)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',null=True)
 
 
     def __str__(self):
@@ -142,9 +145,17 @@ class SuppliersApplication(models.Model):
         return f"{self.store.name} applied to supply this goods"
 
 
+class Hire(models.Model):
+    hirer  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hirer')
+    hireree = models.ForeignKey(User, on_delete=models.CASCADE,related_name='hireree')
+    time = models.TimeField(auto_now_add=True)
+    project = models.OneToOneField(Project, on_delete=models.CASCADE)
+    numnbers_of_hire_by_hiree = models.PositiveBigIntegerField(default=0)
 
 
 
+class Reviews(models.Model):
+    pass
     
 
 

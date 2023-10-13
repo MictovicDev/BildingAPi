@@ -2,12 +2,11 @@ from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser,PermissionsMixin)
 import uuid
 from .managers import UserManager
+# from core.models import Project
+
 
 
 # from django_phonenumbers import PhoneNumber
-
-
-
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -27,6 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_pics = models.ImageField(upload_to='files/', blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     profession = models.CharField(max_length=500,blank=True, null=True)
+
 
     
 
@@ -52,13 +52,22 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
+    hired = models.BooleanField(default=False)
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     hires = models.PositiveIntegerField(default=0)
     address = models.TextField(default='shofunwa')
 
+
+
 class Favourites(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='favourites_owner')
     favourite = models.ManyToManyField(User, related_name='favourites')
+
+
+
+
+
+
 
 
 

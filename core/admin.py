@@ -32,4 +32,5 @@ admin.site.register(Store)
 admin.site.register(Item)
 admin.site.register(Request)
 admin.site.register(BidForProject)
+admin.site.register(Hire)
 

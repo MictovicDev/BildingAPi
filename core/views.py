@@ -10,6 +10,7 @@ from django.urls import reverse
 from rest_framework.permissions import IsAuthenticated
 # from django.contrib.sites.models import Site
 from core.images import *
+
 # Create your views here.
 
 
@@ -117,11 +118,6 @@ class RequestDetailView(APIView):
         return Response({'message': 'You cant delete a Request you dont own'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-# class Application(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#     def get(self,request):
-#         application = BidProject.obje
-
 
 class BidProjectList(APIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -131,8 +127,8 @@ class BidProjectList(APIView):
         serializer = BidForProjectSerializer(project, many=True, context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class CreateBidView(generics.CreateAPIView):
-    print(dir(generics))
+
+class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = BidForProject.objects.all()
     serializer_class = BidForProjectSerializer
@@ -147,25 +143,57 @@ class CreateBidView(generics.CreateAPIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             raise serializers.ValidationError({'message': 'You have already applied for this job.'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
-# class CreateBidView(generics.GenericAPIView):
-#     queryset = BidForProject.objects.all()
-#     serializer_class = BidForProjectSerializer
-#     def get(self, request, pk):
-#         try:
-#             pk = self.kwargs['pk']
-#             bid = BidForProject.objects.get(id=pk)
-#             print(bid)
-#             return 
-#         except BidForProject.DoesNotExist:
-#             return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+class BidUpdateView(generics.RetrieveUpdateAPIView):
+    parser_classes = [MultiPartParser, FormParser]
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    # def post(self, request):
-    #     serializer = self.serializer_class(data=request.data)
+    # def get_object(self,pk):
+    #     applicant = self.request.user
+    #     bid = BidForProject.objects.get(applicant=applicant)
+    #     print(bid)
+    #     return bid
+
+    # def update(self, request, *args, **kwargs):
+    #     pk = self.kwarks['pk']
+    #     project = self.get_object(pk)
+    #     print(request.data)
+    #     serializer = self.get_serializer(project, data=request.data)
     #     if serializer.is_valid():
     #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #         return Response(serializer.data)
+    #     else:
+    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class HireView(generics.CreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Hire.objects.all()
+    serializer_class = HireSerializer
+
+    def perform_create(self, serializer):
+        print('yes')
+        hirer = self.request.user
+        pk = self.kwargs['pk']
+        if serializer.is_valid():
+            print('no')
+            project_id = serializer.validated_data['project_id'] 
+            try:
+                hire,created = Hire.objects.get_or_create(hirer=hirer,hireree_id=pk,project_id=project_id)
+                profile = Profile.objects.get(id=pk)
+            except:
+                raise serializers.ValidationError({"message":"This project has already been Given you cant hire more than one person or the project does not exists"})
+            print(hire, created)
+            if created == False:
+                print('hello')  
+                raise serializers.ValidationError({"message":"You have already hired this User for the Project"})
+            profile.hires += 1
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            
+
 
 
 

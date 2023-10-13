@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'django-insecure-(8#$2cx93u#y8tvz=!^i(3wk3($0cdtx&787(e!o%!u-@!^u2s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'authentication',
+    # 'django_celery_results',
+    # 'django_celery_beat', 
     'djoser',
     'core',
     'corsheaders',
@@ -58,7 +61,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    
 ]
 
 MIDDLEWARE = [
@@ -178,6 +180,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 REST_FRAMEWORK = {
      'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -257,27 +260,40 @@ SIMPLE_JWT = {
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bilding.settings')
 
 
-if not DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD =  os.environ.get('EMAIL_HOST_PASSWORD')
-    DEFAULT_FROM_USER = os.environ.get('EMAIL_HOST_USER')
-    SERVER_EMAIL =  os.environ.get('EMAIL_HOST_USER')
-  
-else:
-   EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-#celery configuration
-# CELERY_BROKER_URL = 'redis://red-ckcpk3siibqc73dkg530:6379'  # Use your Redis server URL
-# CELERY_RESULT_BACKEND = 'redis://red-ckcpk3siibqc73dkg530:6379'
+
+
+
+# if not DEBUG:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'bildingconstruction@gmail.com'
+EMAIL_HOST_PASSWORD = 'eotwybwflcjxpdbv'
+DEFAULT_FROM_USER = 'bildingconstruction@gmail.com'
+SERVER_EMAIL =  'bildingconstruction@gmail.com'
+# os.environ.get('EMAIL_HOST_USER')
+# else:
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CELERY_BROKER_URL = 'redis://default:HX0Z9kWQBAgfrRQt1hPk38DeDR7aW1no@redis-10255.c309.us-east-2-1.ec2.cloud.redislabs.com:10255'  # Use your Redis server URL
+CELERY_RESULT_BACKEND = 'redis://default:HX0Z9kWQBAgfrRQt1hPk38DeDR7aW1no@redis-10255.c309.us-east-2-1.ec2.cloud.redislabs.com:10255'
+
+
+# CELERY_BROKER_URL = 'memory://localhost/'
+# CELERY_RESULT_BACKEND = 'cache+memory://localhost/'
+
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 
 #Social authentication settings
