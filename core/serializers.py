@@ -14,6 +14,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ['id','url','image1','image2','title','categories','scope','skills','experience','owner','duration','location','budget','description','time']
+    def get_budget(self, obj):
+        return "{:,.2f}".format(obj.budget)
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
