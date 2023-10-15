@@ -140,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-print('hello')
+# print('hello')
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -148,7 +148,7 @@ print('hello')
 #     }
 # }
 
-
+# userpassword = ''
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

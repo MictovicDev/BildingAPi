@@ -9,11 +9,13 @@ from authentication.serializers import *
 
 urlpatterns = [
  path('projects', views.ProjectGetCreate.as_view(), name='project'),#list and create projects
- path('projects/<int:pk>', views.ProjectDetailView.as_view(), name='project-detail'),#get a projectdetail
+ path('projects/user', views.UserProject.as_view(), name='project'),#get a projectdetail
+ path('projects/<int:pk>', views.GetUpdateDelProject.as_view(), name='projecttdetail'),
  path('recentprojects', views.RecentProjectView.as_view(), name='recentprojects'),#list and create projects
  path('recentprojects/<str:pk>', views.RecentProjectDetailView.as_view(), name='recentproject-detail'),#get a projectdetail
  path('requests', views.RequestView.as_view(), name='projectslistview'),
- path('requests/<int:pk>', views.RequestDetailView.as_view(), name='projectview'),
+ path('requests/user', views.UserRequest.as_view(), name='usersrequest'),
+ path('requests/<int:pk>', views.GetUpdateDelRequest.as_view(), name='requestdetail'),
  path('bids/', views.BidProjectList.as_view(), name='bidproject-list'),
  path('bids/update/<int:pk>', views.BidUpdateView.as_view(), name='hire'),
  path('bids/<int:pk>', views.CreateBidView.as_view(), name='bidproject-create'),

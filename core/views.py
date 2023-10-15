@@ -32,8 +32,6 @@ class RecentProjectView(generics.ListAPIView):
     serializer_class = RecentProjectSerializer
 
 
-    
-
 class RecentProjectDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request,pk):
@@ -43,35 +41,15 @@ class RecentProjectDetailView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({'message': 'User with that Id does not exists'}, status=status.HTTP_404_NOT_FOUND)
-    
-    
 
-class ProjectDetailView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request,pk):
-        project = get_object_or_404(Project, id=pk)
-        serializer = ProjectSerializer(project, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class UserProject(generics.ListAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Project.objects.filter(owner=self.request.user)
     
-    def put(self,request,pk):
-        project =  get_object_or_404(Project,id=pk)
-        serializer = ProjectSerializer(project, context={'request': request}, data=request.data)
-        if request.user.email == project.owner.email:
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
-    
-    def delete(self, request,pk):
-        try:
-            project = get_object_or_404(Project, id=pk)
-        except Project.DoesNotExist:
-            return Response({'message': 'Project Does not exists'})
-        if request.user.email == project.owner.email:
-            project.delete()
-            return Response({'message': 'Project Deleted Succesfully'})
-        return Response({'message': 'You cant delete a Project you dont own'})
 
 
 class RequestView(generics.ListCreateAPIView):
@@ -87,39 +65,33 @@ class RequestView(generics.ListCreateAPIView):
                 item = Item.objects.create(name=item['name'], amount=item['amount'], request=request)
             
 
+class UserRequest(generics.ListAPIView):
+    query_set = Request.objects.all()
+    serializer_class = RequestSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Request.objects.filter(owner=self.request.user)
+    
 
     
-class RequestDetailView(APIView):
-    # parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request,pk):
-        d_request= get_object_or_404(Request, id=pk)
-        serializer = RequestSerializer(d_request, context={'request':request}, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+class GetUpdateDelRequest(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Request.objects.filter(id=self.kwargs['pk'])
     
-    def put(self,request,pk):
-        d_request =  get_object_or_404(Request,id=pk)
-        serializer = RequestSerializer(d_request,  data=request.data)
-        if request.user.email == d_request.owner.email:
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response('user does not match', status=status.HTTP_401_UNAUTHORIZED)
-    
-    def delete(self, request,pk):
-        try:
-            d_request = get_object_or_404(Request, id=pk)
-        except Request.DoesNotExist:
-            return Response({'message': 'Request Does not exists'})
-        if request.user.email == d_request.owner.email:
-            d_request.delete()
-            return Response({'message': 'Request Deleted Succesfully'})
-        return Response({'message': 'You cant delete a Request you dont own'}, status=status.HTTP_401_UNAUTHORIZED)
 
-
+class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Project.objects.filter(id=self.kwargs['pk'])
 
 class BidProjectList(APIView):
+
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         owner = request.user.id
