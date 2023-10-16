@@ -11,7 +11,7 @@ def send_linkmail(first_name,useremail,token):
     try:
         token = str(token)
         tokencheck = token
-        url = f"http://localhost:8000/auth/activation/{tokencheck}"
+        url = f"https://bildingapi.onrender.com/auth/activation/{tokencheck}"
         subject = 'Welcome to Bilding Construction'
         name = first_name.capitalize()
         email_data = {
