@@ -5,6 +5,8 @@ from authentication.models import *
 
 
 
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     url = serializers.CharField(read_only=True)
@@ -14,8 +16,20 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ['id','url','image1','image2','title','categories','scope','skills','experience','owner','duration','location','budget','description','time']
-    def get_budget(self, obj):
-        return "{:,.2f}".format(obj.budget)
+    
+
+
+class HireSerializer(serializers.ModelSerializer):
+    # hirer  = UserSerializer(required=False,read_only=True)
+    # hireree = UserSerializer(required=False,read_only=True)
+    time = serializers.TimeField(read_only=True, format="%I:%M %p")
+    project_id = serializers.IntegerField(required=False)
+    project = ProjectSerializer(read_only=True)
+
+    class Meta:
+        model = Hire
+        fields = ['project','time','project_id']
+
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,16 +44,7 @@ class BidForProjectSerializer(serializers.ModelSerializer):
         model = BidForProject
         fields = ['project','amount','duration','applicationletter','images','applicant','time']
 
-class HireSerializer(serializers.ModelSerializer):
-    hirer  = UserSerializer(required=False,read_only=True)
-    hireree = UserSerializer(required=False,read_only=True)
-    numbers_of_hire_by_hiree = serializers.IntegerField(read_only=True)
-    time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    project = ProjectSerializer(read_only=True)
-    project_id = serializers.IntegerField(required=False)
-    class Meta:
-        model = Hire
-        fields = ['hirer','hireree','project','time','numbers_of_hire_by_hiree','project_id']
+
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:

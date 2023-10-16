@@ -26,6 +26,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_pics = models.ImageField(upload_to='files/', blank=True, null=True)
     about = models.TextField(blank=True, null=True)
     profession = models.CharField(max_length=500,blank=True, null=True)
+    hires = models.PositiveIntegerField(default=0)
+    # hired = models.BooleanField(default=False)
 
 
     
@@ -52,9 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
-    hired = models.BooleanField(default=False)
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
-    hires = models.PositiveIntegerField(default=0)
     address = models.TextField(default='shofunwa')
 
 

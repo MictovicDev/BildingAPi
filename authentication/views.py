@@ -119,6 +119,7 @@ class ContractorCreateView(generics.ListCreateAPIView):
             first_name = user.firstname
             useremail = user.email
             user.token = token
+            user.save()
             email.send_linkmail(first_name,useremail,token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -136,6 +137,7 @@ class SupplierListCreateView(generics.ListCreateAPIView):
             useremail = user.email
             token = RefreshToken.for_user(user)
             user.token = token
+            user.save()
             email.send_linkmail(first_name, token,email)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

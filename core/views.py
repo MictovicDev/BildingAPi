@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
-from rest_framework import status, generics,permissions
+from rest_framework import status, generics,permissions,filters
 from core.models import *
 from core.serializers import *
 from django.shortcuts import get_object_or_404
@@ -16,10 +16,11 @@ from core.images import *
 
 class ProjectGetCreate(generics.ListCreateAPIView):
     parser_classes = [MultiPartParser,]
-    permission_classes = [permissions.IsAuthenticated]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title','categories','location','description','url','skills']
 
     def perform_create(self, serializer):
         owner = self.request.user
@@ -56,6 +57,8 @@ class RequestView(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title','category','location','description']
     def perform_create(self, serializer):
         items = serializer.validated_data.pop('uploaded_items')
         owner = self.request.user
@@ -123,56 +126,38 @@ class BidUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BidForProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    # def get_object(self,pk):
-    #     applicant = self.request.user
-    #     bid = BidForProject.objects.get(applicant=applicant)
-    #     print(bid)
-    #     return bid
-
-    # def update(self, request, *args, **kwargs):
-    #     pk = self.kwarks['pk']
-    #     project = self.get_object(pk)
-    #     print(request.data)
-    #     serializer = self.get_serializer(project, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     else:
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class HireView(generics.CreateAPIView):
+
+class HireView(generics.ListCreateAPIView):
+    print(dir(generics))
     permission_classes = [permissions.IsAuthenticated]
     queryset = Hire.objects.all()
     serializer_class = HireSerializer
 
     def perform_create(self, serializer):
-        print('yes')
         hirer = self.request.user
         pk = self.kwargs['pk']
         if serializer.is_valid():
-            print('no')
             project_id = serializer.validated_data['project_id'] 
+            print(project_id)
+            hired = Hire.objects.filter(hirer=hirer, hireree_id=pk,project_id=project_id).exists()
+            print(hired)
+            if hired:
+                raise serializers.ValidationError({"message":"You have hired this user already for this project"})
             try:
-                hire,created = Hire.objects.get_or_create(hirer=hirer,hireree_id=pk,project_id=project_id)
-                profile = Profile.objects.get(id=pk)
+                Hire.objects.create(hirer=hirer, hireree_id=pk, project_id=project_id)
+                project = Project.objects.get(id=project_id)
+                project.assigned = True
+                project.save()
+                user = User.objects.get(id=pk)
+                user.hires += 1
+                user.save()
             except:
-                raise serializers.ValidationError({"message":"This project has already been Given you cant hire more than one person or the project does not exists"})
-            print(hire, created)
-            if created == False:
-                print('hello')  
-                raise serializers.ValidationError({"message":"You have already hired this User for the Project"})
-            profile.hires += 1
+                raise serializers.ValidationError({"message":"This Project has already been Closed"})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
             
 
-
-
-
-
-
-    
-    
 class StoreList(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):

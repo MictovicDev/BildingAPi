@@ -28,9 +28,9 @@ class ItemsInline(admin.TabularInline):  # Use admin.StackedInline for a stacked
 admin.site.register(Project)
 admin.site.register(RecentProject)
 admin.site.register(Store)
-# admin.site.register(SuppliersApplication, SuppliersApplicationAdmin)
 admin.site.register(Item)
 admin.site.register(Request)
 admin.site.register(BidForProject)
 admin.site.register(Hire)
+admin.site.register(Reviews)
 

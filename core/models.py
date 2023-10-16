@@ -149,13 +149,21 @@ class Hire(models.Model):
     hirer  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hirer')
     hireree = models.ForeignKey(User, on_delete=models.CASCADE,related_name='hireree')
     time = models.TimeField(auto_now_add=True)
-    project = models.OneToOneField(Project, on_delete=models.CASCADE)
-    numnbers_of_hire_by_hiree = models.PositiveBigIntegerField(default=0)
+    project = models.OneToOneField(Project, on_delete=models.CASCADE,related_name='hired')
+
+    def __str__(self):
+        return f"{self.hirer.firstname}  just hired  {self.hireree} at {self.time}"
+    
 
 
 
 class Reviews(models.Model):
-    pass
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', blank=True, null=True)
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewer',blank=True,null=True)
+    content = models.TextField(blank=True, null=True)
+    stars = models.PositiveIntegerField(null=True, blank=True)
+    time = models.TimeField(auto_now_add=True, blank=True, null=True)
+
     
 
 
