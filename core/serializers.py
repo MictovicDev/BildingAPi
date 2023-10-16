@@ -42,7 +42,7 @@ class BidForProjectSerializer(serializers.ModelSerializer):
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = BidForProject
-        fields = ['project','amount','duration','applicationletter','images','applicant','time']
+        fields = ['id','project','amount','duration','applicationletter','images','applicant','time']
 
 
 

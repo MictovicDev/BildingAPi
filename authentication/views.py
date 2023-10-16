@@ -171,7 +171,7 @@ class ActivateAccount(APIView):
                 'user': user.email,
                 'token': user.token
             }
-            return redirect('google.com')
+            return redirect('https://bilding.vercel.app/login')
         except:
             data = {'message': "User does not exist"}
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)
