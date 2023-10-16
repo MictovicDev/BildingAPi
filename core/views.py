@@ -93,14 +93,22 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Project.objects.filter(id=self.kwargs['pk'])
 
-class BidProjectList(APIView):
-
+class BidProjectList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    def get(self, request):
-        owner = request.user.id
-        project = BidForProject.objects.filter(project__owner=owner)
-        serializer = BidForProjectSerializer(project, many=True, context={'request':request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+    
+    # def perform_create(self, serializer):
+    #     pk = self.kwargs['pk']
+    #     project = get_object_or_404(Project, id=pk)
+    #     if serializer.is_valid():
+    #         bid_check = BidForProject.objects.filter(applicant=self.request.user, project=project).exists()
+    #         if not bid_check:
+    #             serializer.save(applicant=self.request.user, project=project)
+    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #         raise serializers.ValidationError({'message': 'You have already applied for this job.'})
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
