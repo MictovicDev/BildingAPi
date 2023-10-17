@@ -118,7 +118,7 @@ DATABASES["default"]=dj_database_url.parse('postgres://mictovic_xior_user:DBQ0Lh
 #         'PORT': '5432'
 #     }
 # }
-
+# source /home/getbmwng/virtualenv/bilding/3.9/bin/activate && cd /home/getbmwng/bilding
 # postgres://mydb_fs5w_user:igPlWoGZhYIGceDcfNtb4zKbK4Or5St1@dpg-cjeidaunk9qs73bsv96g-a.oregon-postgres.render.com/mydb_fs5w
 
 # Password validation

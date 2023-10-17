@@ -112,6 +112,15 @@ class BidProjectList(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
 
+class ContractorProjectApplications(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+
+    def get_queryset(self):
+        return BidForProject.objects.filter(project__owner=self.request.user)
+
+    
 
 
 class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
