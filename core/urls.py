@@ -24,5 +24,6 @@ urlpatterns = [
  path('stores/', views.StoreList.as_view(), name='store-list'),
  path('stores/<int:pk>', views.StoreDetailView.as_view(), name='storeview'),
  path('apply/', views.SupplierApplicationView.as_view(), name='supplier_application'),
+ path('users/applications', views.UsersApplications.as_view(), name='users_applications'),
  path('supplies/<int:pk>', views.SupplierDetailView.as_view(), name='supplierview'),
 ]
