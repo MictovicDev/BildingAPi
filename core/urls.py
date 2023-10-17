@@ -11,7 +11,6 @@ urlpatterns = [
  path('projects', views.ProjectGetCreate.as_view(), name='project'),#list and create projects
  path('projects/user', views.UserProject.as_view(), name='project'),#get a projectdetail
  path('projects/<int:pk>', views.GetUpdateDelProject.as_view(), name='projecttdetail'),
-#  path('projects/search/<str:search>', views.ProjectGetCreate.as_view(), name='projectsearch'),
  path('recentprojects', views.RecentProjectView.as_view(), name='recentprojects'),#list and create projects
  path('recentprojects/<str:pk>', views.RecentProjectDetailView.as_view(), name='recentproject-detail'),#get a projectdetail
  path('requests', views.RequestView.as_view(), name='projectslistview'),
