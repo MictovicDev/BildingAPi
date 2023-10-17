@@ -133,12 +133,12 @@ class SupplierListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='SupplierRole')
+            token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email
-            token = RefreshToken.for_user(user)
             user.token = token
             user.save()
-            email.send_linkmail(first_name, token,email)
+            email.send_linkmail(first_name,useremail,token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -150,12 +150,12 @@ class WorkerListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='WorkerRole')
+            token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email
-            token = RefreshToken.for_user(user)
             user.token = token
             user.save()
-            email.send_linkmail(first_name, token,email)
+            email.send_linkmail(first_name,useremail,token)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
