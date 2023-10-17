@@ -107,11 +107,8 @@ class BidProjectList(generics.ListCreateAPIView):
         # pk = self.kwargs['pk']
         # project = get_object_or_404(Project, id=pk)
         if serializer.is_valid():
-            bid_check = BidForProject.objects.filter(applicant=self.request.user).exists()
-            if not bid_check:
-                serializer.save(applicant=self.request.user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            raise serializers.ValidationError({'message': 'You have already applied for this job.'})
+            serializer.save(applicant=self.request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
 
