@@ -101,7 +101,7 @@ class BidProjectList(generics.ListCreateAPIView):
     serializer_class = BidForProjectSerializer
 
     def get_queryset(self):
-        return BidForProject.objects.filter(creator=self.request.user)
+        return BidForProject.objects.filter(applicant=self.request.user)
 
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
