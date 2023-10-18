@@ -104,8 +104,6 @@ class BidProjectList(generics.ListCreateAPIView):
         return BidForProject.objects.filter(applicant=self.request.user)
 
     def perform_create(self, serializer):
-        # pk = self.kwargs['pk']
-        # project = get_object_or_404(Project, id=pk)
         if serializer.is_valid():
             serializer.save(applicant=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -143,7 +141,7 @@ class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVie
         pk = self.kwargs['pk']
         project = get_object_or_404(Project, id=pk)
         if serializer.is_valid():
-            bid_check = BidForProject.objects.filter(applicant=self.request.user, project=project).exists()
+            bid_check = BidForProject.objects.filter(applicant=self.request.user, project=project)
             if not bid_check:
                 serializer.save(applicant=self.request.user, project=project)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -157,12 +155,25 @@ class BidUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BidForProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
 
+class HireList(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Hire.objects.all()
+    serializer_class = HireSerializer
+    
+    def get_queryset(self):
+        return Hire.objects.filter(hirer=self.request.user)
+    
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(hirer=self.request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 
 
 class HireView(generics.ListCreateAPIView):
-    print(dir(generics))
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Hire.objects.all()
     serializer_class = HireSerializer
 
@@ -187,43 +198,63 @@ class HireView(generics.ListCreateAPIView):
             except:
                 raise serializers.ValidationError({"message":"This Project has already been Closed"})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-            
 
-class StoreList(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request):
-        store = Store.objects.all()
-        serializer = StoreSerializer(store, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    def post(self, request):
-        print(request.POST)
-        print(request.data)
-        serializer = StoreSerializer(data=request.data)
+class StoresView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer
+
+    def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save(owner=request.user)
+            serializer.save(owner=self.request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class StoreList(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     def get(self, request):
+#         store = Store.objects.all()
+#         serializer = StoreSerializer(store, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+#     def post(self, request):
+#         print(request.POST)
+#         print(request.data)
+#         serializer = StoreSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save(owner=request.user)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# class StoreDetailView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     def get(self, request,pk):
+#         store= get_object_or_404(Request, id=pk)
+#         serializer = StoreSerializer(store)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class SupplierApplicationView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    querset = SuppliersApplication.objects.all()
+    serializer_class = SupplierSerializer
+
+    def get_queryset(self):
+        return SuppliersApplication.objects.filter(store__owner=self.request.user)
+
+    def perform_create(self, serializer):
+        if serializer.is_valid():
+            serializer.save(store__owner=self.request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class StoreDetailView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def get(self, request,pk):
-        store= get_object_or_404(Request, id=pk)
-        serializer = StoreSerializer(store)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-    
-class SupplierApplicationView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    def post(self, request):
-        print(request.POST)
-        print(request.data)
-        serializer = SupplierSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class SupplierApplicationView(APIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     def post(self, request):
+#         serializer = SupplierSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class SupplierDetailView(APIView):
     permission_classes = [permissions.IsAuthenticated]

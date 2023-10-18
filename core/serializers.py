@@ -86,6 +86,7 @@ class RequestSerializer(serializers.ModelSerializer):
   
   
 class StoreSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(read_only=True)
     class Meta:
         model = Store
         fields = '__all__'
