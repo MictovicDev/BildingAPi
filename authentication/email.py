@@ -11,7 +11,7 @@ def send_linkmail(first_name,useremail,token):
     try:
         token = str(token)
         tokencheck = token
-        url = f"https://bildingapi.onrender.com/auth/activation/{tokencheck}"
+        url = f"http://bildingapi.onrender.com/auth/activation/{tokencheck}"
         subject = 'Welcome to Bilding Construction'
         name = first_name.capitalize()
         email_data = {
@@ -27,7 +27,7 @@ def send_linkmail(first_name,useremail,token):
             from_email=from_email,
             recipient_list= recipient_list,
             fail_silently=False,
-            html_message=html_message,)
+            html_message=html_message)
         print('sent')
         return name
     except Exception as e:

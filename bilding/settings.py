@@ -273,7 +273,7 @@ EMAIL_HOST_PASSWORD = 'eotwybwflcjxpdbv'
 DEFAULT_FROM_USER = 'bildingconstruction@gmail.com'
 SERVER_EMAIL =  'bildingconstruction@gmail.com' 
 # else:
-#  EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CELERY_BROKER_URL = 'redis://default:HX0Z9kWQBAgfrRQt1hPk38DeDR7aW1no@redis-10255.c309.us-east-2-1.ec2.cloud.redislabs.com:10255'  # Use your Redis server URL
 CELERY_RESULT_BACKEND = 'redis://default:HX0Z9kWQBAgfrRQt1hPk38DeDR7aW1no@redis-10255.c309.us-east-2-1.ec2.cloud.redislabs.com:10255'

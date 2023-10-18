@@ -165,6 +165,7 @@ class ActivateAccount(APIView):
     def get(self, request,token):
         try:
             user = User.objects.get(token=token)
+            print(user)
             user.is_active = True
             user.save()
             data = {
