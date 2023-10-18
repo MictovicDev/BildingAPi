@@ -135,7 +135,7 @@ class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVie
     serializer_class = BidForProjectSerializer
 
     def get_queryset(self):
-        return BidForProject.objects.filter(applicant=self.request.user)
+        return BidForProject.objects.filter(project__owner=self.request.user)
 
     def perform_create(self, serializer):
         pk = self.kwargs['pk']
@@ -198,6 +198,8 @@ class HireView(generics.ListCreateAPIView):
             except:
                 raise serializers.ValidationError({"message":"This Project has already been Closed"})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 
 class StoresView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
