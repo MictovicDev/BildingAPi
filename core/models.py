@@ -53,6 +53,9 @@ class Project(models.Model):
     url = models.CharField(max_length=250, null=True,blank=True)
     assigned = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ['-time']
+
     def __str__(self):
        return self.title
 
