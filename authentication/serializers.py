@@ -53,7 +53,7 @@ class ProfileSerializer(serializers.ModelSerializer):
          return instance
 
 class EditProfileSerializer(serializers.ModelSerializer):
-     profile = ProfileSerializer(read_only=True)
+     profile = ProfileSerializer()
      id = serializers.UUIDField(read_only=True,)
      email = serializers.EmailField(read_only=True)
      
@@ -61,6 +61,22 @@ class EditProfileSerializer(serializers.ModelSerializer):
      class Meta:
         model = User
         fields = ('id','firstname','email','lastname','phone_number','profile','about','profession') 
+
+     def update(self, instance, validated_data):
+        instance.firstname = validated_data.get('firstname', instance.firstname)
+        instance.lastname = validated_data.get('lastname', instance.lastname)
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
+        instance.profession = validated_data.get('profession', instance.profession)
+        instance.about = validated_data.get('about', instance.about)
+
+        profile_data = validated_data.get('profile')
+        if profile_data:
+            profile_instance = instance.profile
+            for attr, value in profile_data.items():
+                setattr(profile_instance, attr, value)
+            profile_instance.save()
+        instance.save()
+        return instance
 
 class UserSerializer(serializers.ModelSerializer):
      profile = ProfileSerializer(read_only=True)
