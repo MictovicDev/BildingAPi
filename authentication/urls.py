@@ -19,6 +19,7 @@ urlpatterns = [
     path('auth/supplier/', views.SupplierListCreateView.as_view(), name='supplier_signup'), #suppliersignup
     path('auth/worker/', views.WorkerListCreateView.as_view(), name='worker_signup'),#workersignup
     path('users/', views.UsersListView.as_view(), name='listusers'),#listallusersinthedatabase
+    path('auth/edit', views.EditProfileView.as_view(), name='editprofile'),
     path('auth/activation/<str:token>', views.ActivateAccount.as_view(), name='activateaccount'),#activateuseraccount
     path('accounts/', views.SocialAuthentication.as_view(), name='socialauth') #social authentication
 ]

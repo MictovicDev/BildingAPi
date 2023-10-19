@@ -51,7 +51,16 @@ class ProfileSerializer(serializers.ModelSerializer):
          #  instance.hires = validated_data['hires']
          instance.save()
          return instance
-   
+
+class EditProfileSerializer(serializers.ModelSerializer):
+     profile = ProfileSerializer(read_only=True)
+     id = serializers.UUIDField(read_only=True,)
+     email = serializers.EmailField(read_only=True)
+     
+
+     class Meta:
+        model = User
+        fields = ('id','firstname','email','lastname','phone_number','profile','about','profession') 
 
 class UserSerializer(serializers.ModelSerializer):
      profile = ProfileSerializer(read_only=True)

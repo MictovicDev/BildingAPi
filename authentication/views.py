@@ -17,7 +17,7 @@ from . import email
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -70,6 +70,18 @@ class UsersUpdateView(generics.RetrieveUpdateAPIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class EditProfileView(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EditProfileSerializer
+    queryset = User.objects.all()
+
+    def get_object(self):
+        user = self.request.user
+        user = User.objects.get(email=user)
+        return user
 
 
 class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
