@@ -140,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# print('hello')
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',

@@ -127,6 +127,7 @@ class ContractorCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='ContractorRole')
+            proflie = Profile.objects.create(user=user)
             token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email
@@ -145,6 +146,7 @@ class SupplierListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='SupplierRole')
+            proflie = Profile.objects.create(user=user)
             token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email
@@ -162,6 +164,7 @@ class WorkerListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='WorkerRole')
+            proflie = Profile.objects.create(user=user)
             token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email
