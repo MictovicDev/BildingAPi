@@ -37,6 +37,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
       else:
           token['profile_pics'] = ''
       return token
+    
+
+class EditProfileSerializer(serializers.ModelSerializer):
+     class Meta:
+         model = Profile
+         fields = ('address','state')
 
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
@@ -53,23 +59,27 @@ class ProfileSerializer(serializers.ModelSerializer):
          return instance
 
 class EditProfileSerializer(serializers.ModelSerializer):
-     profile = ProfileSerializer()
+     profile = EditProfileSerializer()
      id = serializers.UUIDField(read_only=True,)
      email = serializers.EmailField(read_only=True)
      
 
      class Meta:
         model = User
-        fields = ('id','firstname','email','lastname','phone_number','profile','about','profession') 
+        fields = ('id','username','email','phone_number','profile','profile_pics') 
 
      def update(self, instance, validated_data):
-        instance.firstname = validated_data.get('firstname', instance.firstname)
-        instance.lastname = validated_data.get('lastname', instance.lastname)
+        # instance.firstname = validated_data.get('firstname', instance.firstname)
+        # instance.lastname = validated_data.get('lastname', instance.lastname)
+        instance.username = validated_data.get('username', instance.username)
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
         instance.profession = validated_data.get('profession', instance.profession)
         instance.about = validated_data.get('about', instance.about)
+        instance.state = validated_data.get('state', instance.state)
+        instance.profile_pics = validated_data.get('profile_pics', instance.profile_pics)
 
         profile_data = validated_data.get('profile')
+        print(profile_data)
         if profile_data:
             profile_instance = instance.profile
             for attr, value in profile_data.items():

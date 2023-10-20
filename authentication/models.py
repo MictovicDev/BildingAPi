@@ -56,6 +56,7 @@ class Profile(models.Model):
     bvn = models.PositiveBigIntegerField(blank=False, null=True)
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     address = models.TextField(default='shofunwa')
+    state = models.CharField(max_length=500, blank=True, null=True)
 
 
 
