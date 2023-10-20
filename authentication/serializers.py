@@ -66,11 +66,11 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','username','email','phone_number','profile','profile_pics') 
+        fields = ('id','username','firstname','lastname','email','phone_number','profile','profile_pics') 
 
      def update(self, instance, validated_data):
-        # instance.firstname = validated_data.get('firstname', instance.firstname)
-        # instance.lastname = validated_data.get('lastname', instance.lastname)
+        instance.firstname = validated_data.get('firstname', instance.firstname)
+        instance.lastname = validated_data.get('lastname', instance.lastname)
         instance.username = validated_data.get('username', instance.username)
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
         instance.profession = validated_data.get('profession', instance.profession)
