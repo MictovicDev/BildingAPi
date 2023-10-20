@@ -75,7 +75,6 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
         instance.profession = validated_data.get('profession', instance.profession)
         instance.about = validated_data.get('about', instance.about)
-        instance.state = validated_data.get('state', instance.state)
         instance.profile_pics = validated_data.get('profile_pics', instance.profile_pics)
 
         profile_data = validated_data.get('profile')
