@@ -1,4 +1,4 @@
-hmmfrom authentication.models import *
+from authentication.models import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
