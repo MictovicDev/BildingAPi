@@ -1,4 +1,4 @@
-from authentication.models import *
+hmmfrom authentication.models import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
@@ -66,7 +66,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','username','firstname','lastname','email','phone_number','profile','profile_pics') 
+        fields = ('id','username','firstname','lastname','email','phone_number','location','profession','profile','profile_pics') 
 
      def update(self, instance, validated_data):
         instance.firstname = validated_data.get('firstname', instance.firstname)
@@ -74,6 +74,8 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get('username', instance.username)
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
         instance.profile_pics = validated_data.get('profile_pics', instance.profile_pics)
+        instance.location = validated_data.get('location', instance.location)
+        instance.profession = validated_data.get('profession',instance.profession)
 
         profile_data = validated_data.get('profile')
         if profile_data:
