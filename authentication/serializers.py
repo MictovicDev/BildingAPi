@@ -42,7 +42,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class MyProfileSerializer(serializers.ModelSerializer):
      class Meta:
          model = Profile
-         fields = ('address','state')
+         fields = ('address','state','gov_id_image','bvn')
 
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
