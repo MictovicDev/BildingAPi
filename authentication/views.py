@@ -117,6 +117,29 @@ class UsersListView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"message":"no users in the database yet"}, status=status.HTTP_404_NOT_FOUND)
+        
+class ChangePasswordView(generics.RetrieveUpdateAPIView):
+    serializer_class = PassWordSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = ChangePassword.objects.all()
+
+    def get_object(self):
+        user = self.request.user
+        return user
+
+    def update(self,request,*args,**kwargs,):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data)
+        if serializer.is_valid():
+           oldpassword = serializer.validated_data.get('oldpassword')
+           newpassword = serializer.validated_data.get('newpassword')
+           if user.check_password(oldpassword):
+               user.set_password(newpassword)
+               user.save()
+               return Response({"message": "Password Changed Successfully"},status=status.HTTP_200_OK)
+           raise serializers.ValidationError({"message":f"{oldpassword} Match is not found in our database"})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
         
 class ContractorCreateView(generics.ListCreateAPIView):

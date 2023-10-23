@@ -91,6 +91,10 @@ class Request(models.Model):
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
 
 
+    class Meta:
+        ordering = ['-time']
+
+
     def __str__(self):
         return self.title
     
@@ -170,5 +174,12 @@ class Reviews(models.Model):
     
 
 
-    
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
+    title = models.CharField(max_length=500, blank=True, null=True)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, blank=True, null=True)
 
+
+    def __str__(self):
+        return f"{self.user.firstname}'s Notification"

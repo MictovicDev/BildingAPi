@@ -4,6 +4,7 @@ from rest_framework import serializers
 from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers,response,status
+from django.contrib.auth.password_validation import validate_password
 from . import countries
 
 
@@ -43,6 +44,19 @@ class MyProfileSerializer(serializers.ModelSerializer):
      class Meta:
          model = Profile
          fields = ('address','state','gov_id_image','bvn')
+
+class PassWordSerializer(serializers.ModelSerializer):
+    oldpassword = serializers.CharField(required=False)
+    newpassword = serializers.CharField(required=False)
+
+    class Meta:
+        model = ChangePassword
+        fields = ('oldpassword', 'newpassword')
+    
+    def validate_new_password(self, value):
+        validate_password(value)
+        return value
+    
 
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:

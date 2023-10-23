@@ -29,9 +29,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     hires = models.PositiveIntegerField(default=0)
     # hired = models.BooleanField(default=False)
 
-
-    
-
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -57,6 +54,13 @@ class Profile(models.Model):
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     address = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=500, blank=True, null=True)
+
+class ChangePassword(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    oldpassword = models.CharField(max_length=500, blank=True, null=True)
+    newpassword = models.CharField(max_length=500, blank=True,null=True)
+
+        
 
 
 

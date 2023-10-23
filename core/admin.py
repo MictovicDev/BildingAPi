@@ -33,4 +33,5 @@ admin.site.register(Request)
 admin.site.register(BidForProject)
 admin.site.register(Hire)
 admin.site.register(Reviews)
+admin.site.register(Notification)
 
