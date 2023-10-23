@@ -75,6 +75,7 @@ class SupplierSerializer(serializers.ModelSerializer):
         return application
     
 class RequestSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(read_only=True)
     items =  ItemSerializer(many=True,required=False, read_only=True)
     image1 = serializers.ImageField(required=False)
     image2 = serializers.ImageField(required=False)
@@ -82,7 +83,7 @@ class RequestSerializer(serializers.ModelSerializer):
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = Request
-        fields = ['id','title','category','location','description','image1','image2','items','uploaded_items','time']
+        fields = ['id','title','category','location','owner','description','image1','image2','items','uploaded_items','time']
   
   
 class StoreSerializer(serializers.ModelSerializer):
