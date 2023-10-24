@@ -112,7 +112,7 @@ class Store(models.Model):
     
 class SuppliersApplication(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
-    myrequest = models.OneToOneField(Request, on_delete=models.CASCADE)
+    myrequest = models.OneToOneField(Request, on_delete=models.CASCADE, related_name='myrequest')
     letter = models.TextField()
     delivery_inclusive = models.BooleanField(default=False)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)

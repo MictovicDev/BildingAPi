@@ -73,7 +73,7 @@ class StoreSerializer(serializers.ModelSerializer):
 
 
 class ApplyRequestSerializer(serializers.ModelSerializer):
-    request = RequestSerializer(read_only=True)
+    myrequest = RequestSerializer(read_only=True)
     biditem = BidItemSerializer(many=True, required=False, read_only=True)
     uploaded_bids = serializers.JSONField(write_only=True,required=False,allow_null=True)
     store = StoreSerializer(read_only=True)
