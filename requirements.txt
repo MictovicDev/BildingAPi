@@ -54,5 +54,5 @@ whitenoise==6.5.0
 phonenumbers==8.13.20
 django-cors-headers==3.10.1
 django-allauth==0.56.1
-django-event-stream>=4.5.0
+django-eventstream>=4.5.0
 # requests==2.31.0
