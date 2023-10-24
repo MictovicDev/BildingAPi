@@ -61,9 +61,6 @@ class ChangePassword(models.Model):
     newpassword = models.CharField(max_length=500, blank=True,null=True)
 
         
-
-
-
 class Favourites(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='favourites_owner')
     favourite = models.ManyToManyField(User, related_name='favourites')

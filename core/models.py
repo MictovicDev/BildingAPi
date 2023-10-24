@@ -108,7 +108,7 @@ class Store(models.Model):
 
 
     def __str__(self):
-        return F"{self.name}'s Store" 
+        return F"{self.owner.email}'s Store" 
     
 class SuppliersApplication(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)

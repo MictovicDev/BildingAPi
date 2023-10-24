@@ -11,9 +11,12 @@ def create_notification(sender, instance, created, **kwargs):
         Notification.objects.create(user=user, message=message)
 
 # @receiver(post_save, sender=User)
-# def create_notification(sender, instance, created, **kwargs):
+# def create_store(sender, instance, created, **kwargs):
+#      user = instance
+#      print(dir(user))
+#      print(user)
 #      role = instance.role
+#      print(role)
 #      if role == 'SupplierRole':
-#         Store.objects.create(owner=)
-#         message = f"A new Project {instance.title} has been created by {user}"
-#         Notification.objects.create(user=user, message=message)
+#         Store.objects.create(owner=user)
+        

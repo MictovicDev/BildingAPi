@@ -170,8 +170,9 @@ class SupplierListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             user = serializer.save(role='SupplierRole')
+            print(user)
             proflie = Profile.objects.create(user=user)
-            store = Store.objetcs.create(owner=user)
+            store = Store.objects.create(owner=user)
             token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email
