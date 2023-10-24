@@ -76,6 +76,14 @@ class UserRequest(generics.ListAPIView):
     def get_queryset(self):
         return Request.objects.filter(owner=self.request.user)
     
+class ListItem(generics.ListAPIView):
+    query_set = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Item.objects.filter(request__id=self.kwargs['pk'])
+    
 
     
 class GetUpdateDelRequest(generics.RetrieveUpdateDestroyAPIView):
