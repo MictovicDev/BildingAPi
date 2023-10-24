@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'), #you can use to login
     path('auth/changepassword', views.ChangePasswordView.as_view(), name='changepassword'),
-    path('auth/login', views.UserLoginView.as_view(), name='login'),
+    # path('auth/login', views.UserLoginView.as_view(), name='login'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), #refresh token
     path('auth/contractor/', views.ContractorCreateView.as_view(), name='contractor_signup'),#contractorsignup
     path('auth/update/', views.UsersUpdateView.as_view(), name='updateuserwithid'),

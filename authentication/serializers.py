@@ -28,6 +28,7 @@ class LocationSerializer(serializers.ModelSerializer):
         field = 'location'
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    password2 = serializers.CharField(write_only=True)
     @classmethod
     def get_token(cls,user):
       token = super().get_token(user)
@@ -38,6 +39,18 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
       else:
           token['profile_pics'] = ''
       return token
+
+
+    def validate(self, attrs):
+        password = attrs.get('password')
+        password2 = attrs.get('password2')
+        print(password, password2)
+
+        if password != password2:
+            raise serializers.ValidationError("Passwords do not match.")
+
+        return super().validate(attrs)
+    
     
 
 class MyProfileSerializer(serializers.ModelSerializer):
@@ -101,7 +114,6 @@ class EditProfileSerializer(serializers.ModelSerializer):
         return instance
 
 class UserSerializer(serializers.ModelSerializer):
-     print(dir(serializers))
      profile = ProfileSerializer(read_only=True)
      password = serializers.CharField(write_only=True, required=True)
      password2 = serializers.CharField(write_only=True, required=True)
