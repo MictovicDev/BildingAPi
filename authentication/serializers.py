@@ -101,8 +101,10 @@ class EditProfileSerializer(serializers.ModelSerializer):
         return instance
 
 class UserSerializer(serializers.ModelSerializer):
+     print(dir(serializers))
      profile = ProfileSerializer(read_only=True)
      password = serializers.CharField(write_only=True, required=True)
+     password2 = serializers.CharField(write_only=True, required=True)
      id = serializers.UUIDField(read_only=True,)
      role = serializers.CharField(read_only=True,)
      username = serializers.CharField(read_only=True)
@@ -110,10 +112,11 @@ class UserSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','email','password','firstname','lastname','username','role','phone_number','location','profile','about','profession')
+        fields = ('id','email','password','firstname','lastname','password2','username','role','phone_number','location','profile','about','profession')
 
      def create(self, validated_data):
         password = validated_data.pop('password')
+        password2 = validated_data.pop('password2')
         user = User.objects.create(**validated_data)
         user.set_password(password)
         user.save()
@@ -126,6 +129,13 @@ class UserSerializer(serializers.ModelSerializer):
          if not check:
              raise serializers.ValidationError("Invalid Country please input a valid country")
          return attrs
+      
+     def validate(self, data):
+        password = data.get('password')
+        password2 = data.get('password2')
+        if password != password2:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
 
 
         
