@@ -22,6 +22,7 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import UserLoginSerializer
+from core.models import *
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -170,6 +171,7 @@ class SupplierListCreateView(generics.ListCreateAPIView):
         if serializer.is_valid():
             user = serializer.save(role='SupplierRole')
             proflie = Profile.objects.create(user=user)
+            store = Store.objetcs.create(owner=user)
             token = str(RefreshToken.for_user(user))
             first_name = user.firstname
             useremail = user.email

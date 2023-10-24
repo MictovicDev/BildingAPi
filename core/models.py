@@ -98,18 +98,6 @@ class Request(models.Model):
     def __str__(self):
         return self.title
     
-
-
-class Item(models.Model):
-    name = models.CharField(max_length=250)
-    amount = models.IntegerField(default=1)
-    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',null=True)
-
-
-    def __str__(self):
-        return self.name
-    
-
 class Store(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True,related_name='store')
     name = models.CharField(max_length=500)
@@ -122,7 +110,43 @@ class Store(models.Model):
     def __str__(self):
         return F"{self.name}'s Store" 
     
+class SuppliersApplication(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
+    myrequest = models.OneToOneField(Request, on_delete=models.CASCADE)
+    letter = models.TextField()
+    delivery_inclusive = models.BooleanField(default=False)
+    time = models.TimeField(auto_now_add=True, blank=True, null=True)
+    image = models.ImageField(upload_to='ApplicationImages/', blank=True, null=True)
     
+
+
+    def __str__(self):
+        return f"{self.store.name} applied to supply this goods"
+    
+
+class BidItem(models.Model):
+    name = models.CharField(max_length=250)
+    amount = models.IntegerField(default=0)
+    supplier_bid = models.ForeignKey(SuppliersApplication,related_name='biditem', on_delete=models.CASCADE, blank=True, null=True)
+    
+
+
+    def __str__(self):
+        return self.name
+
+class Item(models.Model):
+    name = models.CharField(max_length=250)
+    amount = models.IntegerField(default=1)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='items',null=True)
+    
+
+    def __str__(self):
+        return self.name
+    
+
+
+    
+     
 class BidForProject(models.Model):
     DURATION = (
         ('1-6months', '1-6months'),
@@ -142,14 +166,12 @@ class BidForProject(models.Model):
     def __str__(self):
         return f"{self.applicant.firstname} bidded for this project"
     
-class SuppliersApplication(models.Model):
-    store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
-    request = models.OneToOneField(Request, on_delete=models.CASCADE)
-    letter = models.TextField()
+# class SupplierBidItems(models.Model):
+#     pass
 
 
-    def __str__(self):
-        return f"{self.store.name} applied to supply this goods"
+    
+
 
 
 class Hire(models.Model):
@@ -176,10 +198,10 @@ class Reviews(models.Model):
 
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
-    title = models.CharField(max_length=500, blank=True, null=True)
-    request = models.ForeignKey(Request, on_delete=models.CASCADE, blank=True, null=True)
-
+    read = models.BooleanField(default=False, blank=True, null=True)
+    message = models.CharField(max_length=500, blank=True, null=True)
+    time_stamp = models.TimeField(auto_now_add=True, blank=True, null=True)
+   
 
     def __str__(self):
-        return f"{self.user.firstname}'s Notification"
+        return self.message
