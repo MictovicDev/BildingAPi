@@ -80,7 +80,7 @@ class ApplyRequestSerializer(serializers.ModelSerializer):
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = SuppliersApplication
-        fields = ['id','request','letter','store','image','time','uploaded_bids','biditem']
+        fields = ['id','myrequest','letter','store','image','time','uploaded_bids','biditem']
 
 
 
