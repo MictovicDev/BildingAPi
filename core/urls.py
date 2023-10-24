@@ -24,6 +24,7 @@ urlpatterns = [
  path('bids/<int:pk>', views.CreateBidView.as_view(), name='bidproject-create'),
  path('hires/<str:pk>', views.HireView.as_view(), name='hire'),
  path('stores/', views.StoresView.as_view(), name='store-list'),
+ path('items/', views.ItemList.as_view(), name='item'),
  path('items/<str:pk>', views.ListItem.as_view(), name='item-list'),
 #  path('stores/<int:pk>', views.StoreDetailView.as_view(), name='storeview'),
 #  path('apply/', views.SupplierApplicationView.as_view(), name='supplier_application'),

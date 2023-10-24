@@ -6,15 +6,9 @@ from authentication.models import *
 
 
 
-class ItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Item
-        fields = ['name','amount',]
 
-class BidItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BidItem
-        fields = ['name','amount',]
+
+
 
 
 
@@ -53,6 +47,12 @@ class BidForProjectSerializer(serializers.ModelSerializer):
         model = BidForProject
         fields = ['id','project','amount','duration','applicationletter','images','applicant','time']
 
+class ItemSerializer(serializers.ModelSerializer):
+    request =  serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
+    class Meta:
+        model = Item
+        fields = ['name','amount','request']
+
 class RequestSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     items =  ItemSerializer(many=True,required=False, read_only=True)
@@ -64,6 +64,10 @@ class RequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = ['id','title','category','location','owner','description','image1','image2','items','uploaded_items','time']
 
+class BidItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BidItem
+        fields = ['name','amount',]
 
 class StoreSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)

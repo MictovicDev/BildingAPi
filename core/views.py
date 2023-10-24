@@ -84,6 +84,14 @@ class ListItem(generics.ListAPIView):
     def get_queryset(self):
         return Item.objects.filter(request__id=self.kwargs['pk'])
     
+class ItemList(generics.ListAPIView):
+    query_set = Item.objects.all()
+    serializer_class = ItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Item.objects.filter(request__owner=self.request.owner)
+    
 
     
 class GetUpdateDelRequest(generics.RetrieveUpdateDestroyAPIView):
