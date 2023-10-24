@@ -28,7 +28,7 @@ class LocationSerializer(serializers.ModelSerializer):
         field = 'location'
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    password2 = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True, required=False)
     @classmethod
     def get_token(cls,user):
       token = super().get_token(user)

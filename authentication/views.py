@@ -49,9 +49,7 @@ class UserLoginView(APIView):
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
-    def validate_password(self, data):
-        password = data.get('password')
-        password2 = data.get('password2')
+    
 
 
 class UsersUpdateView(generics.RetrieveUpdateAPIView):
