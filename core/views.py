@@ -221,9 +221,31 @@ class HireList(generics.ListCreateAPIView):
     def get_queryset(self):
         return Hire.objects.filter(hirer=self.request.user)
     
+    # def perform_create(self, serializer):
+    #     if serializer.is_valid():
+    #         serializer.save(hirer=self.request.user)
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class RequestToHireView(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Hire.objects.all()
+    serializer_class = HireSerializer
+    
+    def get_queryset(self):
+        return Hire.objects.filter(hirer=self.request.user)
+    
     def perform_create(self, serializer):
+        id = serializer.validated_data.get('project_id')
+        project = get_object_or_404(Project, id=id)
+        print(project)
+        pk = self.kwargs['pk']
+        user = User.objects.get(id=pk)
         if serializer.is_valid():
-            serializer.save(hirer=self.request.user)
+            try:
+                serializer.save(hirer=self.request.user,hireree=user,project=project)
+            except:
+                raise serializers.ValidationError({"message":"You have already sent a request to hire for this project"})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

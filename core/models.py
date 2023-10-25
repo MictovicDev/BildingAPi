@@ -166,12 +166,6 @@ class BidForProject(models.Model):
     def __str__(self):
         return f"{self.applicant.firstname} bidded for this project"
     
-# class SupplierBidItems(models.Model):
-#     pass
-
-
-    
-
 
 
 class Hire(models.Model):
@@ -181,7 +175,7 @@ class Hire(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE,related_name='hired')
 
     def __str__(self):
-        return f"{self.hirer.firstname}  just hired  {self.hireree} at {self.time}"
+        return f"{self.hirer.firstname}  just requested to hire {self.hireree} at {self.time}"
     
 
 
