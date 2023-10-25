@@ -77,12 +77,11 @@ class ProfileSerializer(serializers.ModelSerializer):
          model = Profile
          fields = ('bvn','address','gov_id_image','state',)
      def update(self,instance, validated_data):
-         print(self)
-         print(instance)
-         instance.address = validated_data['address']
-         instance.bvn = validated_data['bvn']
-         instance.gov_id_image = validated_data['gov_id_image']
-         instance.save()
+         instance.address = validated_data.get('address')
+         instance.bvn = validated_data.get('bvn')
+         instance.state = validated_data.get('state')
+         instance.gov_id_image = validated_data.get('gov_id_image')
+        #  instance.save()
          return instance
 
 class EditProfileSerializer(serializers.ModelSerializer):
