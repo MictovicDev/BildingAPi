@@ -135,10 +135,10 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
      
-     def validate_location(self, attrs):
-         location = attrs.capitalize()
-         country = countries.countries
-         check = location in country
+     def validate_country(self, attrs):
+         country = attrs.capitalize()
+         mycountry = countries.countries
+         check = country in mycountry
          if not check:
              raise serializers.ValidationError("Invalid Country please input a valid country")
          return attrs
