@@ -126,7 +126,7 @@ class BidProjectList(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-    
+
 class ApplyRequestList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = SuppliersApplication.objects.all()
@@ -134,9 +134,6 @@ class ApplyRequestList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return SuppliersApplication.objects.filter(store__owner=self.request.user)
-    
-
-   
     
 
 
@@ -221,13 +218,9 @@ class HireList(generics.ListCreateAPIView):
     def get_queryset(self):
         return Hire.objects.filter(hirer=self.request.user)
     
-    # def perform_create(self, serializer):
-    #     if serializer.is_valid():
-    #         serializer.save(hirer=self.request.user)
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class RequestToHireView(generics.CreateAPIView):
+    
+class RequestToHireView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Hire.objects.all()
     serializer_class = HireSerializer

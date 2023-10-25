@@ -51,7 +51,7 @@ class Project(models.Model):
     image2 = models.ImageField(upload_to='projectimages/', blank=True, null=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
-    assigned = models.BooleanField(default=False)
+
 
     class Meta:
         ordering = ['-time']
@@ -144,8 +144,6 @@ class Item(models.Model):
         return self.name
     
 
-
-    
      
 class BidForProject(models.Model):
     DURATION = (
@@ -160,6 +158,7 @@ class BidForProject(models.Model):
     applicationletter = models.TextField(blank=True, null=True)
     images = models.ImageField(upload_to='Resume/',blank=True, null=True)
     time = models.TimeField(auto_now_add=True,blank=True,null=True)
+    assigned = models.BooleanField(default=False)
 
     
 
