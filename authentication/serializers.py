@@ -94,7 +94,7 @@ class EditProfileSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','username','firstname','lastname','email','phone_number','location','profession','profile','profile_pics') 
+        fields = ('id','username','firstname','lastname','email','phone_number','country','profession','profile','profile_pics') 
 
      def update(self, instance, validated_data):
         instance.firstname = validated_data.get('firstname', instance.firstname)
