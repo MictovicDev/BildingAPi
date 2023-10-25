@@ -151,9 +151,12 @@ class UserSerializer(serializers.ModelSerializer):
         return data
      
      def validate_phone_number(self, attrs):
-        if len(str(attrs)) < 12:
+        # print(attrs)
+        # print(len(str(attrs)))
+        if len(str(attrs)) >= 10:
+            return attrs
+        else:
             raise serializers.ValidationError("Input a Valid Phone number")
-        return attrs
              
 
 
