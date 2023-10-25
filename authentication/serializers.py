@@ -75,14 +75,13 @@ class PassWordSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
          model = Profile
-         fields = ('bvn','address','gov_id_image')
+         fields = ('bvn','address','gov_id_image','state',)
      def update(self,instance, validated_data):
          print(self)
          print(instance)
          instance.address = validated_data['address']
          instance.bvn = validated_data['bvn']
          instance.gov_id_image = validated_data['gov_id_image']
-         #  instance.hires = validated_data['hires']
          instance.save()
          return instance
 

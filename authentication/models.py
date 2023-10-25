@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    bvn = models.PositiveBigIntegerField(blank=False, null=True)
+    bvn = models.PositiveBigIntegerField(blank=True, null=True)
     gov_id_image = models.FileField(upload_to='files/', blank=True ,null=True)
     address = models.TextField(blank=True, null=True)
     state = models.CharField(max_length=500, blank=True, null=True)
