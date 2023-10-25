@@ -10,6 +10,22 @@ from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+
+    COUNTRY_CHOICES = (
+        ('Algeria', 'Algeria'),
+        ('Nigeria', 'Nigeria'),
+        ('Egypt', 'Egypt'),
+        ('South Africa', 'South Africa'),
+        ('Morocco', 'Morocco'),
+        ('Kenya', 'Kenya'),
+        ('Ethiopia', 'Ethiopia'),
+        ('Ghana', 'Ghana'),
+        ('Cameroon', 'Cameroon'),
+        ('Ghana', 'Ghana'),
+        ('Tanzania', 'Tanzania'),
+        ('Cote d\'Ivoire', 'Cote d\'Ivoire'),
+        )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     firstname = models.CharField(max_length=500,blank=True, null=True)
     phone_number = models.PositiveBigIntegerField(null=True)
@@ -19,7 +35,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_admin = models.BooleanField(default=False)
     username = models.CharField(max_length=50, blank=True, null=True,unique=False)
     role = models.CharField(max_length= 250, blank=True,null=True)
-    location = models.CharField(max_length=250, null=True)
+    country = models.CharField(choices=COUNTRY_CHOICES, max_length=250, null=True)
     token = models.CharField(max_length=500, blank=True, null=True)
     updates = models.BooleanField(default=False)
     authMedium = models.CharField(max_length=50, default='email')

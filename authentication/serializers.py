@@ -70,6 +70,7 @@ class PassWordSerializer(serializers.ModelSerializer):
         validate_password(value)
         return value
     
+    
 
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
@@ -124,7 +125,7 @@ class UserSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','email','password','firstname','lastname','password2','username','role','phone_number','location','profile','about','profession')
+        fields = ('id','email','password','firstname','lastname','password2','username','role','phone_number','country','profile','about','profession')
 
      def create(self, validated_data):
         password = validated_data.pop('password')
@@ -148,6 +149,12 @@ class UserSerializer(serializers.ModelSerializer):
         if password != password2:
             raise serializers.ValidationError("Passwords do not match.")
         return data
+     
+     def validate_phone_number(self, attrs):
+        if len(str(attrs)) < 12:
+            raise serializers.ValidationError("Input a Valid Phone number")
+        return attrs
+             
 
 
         
