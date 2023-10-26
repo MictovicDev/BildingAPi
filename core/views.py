@@ -169,7 +169,7 @@ class CreateApplicationView(generics.CreateAPIView, generics.RetrieveUpdateDestr
                 supplier_bid = serializer.save(store=store, myrequest=myrequest)
                 if items:
                   for item in items:
-                    item = BidItem.objects.create(name=item['name'], amount=item['amount'], supplier_bid=supplier_bid)
+                    item = BidItem.objects.create(amount=item['amount'], supplier_bid=supplier_bid)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             raise serializers.ValidationError({'message': 'You have already applied to supply for this request.'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -216,7 +216,7 @@ class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVie
     
 
 
-    
+
 
 class AcceptBidView(generics.RetrieveUpdateAPIView):
     print(dir(generics))
