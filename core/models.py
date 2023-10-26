@@ -125,7 +125,6 @@ class SuppliersApplication(models.Model):
     
 
 class BidItem(models.Model):
-    name = models.CharField(max_length=250)
     amount = models.IntegerField(default=0)
     supplier_bid = models.ForeignKey(SuppliersApplication,related_name='biditem', on_delete=models.CASCADE, blank=True, null=True)
     
@@ -164,17 +163,6 @@ class BidForProject(models.Model):
 
     def __str__(self):
         return f"{self.applicant.lastname} bidded for this project"
-    
-
-
-# class Hire(models.Model):
-#     hirer  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hirer')
-#     hireree = models.ForeignKey(User, on_delete=models.CASCADE,related_name='hireree')
-#     time = models.TimeField(auto_now_add=True)
-#     project = models.OneToOneField(Project, on_delete=models.CASCADE,related_name='hired')
-
-#     def __str__(self):
-#         return f"{self.hirer.firstname}  just requested to hire {self.hireree} at {self.time}"
     
 
 

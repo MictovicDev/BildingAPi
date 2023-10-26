@@ -19,15 +19,6 @@ class ProjectSerializer(serializers.ModelSerializer):
     
 
 
-# class HireSerializer(serializers.ModelSerializer):
-#     time = serializers.TimeField(read_only=True, format="%I:%M %p")
-#     project_id = serializers.IntegerField(required=False)
-#     project = ProjectSerializer(read_only=True)
-
-#     class Meta:
-#         model = Hire
-#         fields = ['project','time','project_id']
-
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,7 +53,7 @@ class RequestSerializer(serializers.ModelSerializer):
 class BidItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = BidItem
-        fields = ['name','amount',]
+        fields = ['amount']
 
 class StoreSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
