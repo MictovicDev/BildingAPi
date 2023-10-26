@@ -130,8 +130,8 @@ class BidItem(models.Model):
     
 
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return
 
 class Item(models.Model):
     name = models.CharField(max_length=250)
