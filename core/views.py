@@ -134,6 +134,9 @@ class ListBidView(generics.ListCreateAPIView):
 
     
 
+
+    
+
     
 
 
@@ -215,14 +218,12 @@ class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVie
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-
-
-
 class AcceptBidView(generics.RetrieveUpdateAPIView):
-    print(dir(generics))
     permission_classes = [permissions.IsAuthenticated]
     queryset = BidForProject.objects.all()
     serializer_class = BidForProjectSerializer
+
+ 
 
 
 class BidUpdateView(generics.UpdateAPIView):

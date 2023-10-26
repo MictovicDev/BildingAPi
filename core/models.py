@@ -178,11 +178,36 @@ class Reviews(models.Model):
 
 
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
     read = models.BooleanField(default=False, blank=True, null=True)
-    message = models.CharField(max_length=500, blank=True, null=True)
     time_stamp = models.TimeField(auto_now_add=True, blank=True, null=True)
-   
+
+
+    class Meta:
+        abstract = True
+    
+class BuilderNotification(Notification):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='buildernotifications')
+    message = models.CharField(max_length=500, blank=True, null=True)
+
 
     def __str__(self):
         return self.message
+    
+class WorkerNotification(Notification):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='workernotifications')
+    message = models.CharField(max_length=500, blank=True, null=True)
+
+
+    def __str__(self):
+        return self.message
+    
+class SupplierNotification(Notification):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='suppliernotifications')
+    message = models.CharField(max_length=500, blank=True, null=True)
+
+
+    def __str__(self):
+        return self.message
+    
+
+    
