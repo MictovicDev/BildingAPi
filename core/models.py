@@ -158,23 +158,23 @@ class BidForProject(models.Model):
     applicationletter = models.TextField(blank=True, null=True)
     images = models.ImageField(upload_to='Resume/',blank=True, null=True)
     time = models.TimeField(auto_now_add=True,blank=True,null=True)
-    assigned = models.BooleanField(default=False)
+    accepted = models.BooleanField(default=False)
 
     
 
     def __str__(self):
-        return f"{self.applicant.firstname} bidded for this project"
+        return f"{self.applicant.lastname} bidded for this project"
     
 
 
-class Hire(models.Model):
-    hirer  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hirer')
-    hireree = models.ForeignKey(User, on_delete=models.CASCADE,related_name='hireree')
-    time = models.TimeField(auto_now_add=True)
-    project = models.OneToOneField(Project, on_delete=models.CASCADE,related_name='hired')
+# class Hire(models.Model):
+#     hirer  = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hirer')
+#     hireree = models.ForeignKey(User, on_delete=models.CASCADE,related_name='hireree')
+#     time = models.TimeField(auto_now_add=True)
+#     project = models.OneToOneField(Project, on_delete=models.CASCADE,related_name='hired')
 
-    def __str__(self):
-        return f"{self.hirer.firstname}  just requested to hire {self.hireree} at {self.time}"
+#     def __str__(self):
+#         return f"{self.hirer.firstname}  just requested to hire {self.hireree} at {self.time}"
     
 
 

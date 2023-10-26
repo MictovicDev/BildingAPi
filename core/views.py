@@ -133,7 +133,8 @@ class ApplyRequestList(generics.ListCreateAPIView):
     serializer_class = ApplyRequestSerializer
 
     def get_queryset(self):
-        return SuppliersApplication.objects.filter(store__owner=self.request.user)
+        return SuppliersApplication.objects.all()
+        # return SuppliersApplication.objects.filter(store__owner=self.request.user)
     
 
 
@@ -203,6 +204,11 @@ class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVie
             raise serializers.ValidationError({'message': 'You have already applied for this job.'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class AcceptBidView(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+
 
 class BidUpdateView(generics.RetrieveUpdateAPIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -210,67 +216,8 @@ class BidUpdateView(generics.RetrieveUpdateAPIView):
     serializer_class = BidForProjectSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class HireList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Hire.objects.all()
-    serializer_class = HireSerializer
-    
-    def get_queryset(self):
-        return Hire.objects.filter(hirer=self.request.user)
     
     
-    
-class RequestToHireView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Hire.objects.all()
-    serializer_class = HireSerializer
-    
-    def get_queryset(self):
-        return Hire.objects.filter(hirer=self.request.user)
-    
-    def perform_create(self, serializer):
-        id = serializer.validated_data.get('project_id')
-        project = get_object_or_404(Project, id=id)
-        print(project)
-        pk = self.kwargs['pk']
-        user = User.objects.get(id=pk)
-        if serializer.is_valid():
-            try:
-                serializer.save(hirer=self.request.user,hireree=user,project=project)
-            except:
-                raise serializers.ValidationError({"message":"You have already sent a request to hire for this project"})
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-
-
-class HireView(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Hire.objects.all()
-    serializer_class = HireSerializer
-
-    def perform_create(self, serializer):
-        hirer = self.request.user
-        pk = self.kwargs['pk']
-        if serializer.is_valid():
-            project_id = serializer.validated_data['project_id'] 
-            print(project_id)
-            hired = Hire.objects.filter(hirer=hirer, hireree_id=pk,project_id=project_id).exists()
-            print(hired)
-            if hired:
-                raise serializers.ValidationError({"message":"You have hired this user already for this project"})
-            try:
-                Hire.objects.create(hirer=hirer, hireree_id=pk, project_id=project_id)
-                project = Project.objects.get(id=project_id)
-                project.assigned = True
-                project.save()
-                user = User.objects.get(id=pk)
-                user.hires += 1
-                user.save()
-            except:
-                raise serializers.ValidationError({"message":"This Project has already been Closed"})
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 
@@ -287,27 +234,5 @@ class StoresView(generics.ListCreateAPIView):
 
 
 
-# class SupplierApplicationView(generics.ListCreateAPIView):
-#     permission_classes = [IsAuthenticated]
-#     querset = SuppliersApplication.objects.all()
-#     serializer_class = SupplierSerializer
 
-#     def get_queryset(self):
-#         return SuppliersApplication.objects.filter(store__owner=self.request.user)
-
-#     def perform_create(self, serializer):
-#         if serializer.is_valid():
-#             serializer.save(store__owner=self.request.user)
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-    
-# class SupplierDetailView(APIView):
-#     permission_classes = [permissions.IsAuthenticated]
-#     def get(self, request,pk):
-#         store= get_object_or_404(SuppliersApplication, id=pk)
-#         serializer = SupplierSerializer(store)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
 

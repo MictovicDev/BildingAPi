@@ -7,11 +7,6 @@ from authentication.models import *
 
 
 
-
-
-
-
-
 class ProjectSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     url = serializers.CharField(read_only=True)
@@ -24,14 +19,14 @@ class ProjectSerializer(serializers.ModelSerializer):
     
 
 
-class HireSerializer(serializers.ModelSerializer):
-    time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    project_id = serializers.IntegerField(required=False)
-    project = ProjectSerializer(read_only=True)
+# class HireSerializer(serializers.ModelSerializer):
+#     time = serializers.TimeField(read_only=True, format="%I:%M %p")
+#     project_id = serializers.IntegerField(required=False)
+#     project = ProjectSerializer(read_only=True)
 
-    class Meta:
-        model = Hire
-        fields = ['project','time','project_id']
+#     class Meta:
+#         model = Hire
+#         fields = ['project','time','project_id']
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
@@ -45,7 +40,7 @@ class BidForProjectSerializer(serializers.ModelSerializer):
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = BidForProject
-        fields = ['id','project','amount','duration','applicationletter','images','applicant','time']
+        fields = ['id','project','amount','duration','applicationletter','images','applicant','time','accepted']
 
 class ItemSerializer(serializers.ModelSerializer):
     request =  serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
