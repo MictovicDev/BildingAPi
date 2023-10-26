@@ -125,6 +125,14 @@ class BidProjectList(generics.ListCreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class ListBidView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+
+    
+
+    
 
 
 class ApplyRequestList(generics.ListCreateAPIView):
@@ -204,13 +212,15 @@ class CreateBidView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVie
             raise serializers.ValidationError({'message': 'You have already applied for this job.'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class AcceptBidView(generics.UpdateAPIView):
+
+class AcceptBidView(generics.RetrieveUpdateAPIView):
+    print(dir(generics))
     permission_classes = [permissions.IsAuthenticated]
     queryset = BidForProject.objects.all()
     serializer_class = BidForProjectSerializer
 
 
-class BidUpdateView(generics.RetrieveUpdateAPIView):
+class BidUpdateView(generics.UpdateAPIView):
     parser_classes = [MultiPartParser, FormParser]
     queryset = BidForProject.objects.all()
     serializer_class = BidForProjectSerializer

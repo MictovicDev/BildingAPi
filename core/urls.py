@@ -22,14 +22,11 @@ urlpatterns = [
  path('applies/<int:pk>', views.CreateApplicationView.as_view(), name='bidproject-create'),
  path('bids/update/<int:pk>', views.BidUpdateView.as_view(), name='hire'),
  path('bids/<int:pk>', views.CreateBidView.as_view(), name='bidproject-create'),
+ path('bids/all/', views.ListBidView.as_view(), name='listbid'),
  path('bids/accept/<int:pk>', views.AcceptBidView.as_view(), name='acceptbid'),
-#  path('hires/<str:pk>', views.RequestToHireView.as_view(), name='requesttohire'),
-#  path('hires/', views.HireView.as_view(), name='hires'),
  path('stores/', views.StoresView.as_view(), name='store-list'),
  path('items/', views.ItemList.as_view(), name='item'),
  path('items/<str:pk>', views.ListItem.as_view(), name='item-list'),
-#  path('stores/<int:pk>', views.StoreDetailView.as_view(), name='storeview'),
-#  path('apply/', views.SupplierApplicationView.as_view(), name='supplier_application'),
  path('users/applications', views.UsersApplications.as_view(), name='users_applications'),
-#  path('supplies/<int:pk>', views.SupplierDetailView.as_view(), name='supplierview'),
+
 ]
