@@ -179,7 +179,7 @@ class CreateApplicationView(generics.CreateAPIView, generics.RetrieveUpdateDestr
 
    
 
-class ContractorProjectApplications(generics.ListAPIView):
+class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = BidForProject.objects.all()
     serializer_class = BidForProjectSerializer
