@@ -18,6 +18,7 @@ urlpatterns = [
  path('requests/<int:pk>', views.GetUpdateDelRequest.as_view(), name='requestdetail'),
  path('bids/', views.BidProjectList.as_view(), name='bidproject-list'),
  path('bids/user/', views.ContractorProjectApplications.as_view(), name='bidproject-list'),
+ path('bids/user/<int:pk>', views.GetProject.as_view(), name='bidproject-list'),
  path('applies/', views.ApplyRequestList.as_view(), name='bidproject-list'),
  path('applies/<int:pk>', views.CreateApplicationView.as_view(), name='bidproject-create'),
  path('bids/update/<int:pk>', views.BidUpdateView.as_view(), name='hire'),

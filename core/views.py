@@ -187,6 +187,17 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
     def get_queryset(self):
         return BidForProject.objects.filter(project__owner=self.request.user)
 
+
+class GetProject(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = BidForProject.objects.all()
+    serializer_class = BidForProjectSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return BidForProject.objects.filter(id=pk)
+
+
     
 class UsersApplications(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
