@@ -216,7 +216,7 @@ class ActivateAccount(APIView):
                 'token': user.token
             }
             print(user.role)
-            return redirect('https://bilding.vercel.app/login')
+            return redirect('https://bilding.vercel.app/login/new')
         except:
             data = {'message': "User does not exist"}
             return Response(data=data, status=status.HTTP_404_NOT_FOUND)
