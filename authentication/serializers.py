@@ -123,7 +123,7 @@ class UserSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','email','password','firstname','lastname','password2','username','role','phone_number','country','profile','about','profession')
+        fields = ('id','email','password','firstname','lastname','password2','username','updates','role','phone_number','country','profile','about','profession')
 
      def create(self, validated_data):
         password = validated_data.pop('password')

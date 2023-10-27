@@ -134,13 +134,7 @@ class ListBidView(generics.ListCreateAPIView):
 
     
 
-
-    
-
-    
-
-
-class ApplyRequestList(generics.ListCreateAPIView):
+class ApplyRequestList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = SuppliersApplication.objects.all()
     serializer_class = ApplyRequestSerializer
@@ -149,6 +143,47 @@ class ApplyRequestList(generics.ListCreateAPIView):
         return SuppliersApplication.objects.all()
         # return SuppliersApplication.objects.filter(store__owner=self.request.user)
     
+class ReviewsView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Reviews.objects.all()
+    serializer_class = ReviewsSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Reviews.objects.filter(reviewed__id=pk)
+    
+
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        if serializer.is_valid():
+            serializer.save(owner=self.request.user, reviewed=pk)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# class ReviewsView(generics.ListCreateAPIView):
+#     permission_classes = [permissions.IsAuthenticated]
+#     queryset = Reviews.objects.all()
+#     serializer_class = ReviewsSerializer
+
+#     def get_queryset(self):
+#         pk = self.kwargs['pk']
+#         return Reviews.objects.filter(reviewde)
+    
+
+
+
+
+class HiredCount(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = User.objects.all()
+    serializer_class = HireCountSerialzier
+
+    def get_queryset(self):
+       project = Project.objects.filter(owner=self.request.user)
+       print(project)
+       return Project.objects.filter(owner=self.request.user)
+         
+
 
 
 class CreateApplicationView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
@@ -177,7 +212,9 @@ class CreateApplicationView(generics.CreateAPIView, generics.RetrieveUpdateDestr
             raise serializers.ValidationError({'message': 'You have already applied to supply for this request.'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-   
+
+
+
 
 class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -186,6 +223,9 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
 
     def get_queryset(self):
         return BidForProject.objects.filter(project__owner=self.request.user)
+
+
+
 
 
 class GetProject(generics.RetrieveAPIView):

@@ -18,7 +18,19 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ['id','url','image1','image2','title','categories','scope','skills','experience','owner','duration','location','budget','description','time']
     
 
+class ReviewsSerializer(serializers.ModelSerializer):
+    time = serializers.TimeField(read_only=True, format="%I:%M %p")
+    owner = UserSerializer(read_only=True)
+    class Meta:
+        model = Reviews
+        fields = '__all__'
 
+
+
+class HireCountSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['num_hired']
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,11 +82,7 @@ class ApplyRequestSerializer(serializers.ModelSerializer):
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
         model = SuppliersApplication
-        fields = ['id','myrequest','letter','store','image','time','uploaded_bids','biditem']
-
-
-
-
+        fields = ['id','myrequest','letter','store','image','time','uploaded_bids','biditem','accepted']
 
 
 
@@ -85,23 +93,8 @@ class RecentProjectSerializer(serializers.ModelSerializer):
         model = RecentProject
         fields = ['id','project']
     
-    
-# class SupplierSerializer(serializers.ModelSerializer):
-#     # images = RequestImageSerializer(many=True)
-#     class Meta:
-#         model = SuppliersApplication
-#         fields = '__all__'
 
-#     def create(self, validated_data):
-#         print(validated_data)
-#         images_data = validated_data.pop('images')
-#         application = SuppliersApplication.objects.create(**validated_data)
-#         for image_data in images_data:
-#             SuppliersApplication.objects.create(project=application, **image_data)
-#         return application
     
-
-  
   
 class StoreSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)

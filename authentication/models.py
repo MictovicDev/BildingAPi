@@ -43,8 +43,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     about = models.TextField(blank=True, null=True)
     profession = models.CharField(max_length=500,blank=True, null=True)
     hires = models.PositiveIntegerField(default=0)
-    # hired = models.BooleanField(default=False)
+    num_hired = models.PositiveIntegerField(default=0)
 
+
+    
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

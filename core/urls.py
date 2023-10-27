@@ -29,5 +29,7 @@ urlpatterns = [
  path('items/', views.ItemList.as_view(), name='item'),
  path('items/<str:pk>', views.ListItem.as_view(), name='item-list'),
  path('users/applications', views.UsersApplications.as_view(), name='users_applications'),
+ path('reviews/<str:pk>', views.ReviewsView.as_view(), name='reviews'),
+ path('hired/count', views.HiredCount.as_view(), name='hiredcounts')
 
 ]

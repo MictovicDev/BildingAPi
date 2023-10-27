@@ -51,6 +51,7 @@ class Project(models.Model):
     image2 = models.ImageField(upload_to='projectimages/', blank=True, null=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     url = models.CharField(max_length=250, null=True,blank=True)
+    
 
 
     class Meta:
@@ -117,6 +118,7 @@ class SuppliersApplication(models.Model):
     delivery_inclusive = models.BooleanField(default=False)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     image = models.ImageField(upload_to='ApplicationImages/', blank=True, null=True)
+    accepted = models.BooleanField(default=False)
     
 
 
@@ -169,10 +171,12 @@ class BidForProject(models.Model):
 
 class Reviews(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews', blank=True, null=True)
-    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewer',blank=True,null=True)
+    reviewed = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewed',blank=True,null=True)
     content = models.TextField(blank=True, null=True)
     stars = models.PositiveIntegerField(null=True, blank=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
+
+
 
     
 
