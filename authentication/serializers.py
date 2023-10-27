@@ -75,7 +75,7 @@ class PassWordSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
      class Meta:
          model = Profile
-         fields = ('bvn','address','gov_id_image','state',)
+         fields = ('id','bvn','address','gov_id_image','state',)
      def update(self,instance, validated_data):
          instance.address = validated_data.get('address')
          instance.bvn = validated_data.get('bvn')
