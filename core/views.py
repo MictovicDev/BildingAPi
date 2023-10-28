@@ -116,9 +116,7 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         project_id = self.kwargs['pk']
-        print(project_id)
-        id = self.request.session['project_id'] = project_id
-        print(id)
+        self.request.session['project_id'] = project_id
         self.request.session.save()
         return super().get_object()
     
@@ -238,7 +236,7 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
     serializer_class = BidForProjectSerializer
 
     def get_queryset(self):
-        p_id  = self.request.session.get('project_id')
+        p_id = self.request.session.get('project_id')
         print(p_id)
         project = Project.objects.get(id=p_id)
         bid = BidForProject.objects.filter(project=project)
