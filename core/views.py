@@ -237,7 +237,7 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
 
     def get_queryset(self):
         p_id = self.request.session.get('project_id')
-        print(p_id)
+        print(f"its me the id{p_id}")
         project = Project.objects.get(id=p_id)
         bid = BidForProject.objects.filter(project=project)
         return bid
