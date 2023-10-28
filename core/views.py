@@ -236,18 +236,11 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
     serializer_class = BidForProjectSerializer
 
 
-    # def get_object(self):
-    #     project_id = self.kwargs['pk']
-    #     print(project_id)
-    #     self.request.session['project_id'] = project_id
-    #     self.request.session.save()
-    #     return super().get_object()
-
     def get_queryset(self):
-        p_id = self.request.session.get('project_id')
-        print(f"its me the id{p_id}")
-        project = Project.objects.get(id=p_id)
-        bid = BidForProject.objects.filter(project=project)
+        # p_id = self.request.session.get('project_id')
+        # print(f"its me the id{p_id}")
+        # project = Project.objects.get(id=p_id)
+        bid = BidForProject.objects.filter(project__owner=self.request.user)
         return bid
 
 
