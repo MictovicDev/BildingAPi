@@ -116,7 +116,9 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         project_id = self.kwargs['pk']
+        print(project_id)
         id = self.request.session['project_id'] = project_id
+        print(id)
         self.request.session.save()
         return super().get_object()
     
