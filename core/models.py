@@ -112,9 +112,9 @@ class Store(models.Model):
         return F"{self.owner.email}'s Store" 
     
 class SuppliersApplication(models.Model):
-    store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True)
-    myrequest = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='myrequest')
-    letter = models.TextField()
+    store = models.ForeignKey(Store, on_delete=models.CASCADE,null=True, blank=True)
+    myrequest = models.ForeignKey(Request, on_delete=models.CASCADE, related_name='myrequest', blank=True, null=True)
+    letter = models.TextField(blank=True, null=True)
     delivery_inclusive = models.BooleanField(default=False)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
     image = models.ImageField(upload_to='ApplicationImages/', blank=True, null=True)
