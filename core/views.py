@@ -164,8 +164,7 @@ class ReviewsView(generics.ListCreateAPIView):
     serializer_class = ReviewsSerializer
 
     def get_queryset(self):
-        pk = self.kwargs['pk']
-        return Reviews.objects.filter(reviewed__id=pk)
+        return Reviews.objects.filter(owner=self.request.user)
     
 
     def perform_create(self, serializer):

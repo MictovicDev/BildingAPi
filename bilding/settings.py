@@ -210,8 +210,11 @@ APPEND_SLASH=False
 #Cors headers settings
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOW_CREDENTIALS = True
 
 
+SESSION_COOKIE_SAMESITE = 'Lax'  # or 'None'
+SESSION_COOKIE_SECURE = True 
 
 CORS_ALLOWED_ORIGINS = [
    'https://bilding-3iqxt9pco-brightphi210.vercel.app',
