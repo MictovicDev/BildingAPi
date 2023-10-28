@@ -106,10 +106,17 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
-    def get_queryset(self):
-        project_id = self.request.session['project_id'] = self.kwargs['pk']
+
+    def get_object(self):
+        project_id = self.kwargs['pk']
+        print(f"its me calling {project_id}")
+        self.request.session['project_id'] = project_id
         self.request.session.save()
-        print(project_id)
+        return super().get_object()
+    
+    def get_queryset(self):
+        # project_id = self.request.session['project_id'] = self.kwargs['pk']
+        # self.request.session.save()
         return Project.objects.filter(id=self.kwargs['pk'])
     
 
