@@ -78,6 +78,7 @@ class ApplyRequestSerializer(serializers.ModelSerializer):
     myrequest = RequestSerializer(read_only=True)
     biditem = BidItemSerializer(many=True, required=False, read_only=True)
     uploaded_bids = serializers.JSONField(write_only=True,required=False,allow_null=True)
+    letter = serializers.CharField(required=False)
     store = StoreSerializer(read_only=True)
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     class Meta:
