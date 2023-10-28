@@ -108,6 +108,7 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     def get_queryset(self):
         project_id = self.request.session['project_id'] = self.kwargs['pk']
+        self.request.session.save()
         print(project_id)
         return Project.objects.filter(id=self.kwargs['pk'])
     
@@ -225,7 +226,9 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
 
     def get_queryset(self):
         p_id  = self.request.session.get('project_id')
+        print(p_id)
         project = Project.objects.get(id=p_id)
+        print(project)
         bid = BidForProject.objects.filter(project=project)
         return BidForProject.objects.filter(project=project)
 
