@@ -98,7 +98,7 @@ TEMPLATES = [
 
 
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
 
 
 WSGI_APPLICATION = 'bilding.wsgi.application'
@@ -114,7 +114,7 @@ DATABASES = {}
 
 DATABASES["default"]=dj_database_url.parse('postgres://mictovic_xior_user:DBQ0Lh0pTZWuiBN8CiSnxmWghtBbuEAJ@dpg-ckj64nsl4vmc73bu7ko0-a.oregon-postgres.render.com/mictovic_xior')
 
-
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',

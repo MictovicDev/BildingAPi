@@ -152,7 +152,7 @@ class BidForProject(models.Model):
         ('1-2yrs', '1-2yrs'),
         ('1-5yrs', '1-5yrs')
     )
-    project = models.ForeignKey(Project, on_delete=models.CASCADE,blank=True, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,blank=True, null=True, related_name='bids')
     applicant = models.ForeignKey(User, on_delete=models.CASCADE,related_name='applicant', blank=True, null=True)
     amount = models.FloatField(blank=True, null=True)
     duration = models.CharField(max_length=500, choices=DURATION, blank=True, null=True)

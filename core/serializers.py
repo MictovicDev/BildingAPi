@@ -5,17 +5,26 @@ from authentication.models import *
 
 
 
+class BidForProjectSerializer(serializers.ModelSerializer):
+    # project = ProjectSerializer(read_only=True)
+    applicant = UserSerializer(read_only=True)
+    time = serializers.TimeField(read_only=True, format="%I:%M %p")
+    class Meta:
+        model = BidForProject
+        fields = ['id','amount','duration','applicationletter','images','applicant','time','accepted']
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    bids = BidForProjectSerializer(many=True, read_only=True)
     owner = UserSerializer(read_only=True)
     url = serializers.CharField(read_only=True)
     time = serializers.TimeField(read_only=True, format="%I:%M %p")
     image1 = serializers.ImageField(required=False)
     image2 = serializers.ImageField(required=False)
+
     class Meta:
         model = Project
-        fields = ['id','url','image1','image2','title','categories','scope','skills','experience','owner','duration','location','budget','description','time']
+        fields = ['id','url','image1','image2','title','bids','categories','scope','skills','experience','owner','duration','location','budget','description','time']
     
 
 class ReviewsSerializer(serializers.ModelSerializer):
@@ -37,13 +46,6 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = User
         fields = ['firstname','hires','location']
 
-class BidForProjectSerializer(serializers.ModelSerializer):
-    project = ProjectSerializer(read_only=True)
-    applicant = UserSerializer(read_only=True)
-    time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    class Meta:
-        model = BidForProject
-        fields = ['id','project','amount','duration','applicationletter','images','applicant','time','accepted']
 
 class ItemSerializer(serializers.ModelSerializer):
     request =  serializers.PrimaryKeyRelatedField(queryset=Request.objects.all())
