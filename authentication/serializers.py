@@ -81,7 +81,7 @@ class ProfileSerializer(serializers.ModelSerializer):
          instance.bvn = validated_data.get('bvn')
          instance.state = validated_data.get('state')
          instance.gov_id_image = validated_data.get('gov_id_image')
-        #  instance.save()
+         instance.save()
          return instance
 
 class EditProfileSerializer(serializers.ModelSerializer):
