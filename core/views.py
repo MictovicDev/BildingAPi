@@ -10,8 +10,11 @@ from django.urls import reverse
 from rest_framework.permissions import IsAuthenticated
 # from django.contrib.sites.models import Site
 from core.images import *
+import logging
 
 # Create your views here.
+
+logger = logging.getLogger(__name__)
 
 
 class ProjectGetCreate(generics.ListCreateAPIView):
@@ -235,8 +238,12 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
         p_id  = self.request.session.get('project_id')
         print(p_id)
         project = Project.objects.get(id=p_id)
-        print(project)
-        bid = BidForProject.objects.filter(project=project)
+        try:
+            bid = BidForProject.objects.filter(project=project)
+            print(bid)
+            logger.info(f"This is the project {project}")
+        except:
+            logger.error(f"This is the project {project}")
         return BidForProject.objects.filter(project=project)
 
 
