@@ -114,6 +114,7 @@ class MyUsersUpdateView(generics.RetrieveUpdateAPIView):
 class UsersListView(APIView):
     permission_classes = [permissions.AllowAny]
     def get(self, request):
+        print(self.request.session.get('project_id'))
         try:
             users = User.objects.all()
             serializer = UserSerializer(users, many=True)

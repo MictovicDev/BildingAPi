@@ -96,6 +96,11 @@ TEMPLATES = [
 ]
 
 
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
 WSGI_APPLICATION = 'bilding.wsgi.application'
 
 SITE_ID = 1
