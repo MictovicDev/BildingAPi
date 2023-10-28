@@ -55,7 +55,7 @@ class UserProject(generics.ListAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self,serializer):
+    def get_queryset(self):
         return Project.objects.filter(owner=self.request.user)
     
 
@@ -76,7 +76,7 @@ class RequestView(generics.ListCreateAPIView):
             
 
 class UserRequest(generics.ListAPIView):
-    query_set = Request.objects.all()
+    queryset = Request.objects.all()
     serializer_class = RequestSerializer
     permission_classes = [IsAuthenticated]
 
