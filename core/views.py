@@ -120,7 +120,7 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
         self.request.session.save()
         return super().get_object()
     
-    def get_queryset(self,serializer):
+    def get_queryset(self):
         return Project.objects.filter(id=self.kwargs['pk'])
     
 
