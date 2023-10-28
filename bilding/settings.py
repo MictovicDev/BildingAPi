@@ -99,6 +99,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bilding.wsgi.application'
 
 SITE_ID = 1
+print('hello')
 # Database  
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # DATABASES = {
