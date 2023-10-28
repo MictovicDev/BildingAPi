@@ -25,6 +25,10 @@ class ProjectGetCreate(generics.ListCreateAPIView):
     filter_backends = [filters.SearchFilter]
     search_fields = ['title','categories','location','description','url','skills']
 
+
+    def get_queryset(self):
+        return Project.objects.filter(owner=self.request.user)
+
     def perform_create(self, serializer):
         owner = self.request.user
         project = serializer.save(owner=owner)
@@ -51,7 +55,7 @@ class UserProject(generics.ListAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
+    def get_queryset(self,serializer):
         return Project.objects.filter(owner=self.request.user)
     
 
@@ -116,7 +120,7 @@ class GetUpdateDelProject(generics.RetrieveUpdateDestroyAPIView):
         self.request.session.save()
         return super().get_object()
     
-    def get_queryset(self):
+    def get_queryset(self,serializer):
         return Project.objects.filter(id=self.kwargs['pk'])
     
 
@@ -126,7 +130,7 @@ class BidProjectList(generics.ListCreateAPIView):
     queryset = BidForProject.objects.all()
     serializer_class = BidForProjectSerializer
 
-    def get_queryset(self):
+    def get_queryset(self, serializer):
         return BidForProject.objects.filter(applicant=self.request.user)
 
     def perform_create(self, serializer):
@@ -232,10 +236,10 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
     serializer_class = BidForProjectSerializer
 
     def get_queryset(self):
-        # p_id  = self.request.session.get('project_id')
-        # print(p_id)
-        # project = Project.objects.get(id=p_id)
-        bid = BidForProject.objects.filter(project__owner=self.request.user)
+        p_id  = self.request.session.get('project_id')
+        print(p_id)
+        project = Project.objects.get(id=p_id)
+        bid = BidForProject.objects.filter(project=project)
         return bid
 
 
