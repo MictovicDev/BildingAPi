@@ -237,9 +237,6 @@ class ContractorProjectApplications(generics.ListAPIView, generics.UpdateAPIView
 
 
     def get_queryset(self):
-        # p_id = self.request.session.get('project_id')
-        # print(f"its me the id{p_id}")
-        # project = Project.objects.get(id=p_id)
         bid = BidForProject.objects.filter(project__owner=self.request.user)
         return bid
 
@@ -314,8 +311,11 @@ class StoresView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         if serializer.is_valid():
-            serializer.save(owner=self.request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                serializer.save(owner=self.request.user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except:
+                raise serializers.ValidationError({"message":"Unique Constraint Failed"})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

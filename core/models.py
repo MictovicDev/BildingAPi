@@ -2,6 +2,7 @@ from django.db import models
 # from authentication.models import *
 from rest_framework import reverse
 from django.contrib.auth import get_user_model
+from authentication.models import *
 
 User = get_user_model()
 
@@ -98,14 +99,14 @@ class Request(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 class Store(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True,related_name='store')
-    name = models.CharField(max_length=500)
-    address = models.CharField(max_length=500)
-    category = models.CharField(max_length=500)
-    logo = models.ImageField(upload_to=True)
-    document = models.FileField(upload_to='Files/')
+    name = models.CharField(max_length=500, blank=True, null=True)
+    address = models.CharField(max_length=500, blank=True, null=True)
+    category = models.CharField(max_length=500, blank=True, null=True)
+    logo = models.ImageField(upload_to=True, blank=True,null=True)
+    document = models.FileField(upload_to='Files/',blank=True, null=True)
 
 
     def __str__(self):
@@ -176,9 +177,6 @@ class Reviews(models.Model):
     stars = models.PositiveIntegerField(null=True, blank=True)
     time = models.TimeField(auto_now_add=True, blank=True, null=True)
 
-
-
-    
 
 
 class Notification(models.Model):

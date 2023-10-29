@@ -84,6 +84,10 @@ class Favourites(models.Model):
     favourite = models.ManyToManyField(User, related_name='favourites')
 
 
+    
+
+
+
 
 
 
