@@ -6,6 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers,response,status
 from django.contrib.auth.password_validation import validate_password
 from . import countries
+from core.models import *
 
 
 
@@ -113,7 +114,20 @@ class EditProfileSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
+class ReviewsSerializer(serializers.ModelSerializer):
+    print(dir(serializers))
+    time = serializers.TimeField(read_only=True, format="%I:%M %p")
+    owner = serializers.PrimaryKeyRelatedField(read_only=True)
+    reviewed =serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = Reviews
+        fields = '__all__'
+
+
+
 class UserSerializer(serializers.ModelSerializer):
+     reviews = ReviewsSerializer(many=True, required=False)
      profile = ProfileSerializer(read_only=True)
      password = serializers.CharField(write_only=True, required=True)
      password2 = serializers.CharField(write_only=True, required=True)
@@ -124,7 +138,7 @@ class UserSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = User
-        fields = ('id','email','password','firstname','lastname','password2','username','updates','role','phone_number','country','profile','about','profession')
+        fields = ('id','email','password','reviews','firstname','lastname','password2','username','updates','role','phone_number','country','profile','about','profession')
 
      def create(self, validated_data):
         password = validated_data.pop('password')
@@ -159,7 +173,6 @@ class UserSerializer(serializers.ModelSerializer):
              
 
 
-        
 
 
 

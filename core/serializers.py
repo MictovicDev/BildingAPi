@@ -27,12 +27,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ['id','url','image1','image2','title','bids','categories','scope','skills','experience','owner','duration','location','budget','description','time']
     
 
-class ReviewsSerializer(serializers.ModelSerializer):
-    time = serializers.TimeField(read_only=True, format="%I:%M %p")
-    owner = UserSerializer(read_only=True)
-    class Meta:
-        model = Reviews
-        fields = '__all__'
+
 
 
 
@@ -107,7 +102,7 @@ class StoreSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     logo  = serializers.ImageField(required=False)
     document = serializers.ImageField(required=False)
-    
+
     class Meta:
         model = Store
         fields = ['owner', 'name','address','category','logo', 'document']

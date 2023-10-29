@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 # from django.contrib.sites.models import Site
 from core.images import *
 import logging
+from authentication.serializers import ReviewsSerializer
 
 # Create your views here.
 
