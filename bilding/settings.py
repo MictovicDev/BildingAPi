@@ -110,9 +110,9 @@ print('hello')
 # DATABASES = {
 
 
-# DATABASES = {}
+DATABASES = {}
 
-# DATABASES["default"]=dj_database_url.parse('postgres://mictovic_xior_user:DBQ0Lh0pTZWuiBN8CiSnxmWghtBbuEAJ@dpg-ckj64nsl4vmc73bu7ko0-a.oregon-postgres.render.com/mictovic_xior')
+DATABASES["default"]=dj_database_url.parse('postgres://mictovic_xior_user:DBQ0Lh0pTZWuiBN8CiSnxmWghtBbuEAJ@dpg-ckj64nsl4vmc73bu7ko0-a.oregon-postgres.render.com/mictovic_xior')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # DATABASES = {
@@ -148,12 +148,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # userpassword = ''
 # Internationalization

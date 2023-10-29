@@ -27,8 +27,8 @@ class ProjectGetCreate(generics.ListCreateAPIView):
     search_fields = ['title','categories','location','description','url','skills']
 
 
-    def get_queryset(self):
-        return Project.objects.filter(owner=self.request.user)
+    # def get_queryset(self):
+    #     return Project.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
         owner = self.request.user
