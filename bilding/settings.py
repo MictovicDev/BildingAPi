@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+
 from pathlib import Path
 from core.images import *
 import os
@@ -52,8 +53,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'authentication',
     'notifications',
-    'django_eventstream',
-    'djoser',
     'core',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
@@ -74,7 +73,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'allauth.account.middleware.AccountMiddleware',
-    'django_grip.GripMiddleware',
+
 ]
 
 ROOT_URLCONF = 'bilding.urls'
@@ -108,6 +107,16 @@ print('hello')
 # Database  
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # DATABASES = {
+    
+    
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 DATABASES = {}
@@ -147,13 +156,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # userpassword = ''
 # Internationalization
