@@ -10,7 +10,7 @@ from authentication.serializers import *
 urlpatterns = [
  path('projects', views.ProjectGetCreate.as_view(), name='project'),#list and create projects
  path('projects/user', views.UserProject.as_view(), name='project'),#get a projectdetail
- path('projects/<int:pk>', views.GetUpdateDelProject.as_view(), name='projecttdetail'),
+ path('projects/<int:pk>', views.GetUpdateDelProject.as_view(), name='projectdetail'),
  path('recentprojects', views.RecentProjectView.as_view(), name='recentprojects'),#list and create projects
  path('recentprojects/<str:pk>', views.RecentProjectDetailView.as_view(), name='recentproject-detail'),#get a projectdetail
  path('requests', views.RequestView.as_view(), name='projectslistview'),
@@ -31,5 +31,4 @@ urlpatterns = [
  path('users/applications', views.UsersApplications.as_view(), name='users_applications'),
  path('reviews/', views.ReviewsView.as_view(), name='reviews'),
  path('hired/count', views.HiredCount.as_view(), name='hiredcounts')
-
 ]

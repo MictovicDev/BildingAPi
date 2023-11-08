@@ -162,12 +162,11 @@ class BidForProject(models.Model):
     time = models.TimeField(auto_now_add=True,blank=True,null=True)
     accepted = models.BooleanField(default=False)
 
-    
-
     def __str__(self):
         return f"{self.applicant.lastname} bidded for this project"
     
 
+   
 
 
 class Reviews(models.Model):
