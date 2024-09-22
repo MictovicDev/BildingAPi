@@ -121,7 +121,7 @@ print('hello')
 
 DATABASES = {}
 
-DATABASES["default"]=dj_database_url.parse('postgres://mictovic_xior_user:DBQ0Lh0pTZWuiBN8CiSnxmWghtBbuEAJ@dpg-ckj64nsl4vmc73bu7ko0-a.oregon-postgres.render.com/mictovic_xior')
+DATABASES["default"]=dj_database_url.parse('postgresql://bildiing_user:7wmB29e4XLaokvKEipOX9qLaY6QCeFMU@dpg-cro9qm1u0jms73c7s4v0-a.oregon-postgres.render.com/bildiing')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # DATABASES = {
